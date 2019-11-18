@@ -4,9 +4,6 @@ let reducer = (state, action) => {
     return { ...state, loggedIn: true };
   }
 
-  if (action.type === "login-succes") {
-    return { ...state, loggedIn: true };
-  }
   if (action.type === "login-fail") {
     return { ...state, loggedIn: false };
   }
