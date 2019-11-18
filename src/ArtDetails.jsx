@@ -25,9 +25,12 @@ export default class UnconnectedArtDetails extends Component {
       <div>
         <div>
           <img src={this.props.art.image} width="300px"></img>
+          <div>Artist: {this.props.art.artistName}</div>
+          <div>Price: {this.props.art.price}</div>
           <div>Type: {this.props.art.type}</div>
-          <div>Size:{this.props.art.size}</div>
-
+          <div>Size: {this.props.art.size}</div>
+        </div>
+        <div>
           <h2>Reviews</h2>
           <ul>
             {reviewsbyArtists(this.props.art.id).map(review => (
@@ -47,7 +50,7 @@ export default class UnconnectedArtDetails extends Component {
 }
 
 let mapStateToProps = state => {
-  return { lgin: state.loggedIn };
+  return { art: state.art };
 };
 let ArtDetails = connect(mapStateToProps)(UnconnectedItemDetails);
 export default ArtDetails;
