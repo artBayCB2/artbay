@@ -7,7 +7,7 @@ class UnconnectedSignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: ""
     };
   }
@@ -22,13 +22,17 @@ class UnconnectedSignUp extends Component {
   handleSignUpSubmit = async event => {
     event.preventDefault();
     console.log("handleSignUpSubmit", event.target.value);
-    let body = { success: true };
+    let data = new FormData();
+    let email = this.state.email;
+    let password = this.state.password;
+    data.append("email", email);
+    data.append("password", password);
+    let response = await fetch("/signup", { method: "POST", body: data });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
     if (!body.success) {
       alert("Unsuccessful SignUp");
       return;
-    }
-    if (body.success) {
-      alert("Successful SignUp");
     }
     this.props.dispatch({
       type: "signup-success"
