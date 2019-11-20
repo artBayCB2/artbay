@@ -7,6 +7,7 @@ import PaymentDetails from "./PaymentDetails.jsx";
 
 class App extends Component {
   render = () => {
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     // return <SignUp />;
     return (
@@ -42,6 +43,9 @@ class App extends Component {
       </BrowserRouter>
 >>>>>>> 413ae50fc51b1cdb5a0bf804a6857ece3346010c
     );
+=======
+    return <SignUp />;
+>>>>>>> Stashed changes
   };
 }
 
