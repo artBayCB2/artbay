@@ -4,6 +4,7 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import PersonalDetails from "./PersonalDetails.jsx";
 import PaymentDetails from "./PaymentDetails.jsx";
+import submitSellerDetails from "./submitSellerDetails.jsx";
 
 class App extends Component {
   render = () => {
@@ -38,6 +39,11 @@ class App extends Component {
             exact={true}
             path="/paymentdetails/"
             component={PaymentDetails}
+          />
+          <Route
+            exact={true}
+            path="/submitsellerdetails/"
+            component={submitSellerDetails}
           />
         </div>
       </BrowserRouter>

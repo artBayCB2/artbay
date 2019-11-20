@@ -20,7 +20,7 @@ class UnconnectedPersonalDetails extends Component {
   }
   renderStates = () => {
     return (
-      <select className="inputSellerProfile" onChange={this.handleState}>
+      <select className="selectSellerProfile" onChange={this.handleState}>
         <option value="">Select State/Province</option>
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
@@ -78,7 +78,7 @@ class UnconnectedPersonalDetails extends Component {
   };
   renderProvince = () => {
     return (
-      <select className="inputSellerProfile" onChange={this.handleProvince}>
+      <select className="selectSellerProfile" onChange={this.handleProvince}>
         <option value="">Select State/Province</option>
         <option value="AB">Alberta</option>
         <option value="BC">British Columbia</option>
@@ -168,6 +168,7 @@ class UnconnectedPersonalDetails extends Component {
             className="childContainerSellerProfile"
             onSubmit={this.handleSubmitPersonalDetails}
           >
+            <h3 className="h3SellerProfile">Personal Details</h3>
             <div>
               <h6 className="h6SellerProfile">First Name</h6>
               <input
@@ -209,7 +210,7 @@ class UnconnectedPersonalDetails extends Component {
             <div>
               <h6 className="h6SellerProfile">Country</h6>
               <select
-                className="inputSellerProfile"
+                className="selectSellerProfile"
                 onChange={this.handleCountry}
                 value={this.state.Country}
               >
@@ -233,7 +234,9 @@ class UnconnectedPersonalDetails extends Component {
               />
             </div>
             <button className="buttonSellerProfile" type="submit">
-              <Link to={"/paymentdetails/"}>Next</Link>
+              <Link className="linkNext" to={"/paymentdetails/"}>
+                Next
+              </Link>
             </button>
           </form>
         </div>

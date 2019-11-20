@@ -42,20 +42,37 @@ class UnconnectedPaymentDetails extends Component {
   render = () => {
     return (
       <React.Fragment>
-        <div>
-          <form>
+        <div className="containerSellerProfile">
+          <form className="childContainerSellerProfile">
+            <h3 className="h3SellerProfile">Payment Details</h3>
             <div>
-              <h6>Bank Name</h6>
-              <input type="text" onChange={this.handleBankName} />
+              <h6 className="h6SellerProfile">Bank Name</h6>
+              <input
+                className="inputSellerProfile"
+                type="text"
+                onChange={this.handleBankName}
+              />
             </div>
             <div>
-              <h6>Routing Number</h6>
-              <input type="text" onChange={this.handleRoutingNumber} />
-              <h6>Account Number</h6>
-              <input type="text" onChange={this.handleAccountNumber} />
+              <h6 className="h6SellerProfile">Routing Number</h6>
+              <input
+                className="inputSellerProfile"
+                type="text"
+                onChange={this.handleRoutingNumber}
+              />
+              <h6 className="h6SellerProfile">Account Number</h6>
+              <input
+                className="inputSellerProfile"
+                type="text"
+                onChange={this.handleAccountNumber}
+              />
             </div>
             <div>
-              <button>Next</button>
+              <button className="buttonSellerProfile">
+                <Link className="linkNext" to={"/submitsellerdetails/"}>
+                  Next
+                </Link>
+              </button>
             </div>
           </form>
         </div>
