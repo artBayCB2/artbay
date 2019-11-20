@@ -6,8 +6,7 @@ let reloadMagic = require("./reload-magic");
 let MongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
 let authData = require("./AuthData");
-let otherArtsUpload = multer({ dest: __dirname + "/images/art-images" });
-let mainArtUpload = multer({ dest: __dirname + "/images/art-images" });
+let artDataUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
 
 let dbo = undefined;
@@ -39,8 +38,8 @@ app.post("/signup", upload.none(), (req, res) => {
       {
         email: _email,
         password: _password,
-        dateJoined: Date.now(),
-        dateOfLastLogin: Date.now(),
+        dateJoined: Date(Date.now()).toString(),
+        dateOfLastLogin: Date(Date.now()).toString(),
         isSeller: false
       },
       (err, user) => {
@@ -60,7 +59,7 @@ app.post("/signup", upload.none(), (req, res) => {
   }
 });
 
-// POST login endpoint
+// POST - login endpoint
 app.post("/login", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
@@ -84,12 +83,16 @@ app.post("/login", upload.none(), (req, res) => {
     }
     if (user.password === _password) {
       let _sessionID = generateSessionID();
-      dbo
-        .collection("sessions")
-        .update(
-          { userID: user._id },
-          { $set: { sessionID: _sessionID, created: Date.now() } }
-        );
+      dbo.collection("sessions").update(
+        { userID: user._id },
+        {
+          $set: {
+            sessionID: _sessionID,
+            created: Date(Date.now()).toString(),
+            dateOfLastLogin: Date(Date.now()).toString()
+          }
+        }
+      );
 
       res.cookie("sid", _sessionID);
 
@@ -106,7 +109,7 @@ app.post("/login", upload.none(), (req, res) => {
   });
 });
 
-// POST seller Profile endpoint
+// POST - seller profile endpoint
 app.post(
   "/seller-profile",
   profileImageUpload.single("profile-image"),
@@ -120,8 +123,8 @@ app.post(
     let _phoneNumber = _formInputData.phoneNumber
       ? _formInputData.phoneNumber
       : "";
-    let _street1 = _formInputData.street1 ? _formInputData.street1 : "";
-    let _street2 = _formInputData.street2 ? _formInputData.street2 : "";
+    let _address1 = _formInputData.address1 ? _formInputData.address1 : "";
+    let _address2 = _formInputData.address2 ? _formInputData.address2 : "";
     let _country = _formInputData.country ? _formInputData.country : "";
     let _state = _formInputData.state ? _formInputData.state : "";
     let _zip = _formInputData.zip ? _formInputData.zip : "";
@@ -147,8 +150,8 @@ app.post(
                 firstName: _firstName,
                 lastName: _lastName,
                 phoneNumber: _phoneNumber,
-                street1: _street1,
-                street2: _street2,
+                address1: _address1,
+                address2: _address2,
                 country: _country,
                 state: _state,
                 zip: _zip,
@@ -156,7 +159,8 @@ app.post(
                 bankName: _bankName,
                 routingNumber: _routingNumber,
                 accountNumber: _accountNumber,
-                profileImageURL: _profileImageURL
+                profileImageURL: _profileImageURL,
+                dateOfJoinedAsSeller: Date(Date.now()).toString()
               }
             }
           );
@@ -174,68 +178,12 @@ app.post(
   }
 );
 
-// POST main Art endpoint
-app.post("/main-art", mainArtUpload.single("main-art"), (req, res) => {
-  let _mainArt = req.file;
-  let _sessionID = req.cookies.sid;
-  let _mainArtURL = "/art-images/" + _mainArt.filename;
-
-  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
-    try {
-      dbo.collection("artItems").insertOne({
-        userID: user._id,
-        mainArtURL: _mainArtURL
-      });
-      return res.send(
-        JSON.stringify({
-          success: true,
-          message: "Main art uploaded successfully!"
-        })
-      );
-    } catch (e) {
-      res.send(JSON.stringify({ success: false, message: e }));
-      return;
-    }
-  });
-});
-
-// POST other art endpoint
-app.post("/other-arts", otherArtsUpload.array("other-arts"), (req, res) => {
-  let _otherArts = req.files;
-  let _sessionID = req.cookies.sid;
-
-  let _otherArtUrls = [];
-  _otherArts.forEach(art => {
-    _otherArtUrls.push("/art-images/" + art.filename);
-  });
-
-  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
-    try {
-      dbo.collection("artItems").update(
-        { _id: user._id },
-        {
-          $set: {
-            otherArtUrls: _otherArtUrls
-          }
-        }
-      );
-      return res.send(
-        JSON.stringify({
-          success: true,
-          message: "Other art uploaded successfully!"
-        })
-      );
-    } catch (e) {
-      res.send(JSON.stringify({ success: false, message: e }));
-      return;
-    }
-  });
-});
-
-// POST art details endpoint
-app.post("/art-details", upload.none(), (req, res) => {
+// POST - art data upload endpoint
+app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
   let _artDetailsData = req.body;
+  let _artData = req.file;
   let _sessionID = req.cookies.sid;
+  let _artImageURL = "/art-images/" + _artData.filename;
 
   let _name = _artDetailsData.name ? _artDetailsData.name : "";
   let _artist = _artDetailsData.artist ? _artDetailsData.artist : "";
@@ -249,24 +197,22 @@ app.post("/art-details", upload.none(), (req, res) => {
 
   dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
     try {
-      dbo.collection("artItems").update(
-        { _id: user._id },
-        {
-          $set: {
-            name: _name,
-            artist: _artist,
-            medium: _medium,
-            category: _category,
-            originalPiece: _originalPiece,
-            quantity: _quantity,
-            price: _price
-          }
-        }
-      );
+      dbo.collection("artItems").insertOne({
+        userID: user._id,
+        artImageURL: _artImageURL,
+        name: _name,
+        artist: _artist,
+        medium: _medium,
+        category: _category,
+        originalPiece: _originalPiece,
+        quantity: _quantity,
+        price: _price,
+        dateArtUploaded: Date(Date.now()).toString()
+      });
       return res.send(
         JSON.stringify({
           success: true,
-          message: "Art details uploaded successfully!"
+          message: "Main art uploaded successfully!"
         })
       );
     } catch (e) {
