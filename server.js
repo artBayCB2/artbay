@@ -28,11 +28,23 @@ app.use(
   express.static(__dirname + "/images/profile-images")
 );
 
-// POST signup endpoint
+// POST - signup endpoint
 app.post("/signup", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
   let _sessionID = generateSessionID();
+
+  dbo.collection("users").findOne({ email: _email }, (err, user) => {
+    if (user !== null) {
+      return res.send(
+        JSON.stringify({
+          success: false,
+          message: "User already exists"
+        })
+      );
+    }
+  });
+
   try {
     dbo.collection("users").insertOne(
       {
@@ -47,7 +59,7 @@ app.post("/signup", upload.none(), (req, res) => {
         dbo.collection("sessions").insertOne({
           userID: _userID,
           sessionID: _sessionID,
-          created: Date.now()
+          created: Date(Date.now()).toString()
         });
       }
     );
@@ -166,8 +178,8 @@ app.post(
           );
           return res.send(
             JSON.stringify({
-              success: false,
-              message: "Email or password is incorrect"
+              success: true,
+              message: "Seller profile updated successfully!"
             })
           );
         } catch (e) {
@@ -212,7 +224,7 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
       return res.send(
         JSON.stringify({
           success: true,
-          message: "Main art uploaded successfully!"
+          message: "Art data uploaded successfully!"
         })
       );
     } catch (e) {
