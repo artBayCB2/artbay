@@ -79,16 +79,15 @@ app.post("/login", upload.none(), (req, res) => {
   let _password = req.body.password;
   dbo.collection("users").findOne({ email: _email }, (err, user) => {
     if (err) {
-      res.send(
+      return res.send(
         JSON.stringify({
           success: false,
           message: "Login not successful. try again."
         })
       );
-      return;
     }
     if (user === null) {
-      res.send(
+      return res.send(
         JSON.stringify({
           success: false,
           message: "User does not exist"
