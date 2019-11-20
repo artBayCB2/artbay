@@ -12,6 +12,9 @@ let reducer = (state, action) => {
   if (action.type === "paymentDetails-success") {
     return { ...state, paymentDetails: true };
   }
+  if (action.type === "submitSellerDetails-success") {
+    return { ...state, submitSellerDetails: true };
+  }
 
   return state;
 };
@@ -21,7 +24,8 @@ const store = createStore(
     signedUp: false,
     loggedIn: false,
     personDetails: false,
-    paymentDetails: false
+    paymentDetails: false,
+    submitSellerDetails: false
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
