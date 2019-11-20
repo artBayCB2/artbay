@@ -43,32 +43,34 @@ app.post("/signup", upload.none(), (req, res) => {
         })
       );
     }
-  });
 
-  try {
-    dbo.collection("users").insertOne(
-      {
-        email: _email,
-        password: _password,
-        dateJoined: Date(Date.now()).toString(),
-        dateOfLastLogin: Date(Date.now()).toString(),
-        isSeller: false
-      },
-      (err, user) => {
-        let _userID = user["ops"][0]._id;
-        dbo.collection("sessions").insertOne({
-          userID: _userID,
-          sessionID: _sessionID,
-          created: Date(Date.now()).toString()
-        });
-      }
-    );
-    res.cookie("sid", _sessionID);
-    res.send(JSON.stringify({ success: true, message: "Sign up successful!" }));
-  } catch (e) {
-    res.send(JSON.stringify({ success: false, message: e }));
-    return;
-  }
+    try {
+      dbo.collection("users").insertOne(
+        {
+          email: _email,
+          password: _password,
+          dateJoined: Date(Date.now()).toString(),
+          dateOfLastLogin: Date(Date.now()).toString(),
+          isSeller: false
+        },
+        (err, user) => {
+          let _userID = user["ops"][0]._id;
+          dbo.collection("sessions").insertOne({
+            userID: _userID,
+            sessionID: _sessionID,
+            created: Date(Date.now()).toString()
+          });
+        }
+      );
+      res.cookie("sid", _sessionID);
+      res.send(
+        JSON.stringify({ success: true, message: "Sign up successful!" })
+      );
+    } catch (e) {
+      res.send(JSON.stringify({ success: false, message: e }));
+      return;
+    }
+  });
 });
 
 // POST - login endpoint
