@@ -5,7 +5,7 @@ class UnconnectedLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: ""
     };
   }
@@ -20,7 +20,16 @@ class UnconnectedLogin extends Component {
   handleLoginSubmit = async event => {
     event.preventDefault();
     console.log("handleLoginSubmit", event.target.value);
-    let body = { success: true };
+    let data = new FormData();
+    data.append("email", this.state.email);
+    data.append("password", this.state.password);
+    let response = await fetch("/login", {
+      method: "POST",
+      body: data,
+      credentials: "include"
+    });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
     if (!body.success) {
       alert("Unsuccessful Login");
       return;
@@ -37,11 +46,11 @@ class UnconnectedLogin extends Component {
     return (
       <form onSubmit={this.handleLoginSubmit}>
         <div>
-          Username
+          Email
           <input type="text" onChange={this.handleLoginUsername} />
         </div>
         <div>
-          Login
+          Password
           <input type="text" onChange={this.handleLoginPassword} />
         </div>
         <div>

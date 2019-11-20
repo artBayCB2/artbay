@@ -19,9 +19,9 @@ class UnconnectedSignUp extends Component {
     console.log("handleSignUpPassword", event.target.value);
     this.setState({ password: event.target.value });
   };
-  handleSignUpSubmit = async event => {
+  handleSignUpSubmit = async () => {
     event.preventDefault();
-    console.log("handleSignUpSubmit", event.target.value);
+    console.log("handleSignUpSubmit");
     let data = new FormData();
     let email = this.state.email;
     let password = this.state.password;
@@ -32,6 +32,10 @@ class UnconnectedSignUp extends Component {
     let body = JSON.parse(responseBody);
     if (!body.success) {
       alert("Unsuccessful SignUp");
+      return;
+    }
+    if (body.success) {
+      alert("Successful SignUp");
       return;
     }
     this.props.dispatch({
