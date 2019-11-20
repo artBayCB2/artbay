@@ -5,7 +5,7 @@ let upload = multer({ dest: __dirname + "/uploads/" });
 let reloadMagic = require("./reload-magic");
 let MongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
-let authData = require("./AuthData");
+let authData = require("./AuthData.js");
 
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {

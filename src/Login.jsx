@@ -30,7 +30,7 @@ class UnconnectedLogin extends Component {
       return;
     }
     this.props.dispatch({
-      type: "login-successful"
+      type: "login-success"
     });
   };
   render = () => {
