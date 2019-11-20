@@ -15,7 +15,7 @@ let artistCollection = artistName => {
   return artistCollect;
 };
 
-export default class UnconnectedArtistCollection extends Component {
+class UnconnectedArtistCollection extends Component {
   render() {
     return (
       <div>

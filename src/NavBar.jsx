@@ -1,55 +1,40 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./NavBar.css";
 
-export default class NavBar extends Component {
+class UnconnectedNavBar extends Component {
   searchHandler = evt => {};
+
+  selectHandler(evt) {
+    this.props.dispatch({
+      type: "change-NavBar-Value",
+      value: evt.target.value
+    });
+  }
 
   render() {
     return (
-      <div className="navbar">
+      <div className="Navbar-navbar">
         <Link to={"/"}>
-          <img className="logo" src="../Logo2.png" />
+          <img className="Navbar-logo" src="../Logo2.png" />
         </Link>
-        <div className="dropdown">
-          <button class="dropbtn">
+        <div className="Navbar-dropdown">
+          <button class="Navbar-dropbtn">
             Shop
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
-            <div class="header">
-              <h2>Shop now</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <h3>Category</h3>
-                <Link to="/searchCategory/painting"> Painting</Link>
-                <Link to="/searchCategory/photography"> Photography</Link>
-                <Link to="/searchCategory/drawing"> Drawing</Link>
-                <Link to="/searchCategory/sculpture"> Sculpture</Link>
-              </div>
-              <div class="column">
-                <h3>Subject</h3>
-                <Link to="/searchSubject/landscapes"> Landscapes</Link>
-                <Link to="/searchSubject/abstracts"> Abstracts</Link>
-                <Link to="/searchSubject/PeopleAndPortraits">
-                  People and portraits
-                </Link>
-                <Link to="/searchSubject/ArchitectureAndCities">
-                  Architecture and cities
-                </Link>
-              </div>
-              <div class="column">
-                <h3>Budget</h3>
-                <Link to="/searchBudget/under100">$100 and under</Link>
-                <Link to="/searchBudget/under500">$500 and under</Link>
-                <Link to="/searchBudget/under1000">$1000 and under</Link>
-                <Link to="/searchBudget/over1000">$1000 and over</Link>
-              </div>
-            </div>
+          <div class="Navbar-custom-select">
+            <select value={this.props.value} onChange={this.selectHandler}>
+              <option value="painting">Painting</option>
+              <option value="photography">Photography</option>
+              <option value="drawing">Drawing</option>
+              <option value="sculpture">Sculpture</option>
+              <option value="all">All</option>
+            </select>
           </div>
         </div>
-        <div class="search-container">
+        <div class="Navbar-search-container">
           <form onSubmit={this.searchHandler}>
             <input type="text" placeholder="Search.." name="search" />
             <button type="submit">
@@ -57,7 +42,42 @@ export default class NavBar extends Component {
             </button>
           </form>
         </div>
+        <div>
+          {this.props.loggedIn ? (
+            <div>
+              <Link to="/sell">
+                <button>
+                  <img src="/images/websiteAssets/shop_Vector.png"></img>
+                  Sell
+                </button>
+              </Link>
+              <div>
+                <Link>
+                  <img src="/images/websiteAssets/shop_Vector.png"></img>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div>
+                <Link to="/login">Login</Link>
+              </div>
+              <div>
+                <Link to="/signup">Signup</Link>
+              </div>
+              <div>
+                <Link to="/cart">Cart</Link>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
 }
+let mapStateToProps = state => {
+  return { loggedIn: state.loggedIn, value: state.searchValue };
+};
+let NavBar = connect(mapStateToProps)(UnconnectedNavBar);
+
+export default NavBar;

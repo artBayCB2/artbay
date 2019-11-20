@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./ArtDetails.css";
 
-let artistName = artistId => {
-  let candidates = initialBuyers.filter(buyer => {
-    return buyer.id === artistId;
-  });
+// must fetch userdata and search for User name by id
+let userName = artistId => {
+  // fetch userDate
+
+  // let candidates = initialBuyers.filter(buyer => {
+  //   return buyer.id === artistId;
+  // });
 
   return candidates[0].name;
 };
 
-let reviewsbyArtists = itemId => {
+let reviewsbyUsers = itemId => {
   let allreviews = reviews.filter(elem => {
     return elem.itemId === itemId;
   });
@@ -19,24 +22,30 @@ let reviewsbyArtists = itemId => {
   return allreviews;
 };
 
-export default class UnconnectedArtDetails extends Component {
+class UnconnectedArtDetails extends Component {
   render() {
     return (
       <div>
         <div>
-          <img src={this.props.art.image} width="300px"></img>
-          <div>Artist: {this.props.art.artistName}</div>
+          <img src={this.props.art.originalPiece} width="300px"></img>
+          <div>Artist: {this.props.art.artist}</div>
           <div>Price: {this.props.art.price}</div>
-          <div>Type: {this.props.art.type}</div>
+          <div>medium: {this.props.art.medium}</div>
+          <div>Quantity: {this.props.art.quantity}</div>
           <div>Size: {this.props.art.size}</div>
+          <div>
+            <p>Description: {this.props.art.description}</p>
+          </div>
+          <button onClick={addToCart(this.props.art.id)}>Add to Cart</button>
         </div>
+
         <div>
           <h2>Reviews</h2>
           <ul>
-            {reviewsbyArtists(this.props.art.id).map(review => (
+            {reviewsbyUsers(this.props.art.id).map(review => (
               <li>
-                <Link to={"/artist/" + review.artistId}>
-                  {artistName(review.artistId)}
+                <Link to={"/artist/" + userName(review.userId)}>
+                  {userName(review.userId)}
                 </Link>
 
                 <p>{review.review}</p>
@@ -50,7 +59,7 @@ export default class UnconnectedArtDetails extends Component {
 }
 
 let mapStateToProps = state => {
-  return { art: state.art };
+  return { loggedIn: state.loggedIn };
 };
-let ArtDetails = connect(mapStateToProps)(UnconnectedItemDetails);
+let ArtDetails = connect(mapStateToProps)(UnconnectedArtDetails);
 export default ArtDetails;

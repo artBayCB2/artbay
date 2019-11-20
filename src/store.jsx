@@ -15,6 +15,9 @@ let reducer = (state, action) => {
   if (action.type === "submitSellerDetails-success") {
     return { ...state, submitSellerDetails: true };
   }
+  if (action.type === "change-NavBar-Value") {
+    return { ...state, searchValue: action.value };
+  }
 
   return state;
 };
@@ -25,7 +28,8 @@ const store = createStore(
     loggedIn: false,
     personDetails: false,
     paymentDetails: false,
-    submitSellerDetails: false
+    submitSellerDetails: false,
+    searchValue: "payment"
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
