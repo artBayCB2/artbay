@@ -16,10 +16,6 @@ MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
 
 reloadMagic(app);
 
-let generateSessionID = () => {
-  return "" + Math.floor(Math.random() * 100000000);
-};
-
 app.use("/", express.static("build"));
 app.use("/", express.static("public"));
 app.use("/art-images", express.static(__dirname + "/images/art-images"));
@@ -32,8 +28,8 @@ app.use(
 app.post("/signup", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
-  let _sessionID = generateSessionID();
-
+  let _sessionID = "";
+  let _res = res;
   dbo.collection("users").findOne({ email: _email }, (err, user) => {
     if (user !== null) {
       return res.send(
@@ -54,21 +50,18 @@ app.post("/signup", upload.none(), (req, res) => {
           isSeller: false
         },
         (err, user) => {
-          let _userID = user["ops"][0]._id;
-          dbo.collection("sessions").insertOne({
-            userID: _userID,
-            sessionID: _sessionID,
-            created: Date(Date.now()).toString()
-          });
+          _res.cookie("sid", user["ops"][0]._id);
+
+          _res.send(
+            JSON.stringify({
+              success: true,
+              message: "Sign up successful!"
+            })
+          );
         }
       );
-      res.cookie("sid", _sessionID);
-      res.send(
-        JSON.stringify({ success: true, message: "Sign up successful!" })
-      );
     } catch (e) {
-      res.send(JSON.stringify({ success: false, message: e }));
-      return;
+      return res.send(JSON.stringify({ success: false, message: e }));
     }
   });
 });
@@ -77,9 +70,10 @@ app.post("/signup", upload.none(), (req, res) => {
 app.post("/login", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
+  let _res = res;
   dbo.collection("users").findOne({ email: _email }, (err, user) => {
     if (err) {
-      return res.send(
+      return _res.send(
         JSON.stringify({
           success: false,
           message: "Login not successful. try again."
@@ -87,7 +81,7 @@ app.post("/login", upload.none(), (req, res) => {
       );
     }
     if (user === null) {
-      return res.send(
+      return _res.send(
         JSON.stringify({
           success: false,
           message: "User does not exist"
@@ -95,25 +89,21 @@ app.post("/login", upload.none(), (req, res) => {
       );
     }
     if (user.password === _password) {
-      let _sessionID = generateSessionID();
-      dbo.collection("sessions").update(
+      _res.cookie("sid", user._id);
+      dbo.collection("users").update(
         { userID: user._id },
         {
           $set: {
-            sessionID: _sessionID,
-            created: Date(Date.now()).toString(),
             dateOfLastLogin: Date(Date.now()).toString()
           }
         }
       );
 
-      res.cookie("sid", _sessionID);
-
-      return res.send(
+      return _res.send(
         JSON.stringify({ success: true, message: "Login successful" })
       );
     }
-    res.send(
+    _res.send(
       JSON.stringify({
         success: false,
         message: "Email or password is incorrect"
