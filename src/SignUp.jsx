@@ -13,7 +13,7 @@ class UnconnectedSignUp extends Component {
   }
   handleSignUpEmail = event => {
     console.log("handleSignUpEmail", event.target.value);
-    this.setState({ username: event.target.value });
+    this.setState({ email: event.target.value });
   };
   handleSignUpPassword = event => {
     console.log("handleSignUpPassword", event.target.value);

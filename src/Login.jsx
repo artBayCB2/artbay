@@ -31,11 +31,11 @@ class UnconnectedLogin extends Component {
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     if (!body.success) {
-      alert("Unsuccessful Login");
+      alert(body.message);
       return;
     }
     if (body.success) {
-      alert("Successful Login");
+      alert(body.message);
       return;
     }
     this.props.dispatch({
