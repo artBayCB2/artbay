@@ -6,7 +6,7 @@ class ArtUpload extends Component {
     this.state = {
       filename: "",
       name: "",
-      artistName: "",
+      artist: "",
       description: "",
       category: "",
       medium: "",

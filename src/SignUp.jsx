@@ -11,8 +11,8 @@ class UnconnectedSignUp extends Component {
       password: ""
     };
   }
-  handleSignUpUsername = event => {
-    console.log("handleSignUpUsername", event.target.value);
+  handleSignUpEmail = event => {
+    console.log("handleSignUpEmail", event.target.value);
     this.setState({ username: event.target.value });
   };
   handleSignUpPassword = event => {
@@ -30,6 +30,7 @@ class UnconnectedSignUp extends Component {
     let response = await fetch("/signup", { method: "POST", body: data });
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
+    console.log(body.success);
     if (!body.success) {
       alert("Unsuccessful SignUp");
       return;
