@@ -11,7 +11,7 @@ class UnconnectedLogin extends Component {
   }
   handleLoginUsername = event => {
     console.log("handleLoginUsername", event.target.value);
-    this.setState({ username: event.target.value });
+    this.setState({ email: event.target.value });
   };
   handleLoginPassword = event => {
     console.log("handleLoginPassword", event.target.value);
