@@ -5,14 +5,10 @@ let upload = multer({ dest: __dirname + "/uploads/" });
 let reloadMagic = require("./reload-magic");
 let MongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
-<<<<<<< HEAD
 let authData = require("./AuthData");
 let otherArtsUpload = multer({ dest: __dirname + "/images/art-images" });
 let mainArtUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
-=======
-let authData = require("./AuthData.js");
->>>>>>> 413ae50fc51b1cdb5a0bf804a6857ece3346010c
 
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {

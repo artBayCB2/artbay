@@ -7,23 +7,6 @@ import PaymentDetails from "./PaymentDetails.jsx";
 
 class App extends Component {
   render = () => {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    // return <SignUp />;
-    return (
-      <React.Fragment>
-        <form
-          action="/seller-profile"
-          method="POST"
-          encType="multipart/form-data"
-        >
-          <input type="text" name="firstName"></input>
-          <input type="text" name="lastName"></input>
-          <input type="file" name="profile-image"></input>
-          <input type="submit"></input>
-        </form>
-      </React.Fragment>
-=======
     return (
       <BrowserRouter>
         <div>
@@ -41,11 +24,7 @@ class App extends Component {
           />
         </div>
       </BrowserRouter>
->>>>>>> 413ae50fc51b1cdb5a0bf804a6857ece3346010c
     );
-=======
-    return <SignUp />;
->>>>>>> Stashed changes
   };
 }
 
