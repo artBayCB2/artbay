@@ -5,9 +5,14 @@ let upload = multer({ dest: __dirname + "/uploads/" });
 let reloadMagic = require("./reload-magic");
 let MongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
+<<<<<<< HEAD
 let authData = require("./AuthData");
-let artUpload = multer({ dest: __dirname + "/images/art-images" });
+let otherArtsUpload = multer({ dest: __dirname + "/images/art-images" });
+let mainArtUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
+=======
+let authData = require("./AuthData.js");
+>>>>>>> 413ae50fc51b1cdb5a0bf804a6857ece3346010c
 
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
@@ -28,8 +33,7 @@ app.use(
   express.static(__dirname + "/images/profile-images")
 );
 
-// Signup endpoint
-
+// POST signup endpoint
 app.post("/signup", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
@@ -60,8 +64,7 @@ app.post("/signup", upload.none(), (req, res) => {
   }
 });
 
-// Login endpoint
-
+// POST login endpoint
 app.post("/login", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
@@ -107,8 +110,7 @@ app.post("/login", upload.none(), (req, res) => {
   });
 });
 
-// Seller Profile endpoint
-
+// POST seller Profile endpoint
 app.post(
   "/seller-profile",
   profileImageUpload.single("profile-image"),
@@ -175,6 +177,108 @@ app.post(
       });
   }
 );
+
+// POST main Art endpoint
+app.post("/main-art", mainArtUpload.single("main-art"), (req, res) => {
+  let _mainArt = req.file;
+  let _sessionID = req.cookies.sid;
+  let _mainArtURL = "/art-images/" + _mainArt.filename;
+
+  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
+    try {
+      dbo.collection("artItems").insertOne({
+        userID: user._id,
+        mainArtURL: _mainArtURL
+      });
+      return res.send(
+        JSON.stringify({
+          success: true,
+          message: "Main art uploaded successfully!"
+        })
+      );
+    } catch (e) {
+      res.send(JSON.stringify({ success: false, message: e }));
+      return;
+    }
+  });
+});
+
+// POST other art endpoint
+app.post("/other-arts", otherArtsUpload.array("other-arts"), (req, res) => {
+  let _otherArts = req.files;
+  let _sessionID = req.cookies.sid;
+
+  let _otherArtUrls = [];
+  _otherArts.forEach(art => {
+    _otherArtUrls.push("/art-images/" + art.filename);
+  });
+
+  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
+    try {
+      dbo.collection("artItems").update(
+        { _id: user._id },
+        {
+          $set: {
+            otherArtUrls: _otherArtUrls
+          }
+        }
+      );
+      return res.send(
+        JSON.stringify({
+          success: true,
+          message: "Other art uploaded successfully!"
+        })
+      );
+    } catch (e) {
+      res.send(JSON.stringify({ success: false, message: e }));
+      return;
+    }
+  });
+});
+
+// POST art details endpoint
+app.post("/art-details", upload.none(), (req, res) => {
+  let _artDetailsData = req.body;
+  let _sessionID = req.cookies.sid;
+
+  let _name = _artDetailsData.name ? _artDetailsData.name : "";
+  let _artist = _artDetailsData.artist ? _artDetailsData.artist : "";
+  let _category = _artDetailsData.category ? _artDetailsData.category : "";
+  let _medium = _artDetailsData.medium ? _artDetailsData.medium : "";
+  let _originalPiece = _artDetailsData.originalPiece
+    ? _artDetailsData.originalPiece
+    : "";
+  let _quantity = _artDetailsData.quantity ? _artDetailsData.quantity : "";
+  let _price = _artDetailsData.price ? _artDetailsData.price : "";
+
+  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
+    try {
+      dbo.collection("artItems").update(
+        { _id: user._id },
+        {
+          $set: {
+            name: _name,
+            artist: _artist,
+            medium: _medium,
+            category: _category,
+            originalPiece: _originalPiece,
+            quantity: _quantity,
+            price: _price
+          }
+        }
+      );
+      return res.send(
+        JSON.stringify({
+          success: true,
+          message: "Art details uploaded successfully!"
+        })
+      );
+    } catch (e) {
+      res.send(JSON.stringify({ success: false, message: e }));
+      return;
+    }
+  });
+});
 
 app.all("/*", (req, res, next) => {
   // needed for react router
