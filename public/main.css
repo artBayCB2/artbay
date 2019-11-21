@@ -1,0 +1,15 @@
+html,
+body {
+  background-color: #f9f9fa;
+  font-family: "Poppins", sans-serif;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: 90999f;
+  opacity: 0.5; /* Firefox */
+}

@@ -4,19 +4,11 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 
 let renderSignUp = () => {
-  return (
-    <div>
-      <SignUp />
-    </div>
-  );
+  return <SignUp />;
 };
 
 let renderLogin = () => {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
+  return <Login />;
 };
 
 class App extends Component {
