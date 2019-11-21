@@ -242,13 +242,23 @@ class UnconnectedPersonalDetails extends Component {
             </div>
           </div>
 
-          <div>
-            <h6 className="h6SellerProfile">Zip Code / Postal Code</h6>
-            <input
-              className="inputSellerProfile"
-              type="text"
-              onChange={this.handleZip}
-            />
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name" style={{ width: "30%" }}>
+              <h6>Zip</h6>
+              <input
+                className="sellerProfile-inputbox"
+                type="text"
+                onChange={this.handleZip}
+              />
+            </div>
+            <div className="sellerProfile-name" style={{ width: "50%" }}>
+              <h6>City</h6>
+              <input
+                className="sellerProfile-inputbox"
+                type="text"
+                onChange={this.handleZip}
+              />
+            </div>
           </div>
           <button className="buttonSellerProfile" type="submit">
             <Link className="linkNext" to={"/paymentdetails"}>
