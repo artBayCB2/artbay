@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./HeroImage.css";
 
 // let quotes = [
 //   { quote: "Everything you can imagine is real.", by: "― Pablo Picasso" },
@@ -24,8 +25,7 @@ export default class HeroImage extends Component {
     return (
       <div class="hero-image">
         <div class="hero-text">
-          <p>"I dream my painting and I paint my dream."</p>
-          <span>― Vincent Willem van Gogh</span>
+          <p>Shop original art from independent artists around the world</p>
         </div>
       </div>
     );

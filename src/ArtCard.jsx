@@ -6,15 +6,20 @@ export default class ArtCard extends Component {
     return (
       // link to artdetails >> sent to router with ID
       //router renders artdetail page and sends art obj to ArtDetail page
-      <Link toto={"/artDetails/" + this.props.art.id}>
-        <div>
-          <img src={this.props.art.originalPiece} width="100px"></img>
+      <div className="card center">
+        <Link to={"/artDetails/" + this.props.art.id}>
           <div>
-            <h3>{this.props.art.artist}</h3>
-            <div>{this.props.art.price}</div>
+            <img src={this.props.art.originalPiece} width="100px"></img>
           </div>
-        </div>
-      </Link>
+          <div>
+            <div>
+              <h3>{this.props.art.artist}</h3>
+            </div>
+
+            <div>${this.props.art.price}</div>
+          </div>
+        </Link>
+      </div>
     );
   }
 }

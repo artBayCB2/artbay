@@ -6,26 +6,46 @@ class UnconnectedlandingPageFilter extends Component {
   changeSearchValue = value => {
     this.props.dispatch({
       type: "change-NavBar-Value",
-      value: value
+      searchValue: value
     });
   };
 
   render() {
     return (
       <div className="PageFilterRec">
-        <button onClick={this.changeSearchValue("Painting")}>Painting</button>
-        <button onClick={this.changeSearchValue("Photography")}>
+        <button
+          className="painting-btn"
+          onClick={this.changeSearchValue("Painting")}
+        >
+          Painting
+        </button>
+
+        <button
+          className="photography-btn"
+          onClick={this.changeSearchValue("Photography")}
+        >
           Photography
         </button>
-        <button onClick={this.changeSearchValue("Drawing")}>Drawing</button>
-        <button onClick={this.changeSearchValue("Sculpture")}>Sculpture</button>
+        <button
+          className="drawing-btn"
+          onClick={this.changeSearchValue("Drawing")}
+        >
+          Drawing
+        </button>
+
+        <button
+          className="sculpture-btn"
+          onClick={this.changeSearchValue("Sculpture")}
+        >
+          Sculpture
+        </button>
       </div>
     );
   }
 }
 
 let mapStateToProps = state => {
-  return { loggedIn: state.loggedIn, value: state.searchValue };
+  return { loggedIn: state.loggedIn, searchValue: state.searchValue };
 };
 let LandingPageFilter = connect(mapStateToProps)(UnconnectedlandingPageFilter);
 

@@ -6,25 +6,21 @@ import "./NavBar.css";
 class UnconnectedNavBar extends Component {
   searchHandler = evt => {};
 
-  selectHandler(evt) {
+  selectHandler = evt => {
     this.props.dispatch({
       type: "change-NavBar-Value",
       value: evt.target.value
     });
-  }
+  };
 
   render() {
     return (
       <div className="Navbar-navbar">
         <Link to={"/"}>
-          <img className="Navbar-logo" src="../Logo2.png" />
+          <img className="Navbar-logo" src="../assets/NavLogo.png" />
         </Link>
         <div className="Navbar-dropdown">
-          <button class="Navbar-dropbtn">
-            Shop
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="Navbar-custom-select">
+          <div className="Navbar-custom-select">
             <select value={this.props.value} onChange={this.selectHandler}>
               <option value="painting">Painting</option>
               <option value="photography">Photography</option>
@@ -34,11 +30,11 @@ class UnconnectedNavBar extends Component {
             </select>
           </div>
         </div>
-        <div class="Navbar-search-container">
+        <div className="Navbar-search-container">
           <form onSubmit={this.searchHandler}>
             <input type="text" placeholder="Search.." name="search" />
             <button type="submit">
-              <i class="fa fa-search"></i>
+              <i className="fa fa-search"></i>
             </button>
           </form>
         </div>
@@ -47,13 +43,13 @@ class UnconnectedNavBar extends Component {
             <div>
               <Link to="/sell">
                 <button>
-                  <img src="/images/websiteAssets/shop_Vector.png"></img>
+                  <img src="/assets/ShopVector.png"></img>
                   Sell
                 </button>
               </Link>
               <div>
-                <Link>
-                  <img src="/images/websiteAssets/shop_Vector.png"></img>
+                <Link to="/cart">
+                  <img src="/assets/ShopVector.png"></img>
                 </Link>
               </div>
             </div>
@@ -66,7 +62,9 @@ class UnconnectedNavBar extends Component {
                 <Link to="/signup">Signup</Link>
               </div>
               <div>
-                <Link to="/cart">Cart</Link>
+                <Link to="/cart">
+                  <img src="/assets/ShopVector.png"></img>
+                </Link>
               </div>
             </div>
           )}
