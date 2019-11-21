@@ -62,7 +62,9 @@ app.post("/signup", upload.none(), (req, res) => {
         }
       );
     } catch (e) {
-      return res.send(JSON.stringify({ success: false, message: e }));
+      return res.send(
+        JSON.stringify({ success: false, message: e.toString() })
+      );
     }
   });
 });
@@ -114,73 +116,86 @@ app.post("/login", upload.none(), (req, res) => {
 });
 
 // POST - seller profile endpoint
-app.post(
-  "/seller-profile",
-  profileImageUpload.single("profile-image"),
-  (req, res) => {
-    let _formInputData = req.body;
-    let _profileImage = req.file;
-    let _sessionID = req.cookies.sid;
+app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
+  let _res = res;
 
-    let _firstName = _formInputData.firstName ? _formInputData.firstName : "";
-    let _lastName = _formInputData.lastName ? _formInputData.lastName : "";
-    let _phoneNumber = _formInputData.phoneNumber
-      ? _formInputData.phoneNumber
-      : "";
-    let _address1 = _formInputData.address1 ? _formInputData.address1 : "";
-    let _address2 = _formInputData.address2 ? _formInputData.address2 : "";
-    let _country = _formInputData.country ? _formInputData.country : "";
-    let _state = _formInputData.state ? _formInputData.state : "";
-    let _zip = _formInputData.zip ? _formInputData.zip : "";
-    let _province = _formInputData.province ? _formInputData.province : "";
-    let _bankName = _formInputData.bankName ? _formInputData.bankName : "";
-    let _routingNumber = _formInputData.routingNumber
-      ? _formInputData.routingNumber
-      : "";
-    let _accountNumber = _formInputData.accountNumber
-      ? _formInputData.accountNumber
-      : "";
-
-    let _profileImageURL = "/profile-images/" + _profileImage.filename;
-
-    dbo
-      .collection("sessions")
-      .findOne({ sessionID: _sessionID }, (err, user) => {
-        try {
-          dbo.collection("users").update(
-            { _id: user._id },
-            {
-              $set: {
-                firstName: _firstName,
-                lastName: _lastName,
-                phoneNumber: _phoneNumber,
-                address1: _address1,
-                address2: _address2,
-                country: _country,
-                state: _state,
-                zip: _zip,
-                province: _province,
-                bankName: _bankName,
-                routingNumber: _routingNumber,
-                accountNumber: _accountNumber,
-                profileImageURL: _profileImageURL,
-                dateOfJoinedAsSeller: Date(Date.now()).toString()
-              }
-            }
-          );
-          return res.send(
-            JSON.stringify({
-              success: true,
-              message: "Seller profile updated successfully!"
-            })
-          );
-        } catch (e) {
-          res.send(JSON.stringify({ success: false, message: e }));
-          return;
-        }
-      });
+  if (
+    req.cookies === undefined ||
+    req.body === undefined ||
+    req.file === undefined
+  ) {
+    return _res.send(
+      JSON.stringify({
+        success: false,
+        message:
+          req.cookies === undefined
+            ? "Login/Signup to register as a seller!"
+            : req.body === undefined
+            ? "No form data"
+            : req.file === undefined
+            ? "No Profilew Image data"
+            : "Something went wrong"
+      })
+    );
   }
-);
+  let _formInputData = req.body;
+  let _profileImage = req.file;
+  let _sessionID = req.cookies.sid;
+
+  let _firstName = _formInputData.firstName ? _formInputData.firstName : "";
+  let _lastName = _formInputData.lastName ? _formInputData.lastName : "";
+  let _phoneNumber = _formInputData.phoneNumber
+    ? _formInputData.phoneNumber
+    : "";
+  let _address1 = _formInputData.address1 ? _formInputData.address1 : "";
+  let _address2 = _formInputData.address2 ? _formInputData.address2 : "";
+  let _country = _formInputData.country ? _formInputData.country : "";
+  let _state = _formInputData.state ? _formInputData.state : "";
+  let _zip = _formInputData.zip ? _formInputData.zip : "";
+  let _province = _formInputData.province ? _formInputData.province : "";
+  let _bankName = _formInputData.bankName ? _formInputData.bankName : "";
+  let _routingNumber = _formInputData.routingNumber
+    ? _formInputData.routingNumber
+    : "";
+  let _accountNumber = _formInputData.accountNumber
+    ? _formInputData.accountNumber
+    : "";
+
+  let _profileImageURL = "/profile-images/" + _profileImage.filename;
+
+  try {
+    dbo.collection("users").update(
+      { _id: ObjectID(_sessionID) },
+      {
+        $set: {
+          firstName: _firstName,
+          lastName: _lastName,
+          phoneNumber: _phoneNumber,
+          address1: _address1,
+          address2: _address2,
+          country: _country,
+          state: _state,
+          zip: _zip,
+          province: _province,
+          bankName: _bankName,
+          routingNumber: _routingNumber,
+          accountNumber: _accountNumber,
+          profileImageURL: _profileImageURL,
+          dateOfJoinedAsSeller: Date(Date.now()).toString()
+        }
+      }
+    );
+    return _res.send(
+      JSON.stringify({
+        success: true,
+        message: "Seller profile updated successfully!"
+      })
+    );
+  } catch (e) {
+    _res.send(JSON.stringify({ success: false, message: e.toString() }));
+    return;
+  }
+});
 
 // POST - art data upload endpoint
 app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
@@ -196,7 +211,7 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
         success: false,
         message:
           req.cookies === undefined
-            ? "Login/Signup to register as a seller!"
+            ? "Login/Signup to upload your art data!"
             : req.body === undefined
             ? "No form data"
             : req.file === undefined
@@ -255,7 +270,12 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
           })
         );
       } catch (e) {
-        _res.send(JSON.stringify({ success: false, message: e }));
+        _res.send(
+          JSON.stringify({
+            success: false,
+            message: e.toString()
+          })
+        );
         return;
       }
     });
