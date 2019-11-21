@@ -183,12 +183,18 @@ app.post(
 );
 
 // POST - art data upload endpoint
-app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
+app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
+  console.log("here");
+  console.log("file", req.file);
+  let _res = res;
   if (
     req.cookies === undefined ||
     req.body === undefined ||
     req.file === undefined
   ) {
+    console.log("cookies", req.cookies);
+    console.log("body", req.body);
+    console.log("file", req.body.file);
     return res.send(
       JSON.stringify({
         success: false,
@@ -197,7 +203,7 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
             ? "Login/Signup to register as a seller!"
             : req.body === undefined
             ? "No form data"
-            : (req.file === undefined) === undefined
+            : req.file === undefined
             ? "No Image data"
             : "Something went wrong"
       })
@@ -205,6 +211,7 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
   }
 
   let _sessionID = req.cookies.sid;
+  console.log("_sessionID", _sessionID);
   let _artDetailsData = req.body;
   let _artData = req.file;
 
@@ -224,36 +231,40 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
   let _material = _artDetailsData.material ? _artDetailsData.material : "";
   let _size = _artDetailsData.size ? _artDetailsData.size : "";
 
-  dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
-    try {
-      dbo.collection("artItems").insertOne({
-        userID: user._id,
-        artImageURL: _artImageURL,
-        name: _name,
-        email: user.email,
-        artist: _artist,
-        medium: _medium,
-        category: _category,
-        originalPiece: _originalPiece,
-        quantity: _quantity,
-        price: _price,
-        style: _style,
-        subject: _subject,
-        material: _material,
-        size: _size,
-        dateArtUploaded: Date(Date.now()).toString()
-      });
-      return res.send(
-        JSON.stringify({
-          success: true,
-          message: "Art data uploaded successfully!"
-        })
-      );
-    } catch (e) {
-      res.send(JSON.stringify({ success: false, message: e }));
-      return;
-    }
-  });
+  dbo
+    .collection("users")
+    .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
+      try {
+        dbo.collection("artItems").insertOne({
+          userID: user._id,
+          artImageURL: _artImageURL,
+          name: _name,
+          email: user.email,
+          artist: _artist,
+          medium: _medium,
+          category: _category,
+          originalPiece: _originalPiece,
+          quantity: _quantity,
+          price: _price,
+          style: _style,
+          subject: _subject,
+          material: _material,
+          size: _size,
+          dateArtUploaded: Date(Date.now()).toString()
+        });
+        console.log("1");
+        return _res.send(
+          JSON.stringify({
+            success: true,
+            message: "Art data uploaded successfully!"
+          })
+        );
+      } catch (e) {
+        console.log("error", e);
+        _res.send(JSON.stringify({ success: false, message: e }));
+        return;
+      }
+    });
 });
 
 app.all("/*", (req, res, next) => {

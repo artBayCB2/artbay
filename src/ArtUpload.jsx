@@ -84,6 +84,7 @@ class UnconnectedArtUpload extends Component {
     console.log("handleSubmitArt");
     event.preventDefault();
     let data = new FormData();
+    data.append("file", this.state.file);
     data.append("name", this.state.name);
     data.append("artist", this.state.artist);
     data.append("description", this.state.description);
@@ -97,8 +98,8 @@ class UnconnectedArtUpload extends Component {
     data.append("price", this.state.price);
     let response = await fetch("/art-data-upload", {
       method: "POST",
-      body: data,
-      file: this.state.file
+      body: data
+      // file: this.state.file
     });
     await console.log("handleSubmitArt - after fetch");
     let responseBody = await response.text();
