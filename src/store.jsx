@@ -12,6 +12,9 @@ let reducer = (state, action) => {
   if (action.type === "paymentDetails-success") {
     return { ...state, paymentDetails: true };
   }
+  if (action.type === "artupload-success") {
+    return { ...state, artupload: true };
+  }
   if (action.type === "submitSellerDetails-success") {
     return { ...state, submitSellerDetails: true };
   }
@@ -28,6 +31,7 @@ const store = createStore(
     loggedIn: false,
     personDetails: false,
     paymentDetails: false,
+    artupload: false,
     submitSellerDetails: false,
     searchValue: "payment"
   },
