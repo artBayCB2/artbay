@@ -20,7 +20,7 @@ class UnconnectedPersonalDetails extends Component {
   }
   renderStates = () => {
     return (
-      <select className="selectSellerProfile" onChange={this.handleState}>
+      <select className="sellerProfile-inputbox" onChange={this.handleState}>
         <option value="">Select State/Province</option>
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
@@ -78,7 +78,7 @@ class UnconnectedPersonalDetails extends Component {
   };
   renderProvince = () => {
     return (
-      <select className="selectSellerProfile" onChange={this.handleProvince}>
+      <select className="sellerProfile-inputbox" onChange={this.handleProvince}>
         <option value="">Select State/Province</option>
         <option value="AB">Alberta</option>
         <option value="BC">British Columbia</option>
@@ -161,56 +161,71 @@ class UnconnectedPersonalDetails extends Component {
   };
 
   render = () => {
+    console.log("here");
     return (
-      <React.Fragment>
-        <div className="containerSellerProfile">
-          <form
-            className="childContainerSellerProfile"
-            onSubmit={this.handleSubmitPersonalDetails}
-          >
-            <h3 className="h3SellerProfile">Personal Details</h3>
-            <div>
-              <h6 className="h6SellerProfile">First Name</h6>
+      <div className="sellerProfileContainer">
+        <form
+          className="sellerProfile-form"
+          onSubmit={this.handleSubmitPersonalDetails}
+        >
+          <h3>Personal Details</h3>
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name">
+              <h6>First Name</h6>
               <input
-                className="inputSellerProfile"
+                className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handleFirstName}
               />
-              <h6 className="h6SellerProfile">Last Name</h6>
+            </div>
+            <div className="sellerProfile-name">
+              <h6>Last Name</h6>
               <input
-                className="inputSellerProfile"
+                className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handleLastName}
               />
             </div>
-            <div>
-              <h6 className="h6SellerProfile">Phone Number</h6>
+          </div>
+
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name">
+              <h6>Phone Number</h6>
               <input
-                className="inputSellerProfile"
+                className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handlePhoneNumber}
               />
             </div>
-            <div>
-              <h6 className="h6SellerProfile">Address 1</h6>
+          </div>
+
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name">
+              <h6>Address 1</h6>
               <input
-                className="inputSellerProfile"
+                className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handleAddress1}
               />
             </div>
-            <div>
-              <h6 className="h6SellerProfile">Address 2</h6>
+          </div>
+
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name">
+              <h6>Address 2</h6>
               <input
-                className="inputSellerProfile"
+                className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handleAddress2}
               />
             </div>
-            <div>
-              <h6 className="h6SellerProfile">Country</h6>
+          </div>
+
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name">
+              <h6>Country</h6>
               <select
-                className="selectSellerProfile"
+                className="sellerProfile-inputbox"
                 onChange={this.handleCountry}
                 value={this.state.Country}
               >
@@ -219,28 +234,29 @@ class UnconnectedPersonalDetails extends Component {
                 <option value="United States">United States</option>
               </select>
             </div>
-            <div>
-              <h6 className="h6SellerProfile">State/Province</h6>
+            <div className="sellerProfile-name">
+              <h6>State/Province</h6>
               {this.renderStateOrProvince()
                 ? this.renderProvince()
                 : this.renderStates()}
             </div>
-            <div>
-              <h6 className="h6SellerProfile">Zip Code / Postal Code</h6>
-              <input
-                className="inputSellerProfile"
-                type="text"
-                onChange={this.handleZip}
-              />
-            </div>
-            <button className="buttonSellerProfile" type="submit">
-              <Link className="linkNext" to={"/paymentdetails/"}>
-                Next
-              </Link>
-            </button>
-          </form>
-        </div>
-      </React.Fragment>
+          </div>
+
+          <div>
+            <h6 className="h6SellerProfile">Zip Code / Postal Code</h6>
+            <input
+              className="inputSellerProfile"
+              type="text"
+              onChange={this.handleZip}
+            />
+          </div>
+          <button className="buttonSellerProfile" type="submit">
+            <Link className="linkNext" to={"/paymentdetails"}>
+              Next
+            </Link>
+          </button>
+        </form>
+      </div>
     );
   };
 }

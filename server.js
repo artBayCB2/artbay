@@ -197,6 +197,10 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
     : "";
   let _quantity = _artDetailsData.quantity ? _artDetailsData.quantity : "";
   let _price = _artDetailsData.price ? _artDetailsData.price : "";
+  let _style = _artDetailsData.style ? _artDetailsData.style : "";
+  let _subject = _artDetailsData.subject ? _artDetailsData.subject : "";
+  let _material = _artDetailsData.material ? _artDetailsData.material : "";
+  let _size = _artDetailsData.size ? _artDetailsData.size : "";
 
   dbo.collection("sessions").findOne({ sessionID: _sessionID }, (err, user) => {
     try {
@@ -210,6 +214,10 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
         originalPiece: _originalPiece,
         quantity: _quantity,
         price: _price,
+        style: _style,
+        subject: _subject,
+        material: _material,
+        size: _size,
         dateArtUploaded: Date(Date.now()).toString()
       });
       return res.send(

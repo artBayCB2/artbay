@@ -1,21 +1,15 @@
-.containerSellerProfile {
+.sellerProfileContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   align-content: center;
-  font-size: 2.5vmin;
-  margin: 1vmin auto;
-  padding: 1vmin;
   width: 100%;
-  box-sizing: border-box;
-  background: #f9f9fa;
-  font-family: "Poppins", sans-serif;
-  font-style: normal;
+  height: 100vh;
+  min-height: 100%;
+  margin: 0;
 }
 
-.childContainerSellerProfile {
-  display: flex;
-  flex-direction: column;
+/* .childContainerSellerProfile {
   width: 35%;
   height: 100%;
   margin: 50px;
@@ -25,23 +19,54 @@
   box-shadow: 0px 5px 10px;
   border-radius: 5px;
   box-sizing: border-box;
+} */
+
+.sellerProfile-form {
+  text-align: left;
+  width: 400px;
+  padding: 50px;
+  background: #ffffff;
+  border: 1px solid #e1e6eb;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  color: #354f8b;
 }
 
-.h6SellerProfile {
+h6 {
   padding: 0;
   margin: 0;
 }
 
-.h3SellerProfile {
+h3 {
   padding-bottom: 5px;
 }
 
-.inputSellerProfile {
+.sellerProfile-row {
+  display: flex;
+}
+
+/* .inputSellerProfile {
   width: 100%;
   height: 10px;
   padding: 25px;
   margin-bottom: 15px;
   box-sizing: border-box;
+} */
+
+.sellerProfile-inputbox {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 25px;
+  padding: 10px;
+  color: #90999f;
+  border: 1px solid #e1e6eb;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.sellerProfile-name {
+  width: 100%;
+  margin: 0 5px 0 5px;
 }
 
 .selectSellerProfile {
