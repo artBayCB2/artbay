@@ -79,7 +79,7 @@ class UnconnectedArtUpload extends Component {
     console.log("handleSubmitArt");
     event.preventDefault();
     let data = new FormData();
-    data.append("img", this.state.file);
+    data.append("file", this.state.file);
     data.append("name", this.state.name);
     data.append("artist", this.state.artist);
     data.append("description", this.state.description);
@@ -219,7 +219,11 @@ class UnconnectedArtUpload extends Component {
             <div className="rightChildContainer">
               <h6>Upload Artwork</h6>
               <input type="file" onChange={this.handleFile} />
-              <img className="uploadPreview" src={this.state.file} />
+              {this.state.file ? (
+                <img className="uploadPreview" src={this.state.file} />
+              ) : (
+                <img className="uploadPreview" src="../assets/Logo1.png" />
+              )}
               <input type="text" onChange={this.handleDescription} />
               <button className="submitButton" type="submit">
                 Submit

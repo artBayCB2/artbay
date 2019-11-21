@@ -75,7 +75,7 @@ class UnconnectedSignUp extends Component {
               <input
                 className="signUpInputText"
                 type="text"
-                onChange={this.handleSignUpUsername}
+                onChange={this.handleSignUpEmail}
                 placeholder="enter your email"
               />
             </div>

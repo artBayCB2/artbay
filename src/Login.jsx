@@ -11,7 +11,7 @@ class UnconnectedLogin extends Component {
       password: ""
     };
   }
-  handleLoginUsername = event => {
+  handleLoginEmail = event => {
     console.log("handleLoginUsername", event.target.value);
     this.setState({ email: event.target.value });
   };
@@ -71,7 +71,7 @@ class UnconnectedLogin extends Component {
                 className="login-inputbox"
                 placeholder="enter your email"
                 type="text"
-                onChange={this.handleLoginUsername}
+                onChange={this.handleLoginEmail}
               />
             </div>
             <div>
