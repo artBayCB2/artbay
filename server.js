@@ -184,17 +184,13 @@ app.post(
 
 // POST - art data upload endpoint
 app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
-  console.log("here");
-  console.log("file", req.file);
   let _res = res;
+
   if (
     req.cookies === undefined ||
     req.body === undefined ||
     req.file === undefined
   ) {
-    console.log("cookies", req.cookies);
-    console.log("body", req.body);
-    console.log("file", req.body.file);
     return res.send(
       JSON.stringify({
         success: false,
@@ -211,7 +207,7 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
   }
 
   let _sessionID = req.cookies.sid;
-  console.log("_sessionID", _sessionID);
+
   let _artDetailsData = req.body;
   let _artData = req.file;
 
@@ -252,7 +248,6 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
           size: _size,
           dateArtUploaded: Date(Date.now()).toString()
         });
-        console.log("1");
         return _res.send(
           JSON.stringify({
             success: true,
@@ -260,10 +255,32 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
           })
         );
       } catch (e) {
-        console.log("error", e);
         _res.send(JSON.stringify({ success: false, message: e }));
         return;
       }
+    });
+});
+
+app.get("/all-art", (req, res) => {
+  dbo
+    .collection("artItems")
+    .find({})
+    .toArray((err, artItems) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch Art items"
+          })
+        );
+      } else {
+      }
+      res.send(
+        JSON.stringify({
+          success: true,
+          message: artItems
+        })
+      );
     });
 });
 
