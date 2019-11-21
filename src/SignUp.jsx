@@ -8,7 +8,8 @@ class UnconnectedSignUp extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     };
   }
   handleSignUpEmail = event => {
@@ -19,8 +20,26 @@ class UnconnectedSignUp extends Component {
     console.log("handleSignUpPassword", event.target.value);
     this.setState({ password: event.target.value });
   };
+  handleSignUpConfirmPassword = event => {
+    console.log("handleSignUpConfirmPassword", event.target.value);
+    this.setState({ confirmPassword: event.target.value });
+  };
   handleSignUpSubmit = async () => {
     event.preventDefault();
+    if (
+      !this.state.email.includes("@") ||
+      !this.state.email.includes(".com") ||
+      this.state.email.length < 3
+    ) {
+      return alert("Invalid Email");
+    }
+    if (
+      this.state.password < 5 ||
+      this.state.password !== this.state.confirmPassword
+    ) {
+      return alert("Invalid Password or Password Match in Valid");
+    }
+
     console.log("handleSignUpSubmit");
     let data = new FormData();
     let email = this.state.email;
@@ -93,8 +112,8 @@ class UnconnectedSignUp extends Component {
               <input
                 className="signUpInputText"
                 type="password"
-                onChange={this.handleSignUpPassword}
-                placeholder="repeat password"
+                onChange={this.handleSignUpConfirmPassword}
+                placeholder="confirm password"
               />
             </div>
             <div>

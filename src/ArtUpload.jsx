@@ -199,11 +199,13 @@ class UnconnectedArtUpload extends Component {
                 <option value="Wood">Wood</option>
               </select>
               <h6>Size</h6>
-              <input
-                className="inputText"
-                type="text"
-                onChange={this.handleSize}
-              />
+              <select className="inputSelect" onChange={this.handleSize}>
+                <option value="">Select Size</option>
+                <option value="S">Small 4x6 - 5x7 inches</option>
+                <option value="M">Medium 5x7 - 12x16 inches</option>
+                <option value="L">Large 12x16 - 18x24 inches </option>
+                <option value="XL">X-Large 18x24 - 36x48 inches</option>
+              </select>
               <h6>Original Piece</h6>
               <div className="originalPieceCheckBox">
                 <div>
