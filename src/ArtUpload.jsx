@@ -8,6 +8,7 @@ class UnconnectedArtUpload extends Component {
     super();
     this.state = {
       file: "",
+      preview: "",
       name: "",
       artist: "",
       description: "",
@@ -25,7 +26,11 @@ class UnconnectedArtUpload extends Component {
   }
   handleFile = event => {
     event.preventDefault();
-    this.setState({ file: URL.createObjectURL(event.target.files[0]) });
+    console.log(event.target.files);
+    this.setState({
+      preview: URL.createObjectURL(event.target.files[0]),
+      file: event.target.files[0]
+    });
   };
   handleTitle = event => {
     event.preventDefault();
@@ -79,7 +84,6 @@ class UnconnectedArtUpload extends Component {
     console.log("handleSubmitArt");
     event.preventDefault();
     let data = new FormData();
-    data.append("file", this.state.file);
     data.append("name", this.state.name);
     data.append("artist", this.state.artist);
     data.append("description", this.state.description);
@@ -93,19 +97,20 @@ class UnconnectedArtUpload extends Component {
     data.append("price", this.state.price);
     let response = await fetch("/art-data-upload", {
       method: "POST",
-      body: data
+      body: data,
+      file: this.state.file
     });
     await console.log("handleSubmitArt - after fetch");
     let responseBody = await response.text();
-    console.log(responseBody);
+    console.log("responseBody", responseBody);
     let body = JSON.parse(responseBody);
-    console.log(body.success);
+    console.log("body.success", body.success);
     if (!body.success) {
-      alert("Unsuccessful Art Upload");
+      alert(body.message);
       return;
     }
     if (body.success) {
-      alert("Successful Art Upload");
+      alert(body.message);
       return;
     }
     this.props.dispatch({
@@ -220,10 +225,11 @@ class UnconnectedArtUpload extends Component {
               <h6>Upload Artwork</h6>
               <input type="file" onChange={this.handleFile} />
               {this.state.file ? (
-                <img className="uploadPreview" src={this.state.file} />
+                <img className="uploadPreview" src={this.state.preview} />
               ) : (
                 <img className="uploadPreview" src="../assets/Logo1.png" />
               )}
+              <h6>Description</h6>
               <input type="text" onChange={this.handleDescription} />
               <button className="submitButton" type="submit">
                 Submit
