@@ -76,6 +76,7 @@ class UnconnectedArtUpload extends Component {
     this.setState({ price: event.target.value });
   };
   handleSubmitArt = async () => {
+    console.log("handleSubmitArt");
     event.preventDefault();
     let data = new FormData();
     data.append("img", this.state.file);
@@ -94,7 +95,9 @@ class UnconnectedArtUpload extends Component {
       method: "POST",
       body: data
     });
+    await console.log("handleSubmitArt - after fetch");
     let responseBody = await response.text();
+    console.log(responseBody);
     let body = JSON.parse(responseBody);
     console.log(body.success);
     if (!body.success) {
@@ -216,7 +219,7 @@ class UnconnectedArtUpload extends Component {
             <div className="rightChildContainer">
               <h6>Upload Artwork</h6>
               <input type="file" onChange={this.handleFile} />
-              <img src={this.state.file} />
+              <img className="uploadPreview" src={this.state.file} />
               <input type="text" onChange={this.handleDescription} />
               <button className="submitButton" type="submit">
                 Submit
