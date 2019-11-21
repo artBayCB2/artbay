@@ -3,6 +3,7 @@ import { Route, BrowserRouter } from "react-router-dom";
 import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
+import PersonalDetails from "./PersonalDetails.jsx";
 
 let renderSignUp = () => {
   return <SignUp />;
@@ -24,6 +25,11 @@ class App extends Component {
           <Route exact={true} path="/" render={renderSignUp} />
           <Route exact={true} path="/login" render={renderLogin} />
           <Route exact={true} path="/artupload" render={renderArtUpload} />
+          <Route
+            exact={true}
+            path="/seller-profile"
+            render={() => <PersonalDetails />}
+          />
         </div>
       </BrowserRouter>
     );

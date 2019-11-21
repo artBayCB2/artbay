@@ -1,6 +1,7 @@
 let express = require("express");
 let app = express();
 let multer = require("multer");
+let cookieParser = require("cookie-parser");
 let upload = multer({ dest: __dirname + "/uploads/" });
 let reloadMagic = require("./reload-magic");
 let MongoClient = require("mongodb").MongoClient;
@@ -16,6 +17,7 @@ MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
 
 reloadMagic(app);
 
+app.use(cookieParser());
 app.use("/", express.static("build"));
 app.use("/", express.static("public"));
 app.use("/art-images", express.static(__dirname + "/images/art-images"));
@@ -51,7 +53,6 @@ app.post("/signup", upload.none(), (req, res) => {
         },
         (err, user) => {
           _res.cookie("sid", user["ops"][0]._id);
-
           _res.send(
             JSON.stringify({
               success: true,
@@ -183,9 +184,30 @@ app.post(
 
 // POST - art data upload endpoint
 app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
+  if (
+    req.cookies === undefined ||
+    req.body === undefined ||
+    req.file === undefined
+  ) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message:
+          req.cookies === undefined
+            ? "Login/Signup to register as a seller!"
+            : req.body === undefined
+            ? "No form data"
+            : (req.file === undefined) === undefined
+            ? "No Image data"
+            : "Something went wrong"
+      })
+    );
+  }
+
+  let _sessionID = req.cookies.sid;
   let _artDetailsData = req.body;
   let _artData = req.file;
-  let _sessionID = req.cookies.sid;
+
   let _artImageURL = "/art-images/" + _artData.filename;
 
   let _name = _artDetailsData.name ? _artDetailsData.name : "";
@@ -208,6 +230,7 @@ app.post("/art-data-upload", artDataUpload.single("art-data"), (req, res) => {
         userID: user._id,
         artImageURL: _artImageURL,
         name: _name,
+        email: user.email,
         artist: _artist,
         medium: _medium,
         category: _category,

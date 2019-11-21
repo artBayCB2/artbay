@@ -190,17 +190,6 @@ class UnconnectedPersonalDetails extends Component {
 
           <div className="sellerProfile-row">
             <div className="sellerProfile-name">
-              <h6>Phone Number</h6>
-              <input
-                className="sellerProfile-inputbox"
-                type="text"
-                onChange={this.handlePhoneNumber}
-              />
-            </div>
-          </div>
-
-          <div className="sellerProfile-row">
-            <div className="sellerProfile-name">
               <h6>Address 1</h6>
               <input
                 className="sellerProfile-inputbox"
@@ -208,15 +197,24 @@ class UnconnectedPersonalDetails extends Component {
                 onChange={this.handleAddress1}
               />
             </div>
-          </div>
 
-          <div className="sellerProfile-row">
             <div className="sellerProfile-name">
               <h6>Address 2</h6>
               <input
                 className="sellerProfile-inputbox"
                 type="text"
                 onChange={this.handleAddress2}
+              />
+            </div>
+          </div>
+
+          <div className="sellerProfile-row">
+            <div className="sellerProfile-name" style={{ width: "70%" }}>
+              <h6>Phone Number</h6>
+              <input
+                className="sellerProfile-inputbox"
+                type="text"
+                onChange={this.handlePhoneNumber}
               />
             </div>
           </div>
@@ -260,7 +258,7 @@ class UnconnectedPersonalDetails extends Component {
               />
             </div>
           </div>
-          <button className="buttonSellerProfile" type="submit">
+          <button className="sellerProfile-button" type="submit">
             <Link className="linkNext" to={"/paymentdetails"}>
               Next
             </Link>
