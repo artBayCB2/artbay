@@ -8,20 +8,26 @@ class SellerDashboard extends Component {
       artworks: []
     };
   }
-
+  componentDidMount = () => {
+    this.refresh();
+  };
   refresh = async () => {
-    let response = await fetch("/all-art");
+    let response = await fetch("/this-seller-art");
     let body = await response.text();
     console.log("body", body);
     body = JSON.parse(body);
-    this.setState({ artworks: body.artistCollect });
+    this.setState({ artworks: body.artItems });
   };
-
   render() {
     return (
       <React.Fragment>
         <div>
           <SellerDashboardOverview />
+        </div>
+        <div>
+          {this.state.artworks.map(artwork => {
+            console.log(artwork);
+          })}
         </div>
         <button onClick={this.refresh}>Refresh</button>
       </React.Fragment>

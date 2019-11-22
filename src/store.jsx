@@ -6,12 +6,6 @@ let reducer = (state, action) => {
   if (action.type === "login-success") {
     return { ...state, loggedIn: true };
   }
-  if (action.type === "sellerProfileDetails-success") {
-    return { ...state, personDetails: true };
-  }
-  if (action.type === "paymentDetails-success") {
-    return { ...state, paymentDetails: true };
-  }
   if (action.type === "artupload-success") {
     return { ...state, artupload: true };
   }
@@ -30,8 +24,6 @@ const store = createStore(
   {
     signedUp: false,
     loggedIn: false,
-    personDetails: false,
-    paymentDetails: false,
     artupload: false,
     submitSellerDetails: false,
     dashboardOverview: [],
