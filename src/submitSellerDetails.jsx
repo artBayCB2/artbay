@@ -53,9 +53,11 @@ class UnconnectedSubmitSellerDetails extends Component {
               <h6>I agree to the terms and conditions of ArtBay</h6>
             </div>
             <div>
-              <button className="sellerProfile-button" type="submit">
-                Submit
-              </button>
+              <Link to={"/seller-dashboard"}>
+                <button className="sellerProfile-button" type="submit">
+                  Submit
+                </button>
+              </Link>
             </div>
           </form>
         </div>

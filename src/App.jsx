@@ -56,7 +56,11 @@ let renderArtistCollection = rd => {
 };
 =======
 import SellerProfile from "./SellerProfile.jsx";
+<<<<<<< Updated upstream
 >>>>>>> 8e17b066cdc302aa989dd2f4fedc5ca8b7eb074d
+=======
+import SellerDashboard from "./SellerDashboard.jsx";
+>>>>>>> Stashed changes
 
 class App extends Component {
   render = () => {
@@ -103,6 +107,11 @@ class App extends Component {
             path="/seller-profile"
             component={SellerProfile}
 >>>>>>> 8e17b066cdc302aa989dd2f4fedc5ca8b7eb074d
+          />
+          <Route
+            exact={true}
+            path="/seller-dashboard"
+            component={SellerDashboard}
           />
         </div>
       </BrowserRouter>
