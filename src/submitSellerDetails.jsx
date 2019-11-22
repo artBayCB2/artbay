@@ -11,8 +11,16 @@ class UnconnectedSubmitSellerDetails extends Component {
       preview: "",
       terms: false
     };
-    this.handleProfileImageFile = this.props.handleProfileImageFile.bind(this);
+    this.handleFile = this.handleFile.bind(this);
   }
+  handleFile = event => {
+    event.preventDefault();
+    this.setState({
+      preview: URL.createObjectURL(event.target.files[0]),
+      file: event.target.files[0]
+    });
+    this.props.handleProfileImageFile(event);
+  };
   render = () => {
     return (
       <React.Fragment>
@@ -27,7 +35,7 @@ class UnconnectedSubmitSellerDetails extends Component {
               <input
                 className="sellerProfile-inputbox"
                 type="file"
-                onChange={this.props.handleProfileImageFile}
+                onChange={this.handleFile}
               />
               {this.state.file ? (
                 <img className="uploadPreview" src={this.state.preview} />
@@ -55,6 +63,5 @@ class UnconnectedSubmitSellerDetails extends Component {
     );
   };
 }
-
 let SubmitSellerDetails = connect()(UnconnectedSubmitSellerDetails);
 export default SubmitSellerDetails;

@@ -22,7 +22,6 @@ class UnconnectedArtUpload extends Component {
       quantity: "",
       price: ""
     };
-    this.handleFile = this.handleFile.bind(this);
   }
   handleFile = event => {
     event.preventDefault();

@@ -26,7 +26,6 @@ export class SellerProfile extends Component {
       paymentDetails: false,
       submitDetails: false
     };
-    this.handleProfileImageFile = this.handleProfileImageFile.bind(this);
   }
 
   handleFirstName = event => {
@@ -169,7 +168,7 @@ export class SellerProfile extends Component {
         )}
         {this.state.submitDetails ? (
           <SubmitSellerDetails
-            handleProfileImageFile={this.handleProfileImageFile}
+            handleProfileImageFile={e => this.handleProfileImageFile(e)}
             handleTermsAndConditions={this.handleTermsAndConditions}
             handleSubmitSellerProfile={this.handleSubmitSellerProfile}
           />
