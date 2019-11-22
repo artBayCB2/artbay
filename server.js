@@ -168,6 +168,7 @@ app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
       { _id: ObjectID(_sessionID) },
       {
         $set: {
+          isSeller: true,
           firstName: _firstName,
           lastName: _lastName,
           phoneNumber: _phoneNumber,
@@ -228,7 +229,7 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
 
   let _artImageURL = "/art-images/" + _artData.filename;
 
-  let _name = _artDetailsData.name ? _artDetailsData.name : "";
+  let _title = _artDetailsData.title ? _artDetailsData.title : "";
   let _artist = _artDetailsData.artist ? _artDetailsData.artist : "";
   let _category = _artDetailsData.category ? _artDetailsData.category : "";
   let _medium = _artDetailsData.medium ? _artDetailsData.medium : "";
@@ -247,10 +248,10 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
     .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
       try {
         dbo.collection("artItems").insertOne({
-          userID: user._id,
+          sellerUserID: user._id,
           artImageURL: _artImageURL,
-          name: _name,
-          email: user.email,
+          title: _title,
+          sellerEmail: user.email,
           artist: _artist,
           medium: _medium,
           category: _category,
@@ -314,15 +315,77 @@ app.get("/this-seller-art", (req, res) => {
     );
   }
 
+  let _sessionID = req.cookies.sid;
+
+  dbo
+    .collection("users")
+    .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
+      if (err) {
+        return _res.send(
+          JSON.stringify({
+            success: false,
+            message: "Unable to connect. try again."
+          })
+        );
+      }
+      if (user === null) {
+        return _res.send(
+          JSON.stringify({
+            success: false,
+            message: "Please login"
+          })
+        );
+      }
+      dbo
+        .collection("artItems")
+        .find({ userID: ObjectID(_sessionID) })
+        .toArray((err, artItems) => {
+          if (err) {
+            res.send(
+              JSON.stringify({
+                success: false,
+                message: "unable to fetch your Art items"
+              })
+            );
+          } else {
+          }
+          res.send(
+            JSON.stringify({
+              success: true,
+              message: artItems
+            })
+          );
+        });
+    });
+});
+
+app.get("/search-artItems", (req, res) => {
+  let _category = req.query.category;
+  let _price = req.query.price;
+  let _artist = req.query.artist;
+  let _query = {};
+
+  if (_category !== undefined) {
+    _query.category = _category;
+  }
+
+  if (_price !== undefined) {
+    _query.price = _price;
+  }
+
+  if (_artist !== undefined) {
+    _query.artist = _artist;
+  }
+
   dbo
     .collection("artItems")
-    .find({ userID: ObjectID(_sessionID) })
+    .find(_query)
     .toArray((err, artItems) => {
       if (err) {
         res.send(
           JSON.stringify({
             success: false,
-            message: "unable to fetch your Art items"
+            message: "unable to fetch Art items"
           })
         );
       } else {
