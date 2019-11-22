@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "./ArtCard.css";
 
 export default class ArtCard extends Component {
   render() {
     return (
-      // link to artdetails >> sent to router with ID
-      //router renders artdetail page and sends art obj to ArtDetail page
-      <div className="card center">
-        <Link to={"/artDetails/" + this.props.art.id}>
+      <div className="ArtCard-card">
+        <Link to={"/artDetails/" + this.props.art._id}>
           <div>
-            <img src={this.props.art.originalPiece} width="100px"></img>
+            <img src={this.props.art.artImageURL} width="100%"></img>
           </div>
-          <div>
+          <div className="ArtCard-container">
             <div>
               <h3>{this.props.art.artist}</h3>
             </div>

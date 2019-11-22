@@ -22,11 +22,11 @@ class UnconnectedNavBar extends Component {
         <div className="Navbar-dropdown">
           <div className="Navbar-custom-select">
             <select value={this.props.value} onChange={this.selectHandler}>
-              <option value="painting">Painting</option>
-              <option value="photography">Photography</option>
-              <option value="drawing">Drawing</option>
-              <option value="sculpture">Sculpture</option>
-              <option value="all">All</option>
+              <option value="Paintings">Paintings</option>
+              <option value="Photography">Photography</option>
+              <option value="Drawings">Drawings</option>
+              <option value="Sculpture">Sculpture</option>
+              <option value="All">All</option>
             </select>
           </div>
         </div>

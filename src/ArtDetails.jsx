@@ -1,58 +1,82 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import "./ArtDetails.css";
-
-// must fetch userdata and search for User name by id
-let userName = artistId => {
-  // fetch userDate
-
-  // let candidates = initialBuyers.filter(buyer => {
-  //   return buyer.id === artistId;
-  // });
-
-  return candidates[0].name;
-};
-
-let reviewsbyUsers = itemId => {
-  let allreviews = reviews.filter(elem => {
-    return elem.itemId === itemId;
-  });
-
-  return allreviews;
-};
+import Description from "./Description.jsx";
+import Review from "./Reviews.jsx";
 
 class UnconnectedArtDetails extends Component {
+  constructor() {
+    super();
+    this.state = {
+      art: [],
+      buttonValue: "description"
+    };
+  }
+  componentDidMount = () => {
+    this.getArtObj();
+  };
+
+  getArtObj = async () => {
+    let response = await fetch("/all-art");
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+
+    let artObj = body.message.filter(art => {
+      console.log(this.props.artID, "dsad", art._id);
+      return art._id === this.props.artID;
+    });
+
+    console.log("DSAD", artObj);
+    this.setState({
+      art: artObj[0]
+    });
+  };
+  renderDescription = () => {
+    this.setState({
+      buttonValue: "description"
+    });
+  };
+
+  renderReviews = () => {
+    this.setState({
+      buttonValue: "reviews"
+    });
+  };
+
   render() {
     return (
-      <div>
-        <div>
-          <img src={this.props.art.originalPiece} width="300px"></img>
-          <div>Artist: {this.props.art.artist}</div>
-          <div>Price: {this.props.art.price}</div>
-          <div>medium: {this.props.art.medium}</div>
-          <div>Quantity: {this.props.art.quantity}</div>
-          <div>Size: {this.props.art.size}</div>
+      <div className="detailPage">
+        <div className="topContainer">
           <div>
-            <p>Description: {this.props.art.description}</p>
+            <img src={this.state.art.artImageURL} width="40%"></img>
           </div>
-          <button onClick={addToCart(this.props.art.id)}>Add to Cart</button>
-        </div>
-
-        <div>
-          <h2>Reviews</h2>
-          <ul>
-            {reviewsbyUsers(this.props.art.id).map(review => (
+          <div>
+            <ul>
+              <li>{this.state.art.title}</li>
               <li>
-                <Link to={"/artist/" + userName(review.userId)}>
-                  {userName(review.userId)}
+                Drawing by{" "}
+                <Link to={"/artistCollection/" + this.state.art.artist}>
+                  {this.state.art.artist}
                 </Link>
-
-                <p>{review.review}</p>
               </li>
-            ))}
-          </ul>
+              <li>Reviews</li>
+            </ul>
+          </div>
+          <div>
+            <h2>${this.state.art.price}</h2>
+          </div>
+          <div></div>
         </div>
+        <div className="middleContainer">
+          <button onClick={this.renderDescription}>Description</button>
+          <button onClick={this.renderReviews}>Reviews</button>
+        </div>
+        <div className="contentContainer"></div>
+        {this.state.buttonValue === "description" ? (
+          <Description description={this.state.art.description}></Description>
+        ) : (
+          <Review userID={this.state.art._id}></Review>
+        )}
       </div>
     );
   }
