@@ -11,53 +11,15 @@ class UnconnectedSubmitSellerDetails extends Component {
       preview: "",
       terms: false
     };
-    this.handleProfileImageFile = this.handleProfileImageFile.bind(this);
+    this.handleProfileImageFile = this.props.handleProfileImageFile.bind(this);
   }
-  handleProfileImageFile = event => {
-    event.preventDefault();
-    console.log(event.target.files);
-    this.setState({
-      preview: URL.createObjectURL(event.target.files[0]),
-      file: event.target.files[0]
-    });
-  };
-  handleTermsAndConditions = event => {
-    event.preventDefault();
-    this.setState({ terms: true });
-    console.log(this.state.terms);
-  };
-  handleSubmitSellerProfile = async () => {
-    event.preventDefault();
-    console.log("handleSubmitPaymentDetails");
-    let data = new FormData();
-    data.append("file", this.state.file);
-    let response = await fetch("/seller-profile", {
-      method: "POST",
-      body: data
-    });
-    let responseBody = await response.text();
-    let body = JSON.parse(responseBody);
-    console.log(body.success);
-    if (!body.success) {
-      alert(body.message);
-      return;
-    }
-    if (body.success) {
-      alert(body.message);
-      return;
-    }
-    this.props.dispatch({
-      type: "submitSellerDetails-success"
-    });
-  };
-
   render = () => {
     return (
       <React.Fragment>
         <div className="sellerProfileContainer">
           <form
             className="sellerProfile-form"
-            onSubmit={this.handleSubmitSellerProfile}
+            onSubmit={this.props.handleSubmitSellerProfile}
           >
             <h3>Profile Picture</h3>
             <div>
@@ -65,7 +27,7 @@ class UnconnectedSubmitSellerDetails extends Component {
               <input
                 className="sellerProfile-inputbox"
                 type="file"
-                onChange={this.handleProfileImageFile}
+                onChange={this.props.handleProfileImageFile}
               />
               {this.state.file ? (
                 <img className="uploadPreview" src={this.state.preview} />
@@ -78,7 +40,7 @@ class UnconnectedSubmitSellerDetails extends Component {
               <input
                 type="checkbox"
                 defaultChecked={this.state.terms}
-                onChange={this.handleTermsAndConditions}
+                onChange={this.props.handleTermsAndConditions}
               />
               <h6>I agree to the terms and conditions of ArtBay</h6>
             </div>
@@ -94,5 +56,5 @@ class UnconnectedSubmitSellerDetails extends Component {
   };
 }
 
-let submitSellerDetails = connect()(UnconnectedSubmitSellerDetails);
-export default submitSellerDetails;
+let SubmitSellerDetails = connect()(UnconnectedSubmitSellerDetails);
+export default SubmitSellerDetails;

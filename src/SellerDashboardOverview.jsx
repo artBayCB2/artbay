@@ -1,19 +1,6 @@
 import React, { Component } from "react";
 
 class SellerDashboardOverview extends Component {
-  componentDidMount = () => {
-    let updatedDashboardOverview = async () => {
-      let response = await fetch("/");
-      let responseBody = await response.text();
-      console.log("responseBody", responseBody);
-      let parsed = JSON.parse(responseBody);
-      this.props.dispatch({
-        type: "dashboard-overview",
-        dashboardOverview: parsed
-      });
-    };
-  };
-
   render() {
     return (
       <React.Fragment>

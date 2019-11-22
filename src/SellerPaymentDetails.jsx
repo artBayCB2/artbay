@@ -12,47 +12,6 @@ class UnconnectedSellerPaymentDetails extends Component {
       accountNumber: ""
     };
   }
-  handleBankName = event => {
-    console.log("handleBankName", event.target.value);
-    this.setState({ bankName: event.target.value });
-  };
-  handleRoutingNumber = event => {
-    console.log("handleBankName", event.target.value);
-    this.setState({ routingNumber: event.target.value });
-  };
-  handleAccountNumber = event => {
-    console.log("handleAccountNumber", event.target.value);
-    this.setState({ accountNumber: event.target.value });
-  };
-  handleSubmitPaymentDetails = async () => {
-    event.preventDefault();
-    console.log("handleSubmitPaymentDetails", event.target.value);
-    let data = new FormData();
-    let bankName = this.state.bankName;
-    let routingNumber = this.state.routingNumber;
-    let accountNumber = this.state.accountNumber;
-    data.append("bankName", bankName);
-    data.append("routingNumber", routingNumber);
-    data.append("accountNumber", accountNumber);
-    let response = await fetch("/seller-profile", {
-      method: "POST",
-      body: data
-    });
-    let responseBody = await response.text();
-    let body = JSON.parse(responseBody);
-    console.log(body.success);
-    if (!body.success) {
-      alert(body.message);
-      return;
-    }
-    if (body.success) {
-      alert(body.message);
-      return;
-    }
-    this.props.dispatch({
-      type: "paymentDetails-success"
-    });
-  };
   render = () => {
     return (
       <React.Fragment>
@@ -65,7 +24,7 @@ class UnconnectedSellerPaymentDetails extends Component {
                 <input
                   className="sellerProfile-inputbox"
                   type="text"
-                  onChange={this.handleBankName}
+                  onChange={this.props.handleBankName}
                 />
               </div>
             </div>
@@ -75,7 +34,7 @@ class UnconnectedSellerPaymentDetails extends Component {
                 <input
                   className="sellerProfile-inputbox"
                   type="text"
-                  onChange={this.handleRoutingNumber}
+                  onChange={this.props.handleRoutingNumber}
                 />
               </div>
               <div className="sellerProfile-name">
@@ -83,15 +42,16 @@ class UnconnectedSellerPaymentDetails extends Component {
                 <input
                   className="sellerProfile-inputbox"
                   type="text"
-                  onChange={this.handleAccountNumber}
+                  onChange={this.props.handleAccountNumber}
                 />
               </div>
             </div>
             <div>
-              <button className="sellerProfile-button" type="submit">
-                <Link className="linkNext" to={"/submit-seller-details"}>
-                  Next
-                </Link>
+              <button
+                className="sellerProfile-button"
+                onClick={this.props.handleSubmitPaymentDetails}
+              >
+                Next
               </button>
             </div>
           </form>
