@@ -6,7 +6,7 @@ let reducer = (state, action) => {
   if (action.type === "login-success") {
     return { ...state, loggedIn: true };
   }
-  if (action.type === "personDetails-success") {
+  if (action.type === "sellerProfileDetails-success") {
     return { ...state, personDetails: true };
   }
   if (action.type === "paymentDetails-success") {

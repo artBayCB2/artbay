@@ -172,7 +172,7 @@ class UnconnectedSellerProfileDetails extends Component {
       return;
     }
     this.props.dispatch({
-      type: "personDetails-success"
+      type: "sellerProfileDetails-success"
     });
   };
 
