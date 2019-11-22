@@ -4,10 +4,12 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
 import NavBar from "./NavBar.jsx";
+import LandingPage from "./LandingPageFilter.jsx";
 import HeroImage from "./HeroImage.jsx";
 import submitSellerDetails from "./submitSellerDetails.jsx";
 import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
 import SellerProfileDetails from "./SellerProfileDetails.jsx";
+import SellerDashboard from "./SellerDashboard.jsx";
 
 class App extends Component {
   render = () => {
@@ -19,6 +21,11 @@ class App extends Component {
           <Route exact={true} path="/signup" component={SignUp} />
           <Route exact={true} path="/login" component={Login} />
           <Route exact={true} path="/artupload" component={ArtUpload} />
+          <Route
+            exact={true}
+            path="/seller-dashboard"
+            component={SellerDashboard}
+          />
           <Route
             exact={true}
             path="/submit-seller-details"

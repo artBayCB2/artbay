@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SellerDashboardOverview from "./SellerDashboardOverview.jsx";
 
 class SellerDashboard extends Component {
   constructor(props) {
@@ -13,19 +14,17 @@ class SellerDashboard extends Component {
     let body = await response.text();
     console.log("body", body);
     body = JSON.parse(body);
-    this.setState({ artworks: body.artItems });
+    this.setState({ artworks: body.artistCollect });
   };
 
   render() {
     return (
-      <div>
-        <button onClick={this.refresh}>Refresh</button>
+      <React.Fragment>
         <div>
-          {this.state.artworks.map(artwork => {
-            //need to create another component (artwork)
-          })}
+          <SellerDashboardOverview />
         </div>
-      </div>
+        <button onClick={this.refresh}>Refresh</button>
+      </React.Fragment>
     );
   }
 }
