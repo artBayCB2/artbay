@@ -65,3 +65,11 @@ h3 {
   color: white;
   text-decoration: none;
 }
+
+.uploadPreview {
+  height: 100%;
+  width: 100%;
+  padding-top: 50px;
+  box-sizing: border-box;
+  object-fit: cover;
+}

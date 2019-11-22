@@ -3,19 +3,19 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./SellerProfile.css";
 
-class UnconnectedPersonalDetails extends Component {
+class UnconnectedSellerProfileDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FirstName: "",
-      LastName: "",
-      PhoneNumber: "",
-      Address1: "",
-      Address2: "",
-      Country: "",
-      Zip: "",
-      State: "",
-      Province: ""
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address1: "",
+      address2: "",
+      country: "",
+      zip: "",
+      state: "",
+      province: ""
     };
   }
   renderStates = () => {
@@ -109,50 +109,66 @@ class UnconnectedPersonalDetails extends Component {
 
   handleFirstName = event => {
     console.log("handleFirstName", event.target.value);
-    this.setState({ FirstName: event.target.value });
+    this.setState({ firstName: event.target.value });
   };
   handleLastName = event => {
     console.log("handleLastName", event.target.value);
-    this.setState({ LastName: event.target.value });
+    this.setState({ lastName: event.target.value });
   };
   handlePhoneNumber = event => {
     console.log("handlePhoneNumber", event.target.value);
-    this.setState({ PhoneNumber: event.target.value });
+    this.setState({ phoneNumber: event.target.value });
   };
   handleAddress1 = event => {
     console.log("handleAddress1", event.target.value);
-    this.setState({ Address1: event.target.value });
+    this.setState({ address1: event.target.value });
   };
   handleAddress2 = event => {
     console.log("handleAddress2", event.target.value);
-    this.setState({ Address2: event.target.value });
+    this.setState({ address2: event.target.value });
   };
   handleState = event => {
     console.log("handleState", event.target.value);
-    this.setState({ State: event.target.value });
+    this.setState({ state: event.target.value });
   };
   handleProvince = event => {
     console.log("handleProvince", event.target.value);
-    this.setState({ Province: event.target.value });
+    this.setState({ province: event.target.value });
   };
   handleZip = event => {
     console.log("handleZip", event.target.value);
-    this.setState({ Zip: event.target.value });
+    this.setState({ zip: event.target.value });
   };
   handleCountry = event => {
     console.log("handleCountry", event.target.value);
-    this.setState({ Country: event.target.value });
+    this.setState({ country: event.target.value });
   };
-  handleSubmitPersonalDetails = async event => {
+  handleSubmitPersonalDetails = async () => {
+    console.log("handleSubmitPersonalDetails");
     event.preventDefault();
-    console.log("handleSubmitPersonalDetails", event.target.value);
-    let body = { success: true };
+    let data = new FormData();
+    data.append("firstName", this.state.firstName);
+    data.append("lastName", this.state.lastName);
+    data.append("phoneNumber", this.state.phoneNumber);
+    data.append("address1", this.state.address1);
+    data.append("address2", this.state.address2);
+    data.append("state", this.state.state);
+    data.append("province", this.state.province);
+    data.append("zip", this.state.zip);
+    data.append("country", this.state.country);
+    let response = await fetch("/seller-profile", {
+      method: "POST",
+      body: data
+    });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    console.log(body.success);
     if (!body.success) {
-      alert("Unsuccessful Personal Details Entry");
+      alert(body.message);
       return;
     }
     if (body.success) {
-      alert("Successful Personal Details Entry");
+      alert(body.message);
       return;
     }
     this.props.dispatch({
@@ -259,7 +275,7 @@ class UnconnectedPersonalDetails extends Component {
             </div>
           </div>
           <button className="sellerProfile-button" type="submit">
-            <Link className="linkNext" to={"/paymentdetails"}>
+            <Link className="linkNext" to={"/seller-payment-details"}>
               Next
             </Link>
           </button>
@@ -269,5 +285,5 @@ class UnconnectedPersonalDetails extends Component {
   };
 }
 
-let PersonalDetails = connect()(UnconnectedPersonalDetails);
-export default PersonalDetails;
+let SellerProfileDetails = connect()(UnconnectedSellerProfileDetails);
+export default SellerProfileDetails;

@@ -32,7 +32,18 @@
 
 .inputText {
   width: 100%;
-  height: 50px;
+  height: 25px;
+  margin-bottom: 25px;
+  padding: 10px;
+  color: #90999f;
+  border: 1px solid #e1e6eb;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.inputTextDesc {
+  width: 100%;
+  height: 100px;
   margin-bottom: 25px;
   padding: 10px;
   color: #90999f;
@@ -43,7 +54,7 @@
 
 .inputSelect {
   width: 100%;
-  height: 50px;
+  height: 25px;
   padding: 10px;
   box-sizing: border-box;
 }
@@ -72,10 +83,10 @@
   margin-top: 30px;
   color: #ff007a;
 }
-h6,
+
 h3 {
-  padding-top: 10px;
-  margin: 0;
+  padding: 10px;
+  margin: 10px;
 }
 
 h6 {

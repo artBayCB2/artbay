@@ -51,11 +51,11 @@ class UnconnectedSignUp extends Component {
     let body = JSON.parse(responseBody);
     console.log(body.success);
     if (!body.success) {
-      alert("Unsuccessful SignUp");
+      alert(body.message);
       return;
     }
     if (body.success) {
-      alert("Successful SignUp");
+      alert(body.message);
       return;
     }
     this.props.dispatch({
