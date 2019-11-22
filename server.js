@@ -304,6 +304,38 @@ app.get("/all-art", (req, res) => {
     });
 });
 
+app.get("/this-seller-art", (req, res) => {
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "Are you a seller? Login/Signup to see your art!"
+      })
+    );
+  }
+
+  dbo
+    .collection("artItems")
+    .find({ userID: ObjectID(_sessionID) })
+    .toArray((err, artItems) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch your Art items"
+          })
+        );
+      } else {
+      }
+      res.send(
+        JSON.stringify({
+          success: true,
+          message: artItems
+        })
+      );
+    });
+});
+
 app.all("/*", (req, res, next) => {
   // needed for react router
   res.sendFile(__dirname + "/build/index.html");
