@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ArtCard from "./ArtCart.jsx";
+import ArtCard from "./ArtCard.jsx";
+import { connect } from "react-redux";
 
 //fetch data from endpoint
 // server side or frontend ?????
