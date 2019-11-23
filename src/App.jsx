@@ -5,9 +5,6 @@ import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
 
 import NavBar from "./NavBar.jsx";
-import LandingPage from "./LandingPageFilter.jsx";
-import HeroImage from "./HeroImage.jsx";
-<<<<<<< HEAD
 import submitSellerDetails from "./submitSellerDetails.jsx";
 import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
 import SellerProfileDetails from "./SellerProfileDetails.jsx";
@@ -54,13 +51,6 @@ let renderArtistCollection = rd => {
   let artistName = rd.match.params.artistName;
   return <ArtistCollection artist={artistName}></ArtistCollection>;
 };
-=======
-import SellerProfile from "./SellerProfile.jsx";
-<<<<<<< Updated upstream
->>>>>>> 8e17b066cdc302aa989dd2f4fedc5ca8b7eb074d
-=======
-import SellerDashboard from "./SellerDashboard.jsx";
->>>>>>> Stashed changes
 
 class App extends Component {
   render = () => {
@@ -74,7 +64,6 @@ class App extends Component {
           <Route exact={true} path="/artupload" component={ArtUpload} />
           <Route
             exact={true}
-<<<<<<< HEAD
             path="/seller-dashboard"
             component={SellerDashboard}
           />
@@ -103,10 +92,6 @@ class App extends Component {
             exact={true}
             path="/seller-profile-details"
             component={SellerProfileDetails}
-=======
-            path="/seller-profile"
-            component={SellerProfile}
->>>>>>> 8e17b066cdc302aa989dd2f4fedc5ca8b7eb074d
           />
           <Route
             exact={true}

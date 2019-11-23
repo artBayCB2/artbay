@@ -32,6 +32,7 @@ app.post("/signup", upload.none(), (req, res) => {
   let _password = req.body.password;
   let _sessionID = "";
   let _res = res;
+  let _req = req;
   dbo.collection("users").findOne({ email: _email }, (err, user) => {
     if (user !== null) {
       return res.send(
@@ -52,6 +53,23 @@ app.post("/signup", upload.none(), (req, res) => {
           isSeller: false
         },
         (err, user) => {
+          if (_req.cookies !== undefined) {
+            dbo
+              .collection("cart")
+              .findOne({ cartID: _req.cookies }, (err, cart) => {
+                if (cart !== null) {
+                  dbo.collection("cart").update(
+                    { cartID: _req.cookies },
+                    {
+                      $set: {
+                        cartID: user["ops"][0]._id
+                      }
+                    }
+                  );
+                }
+              });
+          }
+
           _res.cookie("sid", user["ops"][0]._id);
           _res.send(
             JSON.stringify({
@@ -74,6 +92,7 @@ app.post("/login", upload.none(), (req, res) => {
   let _email = req.body.email;
   let _password = req.body.password;
   let _res = res;
+  let _req = req;
   dbo.collection("users").findOne({ email: _email }, (err, user) => {
     if (err) {
       return _res.send(
@@ -92,6 +111,22 @@ app.post("/login", upload.none(), (req, res) => {
       );
     }
     if (user.password === _password) {
+      if (_req.cookies !== undefined) {
+        dbo
+          .collection("cart")
+          .findOne({ cartID: _req.cookies }, (err, cart) => {
+            if (cart !== null) {
+              dbo.collection("cart").update(
+                { cartID: _req.cookies },
+                {
+                  $set: {
+                    cartID: user["ops"][0]._id
+                  }
+                }
+              );
+            }
+          });
+      }
       _res.cookie("sid", user._id);
       dbo.collection("users").update(
         { userID: user._id },
@@ -359,6 +394,7 @@ app.get("/this-seller-art", (req, res) => {
     });
 });
 
+//GET - Search Art items
 app.get("/search-artItems", (req, res) => {
   let _category = req.query.category;
   let _price = req.query.price;
@@ -394,6 +430,84 @@ app.get("/search-artItems", (req, res) => {
         JSON.stringify({
           success: true,
           message: artItems
+        })
+      );
+    });
+});
+
+// POST - cart endpoint
+app.post("/update-cart", upload.none(), (req, res) => {
+  let _res = res;
+  if (req.body === undefined || req.body.cart === []) {
+    return _res.send(
+      JSON.stringify({
+        success: false,
+        message: "Cart is empty"
+      })
+    );
+  }
+  let _cartID = "";
+  let _cart = req.body.cart;
+  if (req.cookies === undefined) {
+    _cartID = "" + Math.floor(Math.random() * 1000000);
+  } else {
+    dbo.collection("users").findOne({ _id: req.cookies.sid }, (err, user) => {
+      if (user !== null) {
+        _cartID = "" + Math.floor(Math.random() * 1000000);
+      } else {
+        _cartID = user._id;
+      }
+    });
+  }
+
+  try {
+    dbo.collection("cart").insertOne(
+      {
+        cartID: _cartID,
+        cart: _cart
+      },
+      (err, user) => {
+        _res.cookie("sid", _cartID);
+        _res.send(
+          JSON.stringify({
+            success: true,
+            message: "Cart updated successfully!"
+          })
+        );
+      }
+    );
+  } catch (e) {
+    return res.send(JSON.stringify({ success: false, message: e.toString() }));
+  }
+});
+
+//GET - get cart items
+app.get("/cart-items", (req, res) => {
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no active session, unable to fetch cart items"
+      })
+    );
+  }
+  dbo
+    .collection("cart")
+    .find({ cartID: req.cookies })
+    .toArray((err, cartItems) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch cart items"
+          })
+        );
+      } else {
+      }
+      res.send(
+        JSON.stringify({
+          success: true,
+          message: cartItems
         })
       );
     });
