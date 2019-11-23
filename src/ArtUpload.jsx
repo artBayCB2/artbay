@@ -237,9 +237,11 @@ class UnconnectedArtUpload extends Component {
                 className="inputTextDesc"
                 onChange={this.handleDescription}
               />
-              <button className="submitButton" type="submit">
-                Submit
-              </button>
+              <Link to={"/seller-dashboard"}>
+                <button className="submitButton" type="submit">
+                  Submit
+                </button>
+              </Link>
             </div>
           </div>
         </form>

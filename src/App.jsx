@@ -3,43 +3,20 @@ import { Route, BrowserRouter } from "react-router-dom";
 import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
-
 import NavBar from "./NavBar.jsx";
+<<<<<<< Updated upstream
 import submitSellerDetails from "./submitSellerDetails.jsx";
 import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
 import SellerProfileDetails from "./SellerProfileDetails.jsx";
+=======
+import LandingPage from "./LandingPageFilter.jsx";
+import HeroImage from "./HeroImage.jsx";
+>>>>>>> Stashed changes
 import SellerDashboard from "./SellerDashboard.jsx";
 import ItemsList from "./ItemsList.jsx";
 import ArtDetails from "./ArtDetails.jsx";
 import ArtistCollection from "./ArtistCollection.jsx";
-
-let renderSignUp = () => {
-  return (
-    <>
-      <SignUp></SignUp>
-    </>
-  );
-};
-
-let renderLogin = () => {
-  return (
-    <>
-      <Login></Login>
-    </>
-  );
-};
-
-let renderLandingPage = () => {
-  return (
-    <>
-      <ItemsList />
-    </>
-  );
-};
-
-let renderArtUpload = () => {
-  return <ArtUpload />;
-};
+import SellerProfile from "./SellerProfile.jsx";
 
 let renderArtDetail = rd => {
   let artId = rd.match.params.artID;
@@ -51,19 +28,23 @@ let renderArtistCollection = rd => {
   let artistName = rd.match.params.artistName;
   return <ArtistCollection artist={artistName}></ArtistCollection>;
 };
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 class App extends Component {
   render = () => {
     return (
       <BrowserRouter>
         <NavBar></NavBar>
         <div>
-          <Route exact={true} path="/" component={renderLandingPage} />
+          <Route exact={true} path="/" component={LandingPage} />
           <Route exact={true} path="/signup" component={SignUp} />
           <Route exact={true} path="/login" component={Login} />
           <Route exact={true} path="/artupload" component={ArtUpload} />
           <Route
             exact={true}
+<<<<<<< Updated upstream
             path="/seller-dashboard"
             component={SellerDashboard}
           />
@@ -79,6 +60,8 @@ class App extends Component {
           />
           <Route
             exact={true}
+=======
+>>>>>>> Stashed changes
             path="/artistCollection/:artistName"
             component={renderArtistCollection}
           />
@@ -90,8 +73,13 @@ class App extends Component {
           />
           <Route
             exact={true}
+<<<<<<< Updated upstream
             path="/seller-profile-details"
             component={SellerProfileDetails}
+=======
+            path="/seller-profile"
+            component={SellerProfile}
+>>>>>>> Stashed changes
           />
           <Route
             exact={true}

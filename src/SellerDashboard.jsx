@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SellerDashboardOverview from "./SellerDashboardOverview.jsx";
+import "./SellerDashboard.css";
 
 class SellerDashboard extends Component {
   constructor(props) {
@@ -9,27 +10,40 @@ class SellerDashboard extends Component {
     };
   }
   componentDidMount = () => {
-    this.refresh();
+    this.handleSellerItems();
   };
-  refresh = async () => {
+  handleSellerItems = async () => {
     let response = await fetch("/this-seller-art");
-    let body = await response.text();
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
     console.log("body", body);
-    body = JSON.parse(body);
-    this.setState({ artworks: body.artItems });
+    let sellerArtObject = body.message;
+    this.setState({ artworks: sellerArtObject[0] });
   };
   render() {
     return (
       <React.Fragment>
-        <div>
-          <SellerDashboardOverview />
+        <div className="sellerDashboardContainer">
+          <div className="overviewContainer">
+            SellerDashboardOverview Insert Here
+          </div>
+          <div>
+            <div>
+              <h1>My Items</h1>
+            </div>
+            <div className="myListContainer">
+              <div>
+                <img src={this.state.artworks.artImageURL} width="5%" />
+              </div>
+              <div>{this.state.artworks.dateArtUploaded}</div>
+              <div>{this.state.artworks.name}</div>
+              <div>{this.state.artworks.artist}</div>
+              <div>{this.state.artworks.category}</div>
+              <div>{this.state.artworks.quantity}</div>
+              <div>{this.state.artworks.price}</div>
+            </div>
+          </div>
         </div>
-        <div>
-          {this.state.artworks.map(artwork => {
-            console.log(artwork);
-          })}
-        </div>
-        <button onClick={this.refresh}>Refresh</button>
       </React.Fragment>
     );
   }
