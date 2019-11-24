@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Description from "./Description.jsx";
 import Review from "./Reviews.jsx";
+import NavBar from "./NavBar.jsx";
+import "./ArtDetails.css";
 
 class UnconnectedArtDetails extends Component {
   constructor() {
@@ -45,39 +47,36 @@ class UnconnectedArtDetails extends Component {
 
   render() {
     return (
-      <div className="detailPage">
-        <div className="topContainer">
-          <div>
-            <img src={this.state.art.artImageURL} width="40%"></img>
-          </div>
-          <div>
-            <ul>
-              <li>{this.state.art.title}</li>
-              <li>
+      <React.Fragment>
+        <NavBar />
+        <div className="artdetails-container">
+          <div className="artdetails-top-container">
+            <div className="artdetails-top-right-container">
+              <img src={this.state.art.artImageURL}></img>
+            </div>
+            <div className="artdetails-top-left-container">
+              <p className="artdetails-title">{this.state.art.title}</p>
+              <p className="artdetails-artist">
                 Drawing by{" "}
                 <Link to={"/artistCollection/" + this.state.art.artist}>
                   {this.state.art.artist}
                 </Link>
-              </li>
-              <li>Reviews</li>
-            </ul>
+              </p>
+              <p className="artdetails-price">${this.state.art.price}</p>
+            </div>
           </div>
-          <div>
-            <h2>${this.state.art.price}</h2>
+          <div className="middleContainer">
+            <button onClick={this.renderDescription}>Description</button>
+            <button onClick={this.renderReviews}>Reviews</button>
           </div>
-          <div></div>
+          <div className="contentContainer"></div>
+          {this.state.buttonValue === "description" ? (
+            <Description description={this.state.art.description}></Description>
+          ) : (
+            <Review userID={this.state.art._id}></Review>
+          )}
         </div>
-        <div className="middleContainer">
-          <button onClick={this.renderDescription}>Description</button>
-          <button onClick={this.renderReviews}>Reviews</button>
-        </div>
-        <div className="contentContainer"></div>
-        {this.state.buttonValue === "description" ? (
-          <Description description={this.state.art.description}></Description>
-        ) : (
-          <Review userID={this.state.art._id}></Review>
-        )}
-      </div>
+      </React.Fragment>
     );
   }
 }

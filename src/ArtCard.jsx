@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./ArtCard.css";
+import "../public/main.css";
 
 export default class ArtCard extends Component {
   constructor(props) {
