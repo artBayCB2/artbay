@@ -71,7 +71,7 @@ class UnconnectedNavBar extends Component {
           )}
           {this.props.loggedIn && (
             <div>
-              <Link to="/submit-seller-details">
+              <Link to="/seller-profile">
                 <button className="navbar-buttons">
                   <img src="/assets/ShopVector.png"></img>
                   Sell Your Art

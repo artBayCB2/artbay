@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+
 import "./SellerProfile.css";
+import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
 
 class UnconnectedSellerPaymentDetails extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class UnconnectedSellerPaymentDetails extends Component {
     return (
       <React.Fragment>
         <div className="sellerProfileContainer">
+          <FormFlowTab tabNumber={this.props.tabNumber} />
           <form className="sellerProfile-form">
             <h3>Payment Details</h3>
             <div className="sellerProfile-row">
@@ -46,7 +48,17 @@ class UnconnectedSellerPaymentDetails extends Component {
                 />
               </div>
             </div>
-            <div>
+            <p>
+              Note that payments are made within 48hours after delivery of the
+              piece
+            </p>
+            <div className="sellerProfile-button-row">
+              <button
+                className="sellerProfile-button-back"
+                onClick={this.props.previous}
+              >
+                Back
+              </button>
               <button
                 className="sellerProfile-button"
                 onClick={this.props.handleSubmitPaymentDetails}

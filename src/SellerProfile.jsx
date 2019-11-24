@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import SellerProfileDetails from "./SellerProfileDetails.jsx";
 import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
 import SubmitSellerDetails from "./submitSellerDetails.jsx";
+import NavBar from "./NavBar.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
+import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
 
 export class SellerProfile extends Component {
   constructor() {
@@ -24,7 +27,8 @@ export class SellerProfile extends Component {
       terms: false,
       profileDetails: true,
       paymentDetails: false,
-      submitDetails: false
+      submitDetails: false,
+      tabNumber: 1
     };
   }
 
@@ -67,7 +71,11 @@ export class SellerProfile extends Component {
   };
   handleSubmitPersonalDetails = () => {
     console.log("handleSubmitPersonalDetails");
-    this.setState({ profileDetails: false, paymentDetails: true });
+    this.setState({
+      profileDetails: false,
+      paymentDetails: true,
+      tabNumber: 2
+    });
   };
   handleBankName = event => {
     console.log("handleBankName", event.target.value);
@@ -84,8 +92,9 @@ export class SellerProfile extends Component {
   handleSubmitPaymentDetails = event => {
     event.preventDefault();
     console.log("handleSubmitPaymentDetails", event.target.value);
-    this.setState({ paymentDetails: false, submitDetails: true });
+    this.setState({ paymentDetails: false, submitDetails: true, tabNumber: 3 });
   };
+
   handleProfileImageFile = event => {
     event.preventDefault();
     console.log(event.target.files);
@@ -94,9 +103,9 @@ export class SellerProfile extends Component {
       file: event.target.files[0]
     });
   };
-  handleTermsAndConditions = event => {
-    event.preventDefault();
-    this.setState({ terms: true });
+  handleTermsAndConditions = () => {
+    let _terms = this.state.terms;
+    this.setState({ terms: !_terms });
     console.log(this.state.terms);
   };
   handleSubmitSellerProfile = async () => {
@@ -136,11 +145,32 @@ export class SellerProfile extends Component {
     });
   };
 
+  handleGoToPaymentDetails = () => {
+    console.log("handleSubmitPaymentDetails", event.target.value);
+    this.setState({
+      paymentDetails: true,
+      submitDetails: false,
+      profileDetails: false,
+      tabNumber: 2
+    });
+  };
+
+  handleGoToProfileDetails = () => {
+    console.log("handleSubmitPaymentDetails", event.target.value);
+    this.setState({
+      paymentDetails: false,
+      submitDetails: false,
+      profileDetails: true,
+      tabNumber: 1
+    });
+  };
+
   render = () => {
     console.log(this.state.profileDetails);
     return (
       <React.Fragment>
-        {this.state.profileDetails ? (
+        <NavBar />
+        {this.state.profileDetails && (
           <SellerProfileDetails
             handleFirstName={this.handleFirstName}
             handleLastName={this.handleLastName}
@@ -152,29 +182,30 @@ export class SellerProfile extends Component {
             handleZip={this.handleZip}
             handleCountry={this.handleCountry}
             handleSubmitPersonalDetails={this.handleSubmitPersonalDetails}
+            tabNumber={this.state.tabNumber}
           />
-        ) : (
-          <div></div>
         )}
-        {this.state.paymentDetails ? (
+        {this.state.paymentDetails && (
           <SellerPaymentDetails
             handleBankName={this.handleBankName}
             handleRoutingNumber={this.handleRoutingNumber}
             handleAccountNumber={this.handleAccountNumber}
             handleSubmitPaymentDetails={this.handleSubmitPaymentDetails}
+            previous={this.handleGoToProfileDetails}
+            tabNumber={this.state.tabNumber}
           />
-        ) : (
-          <div></div>
         )}
-        {this.state.submitDetails ? (
+        {this.state.submitDetails && (
           <SubmitSellerDetails
             handleProfileImageFile={e => this.handleProfileImageFile(e)}
             handleTermsAndConditions={this.handleTermsAndConditions}
             handleSubmitSellerProfile={this.handleSubmitSellerProfile}
+            previous={this.handleGoToPaymentDetails}
+            tabNumber={this.state.tabNumber}
           />
-        ) : (
-          <div></div>
         )}
+
+        <Footer />
       </React.Fragment>
     );
   };

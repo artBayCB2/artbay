@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./SellerProfile.css";
+import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
 
 class UnconnectedSubmitSellerDetails extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class UnconnectedSubmitSellerDetails extends Component {
     return (
       <React.Fragment>
         <div className="sellerProfileContainer">
+          <FormFlowTab tabNumber={this.props.tabNumber} />
           <form
             className="sellerProfile-form"
             onSubmit={this.props.handleSubmitSellerProfile}
@@ -37,23 +39,37 @@ class UnconnectedSubmitSellerDetails extends Component {
                 type="file"
                 onChange={this.handleFile}
               />
-              {this.state.file ? (
-                <img className="uploadPreview" src={this.state.preview} />
-              ) : (
-                <img className="uploadPreview" src="../assets/Logo1.png" />
-              )}
+              <div className="sellerProfile-button-row">
+                {this.state.file ? (
+                  <img
+                    className="sellerProfile-uploadPreview"
+                    src={this.state.preview}
+                  />
+                ) : (
+                  <img
+                    className="sellerProfile-uploadPreview"
+                    src="../assets/NoUserProfileImage.png"
+                  />
+                )}
+              </div>
             </div>
             <div className="sellerProfile-row" style={{ padding: "10px" }}>
-              <h6>Terms and Conditions</h6>
               <input
+                style={{ marginRight: "5px" }}
                 type="checkbox"
                 defaultChecked={this.state.terms}
                 onChange={this.props.handleTermsAndConditions}
               />
               <h6>I agree to the terms and conditions of ArtBay</h6>
             </div>
-            <div>
-              <Link to={"/artupload"}>
+            <div className="sellerProfile-button-row">
+              <button
+                className="sellerProfile-button-back"
+                onClick={this.props.previous}
+              >
+                Back
+              </button>
+              <Link style={{ width: "100%" }} to={"/artupload"}>
                 <button className="sellerProfile-button" type="submit">
                   Submit
                 </button>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./SellerProfile.css";
+import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
 
 class UnconnectedSellerProfileDetails extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class UnconnectedSellerProfileDetails extends Component {
     console.log("here");
     return (
       <div className="sellerProfileContainer">
+        <FormFlowTab tabNumber={this.props.tabNumber} />
         <form className="sellerProfile-form">
           <h3>Personal Details</h3>
           <div className="sellerProfile-row">

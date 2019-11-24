@@ -37,21 +37,6 @@ class App extends Component {
           <Route exact={true} path="/artupload" component={ArtUpload} />
           <Route
             exact={true}
-            path="/seller-dashboard"
-            component={SellerDashboard}
-          />
-          <Route
-            exact={true}
-            path="/submit-seller-details"
-            component={submitSellerDetails}
-          />
-          <Route
-            exact={true}
-            path="/seller-payment-details"
-            component={SellerPaymentDetails}
-          />
-          <Route
-            exact={true}
             path="/artistCollection/:artistName"
             component={renderArtistCollection}
           />
@@ -63,8 +48,6 @@ class App extends Component {
           />
           <Route
             exact={true}
-            path="/seller-profile-details"
-            component={SellerProfileDetails}
             path="/seller-profile"
             component={SellerProfile}
           />
