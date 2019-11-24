@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import ArtCard from "./ArtCard.jsx";
 
+<<<<<<< Updated upstream
 import { connect } from "react-redux";
+=======
+>>>>>>> Stashed changes
 //fetch data from endpoint
 // server side or frontend ?????
 let getArtCollection = async artistName => {
