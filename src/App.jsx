@@ -4,14 +4,7 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
 import NavBar from "./NavBar.jsx";
-<<<<<<< Updated upstream
-import submitSellerDetails from "./submitSellerDetails.jsx";
-import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
-import SellerProfileDetails from "./SellerProfileDetails.jsx";
-import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
-=======
 import LandingPage from "./LandingPageFilter.jsx";
->>>>>>> Stashed changes
 import HeroImage from "./HeroImage.jsx";
 import SellerDashboard from "./SellerDashboard.jsx";
 import ItemsList from "./ItemsList.jsx";
@@ -29,10 +22,7 @@ let renderArtistCollection = rd => {
   let artistName = rd.match.params.artistName;
   return <ArtistCollection artist={artistName}></ArtistCollection>;
 };
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 class App extends Component {
   render = () => {
     return (

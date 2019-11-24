@@ -18,8 +18,10 @@ class SellerDashboard extends Component {
     let body = JSON.parse(responseBody);
     console.log("body", body);
     let sellerArtObject = body.message;
+    console.log("message", sellerArtObject);
     this.setState({ artworks: sellerArtObject[0] });
   };
+
   render() {
     return (
       <React.Fragment>
