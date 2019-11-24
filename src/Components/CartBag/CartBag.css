@@ -1,0 +1,21 @@
+.cartbag-container {
+  display: flex;
+}
+
+.cartbag-itemcount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  text-align: center;
+  margin: -5px 0 0 -5px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #ff007a;
+  border-radius: 50%;
+  color: white;
+  padding: 5px;
+  width: 18px;
+  height: 18px;
+}

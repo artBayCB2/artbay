@@ -23,10 +23,17 @@ import "./HeroImage.css";
 export default class HeroImage extends Component {
   render() {
     return (
-      <div class="hero-image">
-        <div class="hero-text">
-          <p>Shop original art from independent artists around the world</p>
+      <div className="hero-image">
+        <div className="hero-message">
+          Shop original art from independent artists around the world
         </div>
+
+        <img
+          style={{ paddingTop: "10px", color: "white" }}
+          height="40px"
+          width="60px"
+          src="../assets/ArrowDownIcon.png"
+        />
       </div>
     );
   }

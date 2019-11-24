@@ -13,3 +13,11 @@ body {
   color: 90999f;
   opacity: 0.5; /* Firefox */
 }
+
+a:link {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

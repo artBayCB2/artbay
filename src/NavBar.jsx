@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import "./NavBar.css";
+import CartBag from "./Components/CartBag/CartBag.jsx";
 
 class UnconnectedNavBar extends Component {
   searchHandler = evt => {};
@@ -14,60 +15,76 @@ class UnconnectedNavBar extends Component {
   };
 
   render() {
+    console.log(this.props.loggedIn);
     return (
-      <div className="Navbar-navbar">
-        <Link to={"/"}>
-          <img className="Navbar-logo" src="../assets/NavLogo.png" />
-        </Link>
-        <div className="Navbar-dropdown">
-          <div className="Navbar-custom-select">
-            <select value={this.props.value} onChange={this.selectHandler}>
-              <option value="Paintings">Paintings</option>
-              <option value="Photography">Photography</option>
-              <option value="Drawings">Drawings</option>
-              <option value="Sculpture">Sculpture</option>
-              <option value="All">All</option>
-            </select>
+      <div className="navbar-row">
+        <div className="navbar-left-elements">
+          <div>
+            <Link to={"/"}>
+              <img
+                // style={{ paddingTop: "10px" }}
+                height="60px"
+                width="60px"
+                src="../assets/Logo1.png"
+              />
+            </Link>
+          </div>
+          <div className="navbar-search-bar">
+            <div
+              style={{
+                width: "30%",
+                borderRight: "1px solid rgba(53, 79, 139, 0.5)"
+              }}
+            >
+              <select value={this.props.value} onChange={this.selectHandler}>
+                <option value="All">All Art</option>
+                <option value="Paintings">Paintings</option>
+                <option value="Photography">Photography</option>
+                <option value="Drawings">Drawings</option>
+                <option value="Sculpture">Sculpture</option>
+              </select>
+            </div>
+            <input
+              type="text"
+              placeholder="Search.."
+              name="search"
+              onChange={this.searchHandler}
+            />
+            <img height="15px" width="18px" src="../assets/SearchIcon.png" />
           </div>
         </div>
-        <div className="Navbar-search-container">
-          <form onSubmit={this.searchHandler}>
-            <input type="text" placeholder="Search.." name="search" />
-            <button type="submit">
-              <i className="fa fa-search"></i>
-            </button>
-          </form>
-        </div>
-        <div>
-          {this.props.loggedIn ? (
+
+        <div className="navbar-right-elements">
+          {!this.props.loggedIn && (
             <div>
-              <Link to="/sell">
-                <button>
-                  <img src="/assets/ShopVector.png"></img>
-                  Sell
-                </button>
+              <Link className="navbar-LoginSignUp" to="/login">
+                Login
               </Link>
-              <div>
-                <Link to="/cart">
-                  <img src="/assets/ShopVector.png"></img>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <div>
-                <Link to="/login">Login</Link>
-              </div>
-              <div>
-                <Link to="/signup">Signup</Link>
-              </div>
-              <div>
-                <Link to="/cart">
-                  <img src="/assets/ShopVector.png"></img>
-                </Link>
-              </div>
             </div>
           )}
+          {!this.props.loggedIn && (
+            <div>
+              <Link className="navbar-LoginSignUp" to="/signup">
+                Sign Up
+              </Link>
+            </div>
+          )}
+          {this.props.loggedIn && (
+            <div>
+              <Link to="/submit-seller-details">
+                <button className="navbar-buttons">
+                  <img src="/assets/ShopVector.png"></img>
+                  Sell Your Art
+                </button>
+              </Link>
+            </div>
+          )}
+
+          <div>
+            <Link to="/cart">
+              <CartBag />
+            </Link>
+          </div>
         </div>
       </div>
     );

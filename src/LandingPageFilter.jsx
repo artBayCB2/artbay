@@ -1,41 +1,49 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import "./LandingPageFilter.css";
 
 class UnconnectedlandingPageFilter extends Component {
   changeSearchValue = value => {
+    console.log(value);
     this.props.dispatch({
       type: "change-NavBar-Value",
-      searchValue: value
+      value: value
     });
   };
 
   render() {
     return (
-      <div className="PageFilterRec">
+      <div className="pageFilter-Row">
         <button
           className="painting-btn"
-          onClick={this.changeSearchValue("Painting")}
+          onClick={() => this.changeSearchValue("All")}
+        >
+          All Art
+        </button>
+        <button
+          className="painting-btn"
+          onClick={() => this.changeSearchValue("Paintings")}
         >
           Painting
         </button>
 
         <button
           className="photography-btn"
-          onClick={this.changeSearchValue("Photography")}
+          onClick={() => this.changeSearchValue("Photography")}
         >
           Photography
         </button>
         <button
           className="drawing-btn"
-          onClick={this.changeSearchValue("Drawing")}
+          onClick={() => this.changeSearchValue("Drawings")}
         >
           Drawing
         </button>
 
         <button
           className="sculpture-btn"
-          onClick={this.changeSearchValue("Sculpture")}
+          onClick={() => this.changeSearchValue("Sculpture")}
         >
           Sculpture
         </button>

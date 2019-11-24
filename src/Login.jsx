@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class UnconnectedLogin extends Component {
   constructor(props) {
@@ -37,12 +38,13 @@ class UnconnectedLogin extends Component {
       return;
     }
     if (body.success) {
-      alert(body.message);
+      // alert(body.message);
+      this.props.dispatch({
+        type: "login-success"
+      });
+      this.props.history.push("/");
       return;
     }
-    this.props.dispatch({
-      type: "login-success"
-    });
   };
   render = () => {
     return (
@@ -62,7 +64,9 @@ class UnconnectedLogin extends Component {
                 Login to a world of quality and authentic art
               </span>
             </div>
-            <img height="60px" width="60px" src="../assets/Logo1.png" />
+            <Link to={"/"}>
+              <img height="60px" width="60px" src="../assets/Logo1.png" />
+            </Link>
           </div>
           <form onSubmit={this.handleLoginSubmit}>
             <div>
@@ -70,7 +74,7 @@ class UnconnectedLogin extends Component {
               <input
                 className="login-inputbox"
                 placeholder="enter your email"
-                type="text"
+                type="email"
                 onChange={this.handleLoginEmail}
               />
             </div>
@@ -90,7 +94,7 @@ class UnconnectedLogin extends Component {
             </div>
           </form>
           <div className="login-signuplink">
-            Don't have an account? <Link to={"/"}>Sign Up here</Link>
+            Don't have an account? <Link to={"/signup"}>Sign Up here</Link>
           </div>
         </div>
       </div>
@@ -99,4 +103,4 @@ class UnconnectedLogin extends Component {
 }
 
 let Login = connect()(UnconnectedLogin);
-export default Login;
+export default withRouter(Login);

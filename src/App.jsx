@@ -4,14 +4,11 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
 import NavBar from "./NavBar.jsx";
-<<<<<<< Updated upstream
 import submitSellerDetails from "./submitSellerDetails.jsx";
 import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
 import SellerProfileDetails from "./SellerProfileDetails.jsx";
-=======
-import LandingPage from "./LandingPageFilter.jsx";
+import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import HeroImage from "./HeroImage.jsx";
->>>>>>> Stashed changes
 import SellerDashboard from "./SellerDashboard.jsx";
 import ItemsList from "./ItemsList.jsx";
 import ArtDetails from "./ArtDetails.jsx";
@@ -28,15 +25,11 @@ let renderArtistCollection = rd => {
   let artistName = rd.match.params.artistName;
   return <ArtistCollection artist={artistName}></ArtistCollection>;
 };
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 class App extends Component {
   render = () => {
     return (
       <BrowserRouter>
-        <NavBar></NavBar>
         <div>
           <Route exact={true} path="/" component={LandingPage} />
           <Route exact={true} path="/signup" component={SignUp} />
@@ -44,7 +37,6 @@ class App extends Component {
           <Route exact={true} path="/artupload" component={ArtUpload} />
           <Route
             exact={true}
-<<<<<<< Updated upstream
             path="/seller-dashboard"
             component={SellerDashboard}
           />
@@ -60,8 +52,6 @@ class App extends Component {
           />
           <Route
             exact={true}
-=======
->>>>>>> Stashed changes
             path="/artistCollection/:artistName"
             component={renderArtistCollection}
           />
@@ -73,13 +63,10 @@ class App extends Component {
           />
           <Route
             exact={true}
-<<<<<<< Updated upstream
             path="/seller-profile-details"
             component={SellerProfileDetails}
-=======
             path="/seller-profile"
             component={SellerProfile}
->>>>>>> Stashed changes
           />
           <Route
             exact={true}

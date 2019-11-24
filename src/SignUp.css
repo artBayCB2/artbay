@@ -1,4 +1,4 @@
-.container {
+.signup-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,14 +9,14 @@
   margin: 0;
 }
 
-.leftChildContainer {
-  width: 300px;
+.signup-leftChildContainer {
+  width: 400px;
   margin-right: 100px;
   color: #354f8b;
 }
-.rightChildContainer {
+.signup-rightChildContainer {
   text-align: left;
-  width: 300px;
+  width: 400px;
   padding: 50px;
   background: #ffffff;
   border: 1px solid #e1e6eb;
@@ -56,21 +56,21 @@
   margin-top: 30px;
   color: #ff007a;
 }
-h6,
-h3 {
+.signup-container h6,
+.signup-container h3 {
   padding-top: 0;
   margin: 0;
 }
 
-h6 {
+.signup-container h6 {
   color: #90999f;
 }
 
-h5 {
+.signup-container h5 {
   margin-left: 20px;
 }
 
-.row {
+.signup-row {
   display: flex;
   justify-content: center;
   align-items: center;

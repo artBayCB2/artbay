@@ -65,18 +65,20 @@ class UnconnectedSignUp extends Component {
 
   render = () => {
     return (
-      <div className="container">
-        <div className="leftChildContainer">
-          <img height="60px" width="60px" src="../assets/Logo1.png" />
+      <div className="signup-container">
+        <div className="signup-leftChildContainer">
+          <Link to={"/"}>
+            <img height="60px" width="60px" src="../assets/Logo1.png" />
+          </Link>
           <h3 style={{ fontSize: "25px" }}>
             Discover a collection of unique and stylish artwork
           </h3>
           <div style={{ padding: "30px 0 0 30px" }}>
-            <div className="row">
+            <div className="signup-row">
               <img height="20px" width="30px" src="../assets/CheckMark.png" />
               <h5>Find various artwork to reinvent your home with style</h5>
             </div>
-            <div className="row">
+            <div className="signup-row">
               <img height="20px" width="30px" src="../assets/CheckMark.png" />
               <h5>
                 Explore a wide selection of work from artiest around the world
@@ -84,7 +86,7 @@ class UnconnectedSignUp extends Component {
             </div>
           </div>
         </div>
-        <div className="rightChildContainer">
+        <div className="signup-rightChildContainer">
           <form onSubmit={this.handleSignUpSubmit}>
             <h3 style={{ color: "#354f8b", marginBottom: "40px" }}>
               Join ArtBay

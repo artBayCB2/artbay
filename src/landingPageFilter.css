@@ -1,9 +1,33 @@
-.PageFilterRec {
-  position: absolute;
-  width: 1440px;
-  height: 95px;
-  left: 0px;
-  top: 678px;
+.pageFilter-Row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-color: #f9f9fa;
+  border-bottom: 1px solid rgba(53, 79, 139, 0.5);
+  border-top: 1px solid rgba(53, 79, 139, 0.5);
+  margin: 0;
+  padding: 30px;
+  box-sizing: border-box;
+}
 
-  background: #f9f9fa;
+.pageFilter-Row button {
+  background: transparent;
+  font-weight: bold;
+  color: rgba(53, 79, 139, 0.5);
+  cursor: pointer;
+  text-align: center;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #e1e6eb;
+  box-sizing: border-box;
+  border-radius: 10px;
+  text-transform: none;
+  margin: 0 30px 0 30px;
+}
+
+.pageFilter-Row button:hover {
+  color: #ffffff;
+  background-color: #354f8b;
 }

@@ -11,7 +11,7 @@
 
 .login-form {
   text-align: left;
-  width: 300px;
+  width: 400px;
   padding: 50px;
   background: #ffffff;
   border: 1px solid #e1e6eb;
@@ -53,17 +53,17 @@
   margin-top: 30px;
   color: #ff007a;
 }
-h6,
-h3 {
+.login-container h6,
+.login-container h3 {
   padding-top: 0;
   margin: 0;
 }
 
-h6 {
+.login-container h6 {
   color: #90999f;
 }
 
-h5 {
+.login-container h5 {
   margin-left: 20px;
 }
 

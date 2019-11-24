@@ -39,13 +39,41 @@ class UnconnectedItemsList extends Component {
   };
 
   render() {
+    let _column1 = [];
+    let _column2 = [];
+    let _column3 = [];
+    let _column4 = [];
+
+    for (let i = 0; i < this.state.posts.length; i++) {
+      if (i % 0) {
+        _column1.push(this.state.posts[i]);
+      }
+      if (i % 1) {
+        _column2.push(this.state.posts[i]);
+      }
+      if (i % 2) {
+        _column3.push(this.state.posts[i]);
+      }
+      if (i % 3) {
+        _column4.push(this.state.posts[i]);
+      }
+    }
+
+    console.log(
+      _column1.length,
+      _column2.length,
+      _column3.length,
+      _column4.length
+    );
+
     return (
-      <div className="artlists">
+      <div className="artlists-rows ">
         {this.state.posts.map(artCard => {
-          {
-            console.log(artCard);
-          }
-          return <ArtCard art={artCard}></ArtCard>;
+          return (
+            <div>
+              <ArtCard className="rrr" art={artCard} />
+            </div>
+          );
         })}
       </div>
     );
