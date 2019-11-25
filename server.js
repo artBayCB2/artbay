@@ -488,7 +488,9 @@ app.get("/search-artItems", (req, res) => {
 // POST - update cart endpoint
 app.post("/update-cart", upload.none(), (req, res) => {
   let _res = res;
-  if (req.body === undefined || req.body.cart === []) {
+  let _req = req;
+  let _rNum = Math.floor(Math.random() * 1000000);
+  if (_req.body === undefined || _req.body.cart === []) {
     return _res.send(
       JSON.stringify({
         success: false,
@@ -496,71 +498,73 @@ app.post("/update-cart", upload.none(), (req, res) => {
       })
     );
   }
-  let _cartID = "";
-  let _thisCart = req.body.cart;
-  let _cart = [];
-  if (req.cookies === undefined) {
-    _cartID = "" + Math.floor(Math.random() * 1000000);
-  } else {
-    dbo.collection("users").findOne({ _id: req.cookies.sid }, (err, user) => {
-      if (user !== null) {
-        _cartID = "" + Math.floor(Math.random() * 1000000);
-      } else {
-        _cartID = user._id;
-      }
-    });
-  }
 
-  dbo.collection("cart").findOne({ cartID: req.cookies.sid }, (err, cart) => {
-    if (err || cart === null) {
-      _cart.push(_thisCart);
-      try {
-        dbo.collection("cart").insertOne(
-          {
-            cartID: _cartID,
-            cart: _cart
-          },
-          (err, user) => {
-            _res.cookie("sid", _cartID);
-            _res.send(
-              JSON.stringify({
-                success: true,
-                message: "Cart updated successfully!"
-              })
-            );
-            return;
-          }
-        );
-      } catch (e) {
-        return res.send(
-          JSON.stringify({ success: false, message: e.toString() })
-        );
-      }
-    } else {
-      _cart = [...cart.cart];
-      _cart.push(_thisCart);
-      try {
-        dbo.collection("cart").update(
-          { cartID: _req.cookies },
-          {
-            $set: {
-              cart: _cart
+  let _cartID = "";
+  let _thisCart = _req.body.cart;
+  let _cart = [];
+  if (_req.cookies === undefined) {
+    _cartID = _rNum;
+  } else {
+    dbo
+      .collection("users")
+      .findOne({ _id: ObjectID(_req.cookies.sid) }, (err, user) => {
+        if (user === null) {
+          _cartID = _rNum;
+        } else {
+          _cartID = user._id;
+        }
+
+        dbo.collection("cart").findOne({ cartID: _cartID }, (err, cart) => {
+          if (err || cart === null) {
+            _cart.push(_thisCart);
+            try {
+              dbo.collection("cart").insertOne(
+                {
+                  cartID: _cartID,
+                  cart: _cart
+                },
+                (err, user) => {
+                  _res.send(
+                    JSON.stringify({
+                      success: true,
+                      message: "Cart updated successfully!"
+                    })
+                  );
+                  return;
+                }
+              );
+            } catch (e) {
+              return res.send(
+                JSON.stringify({ success: false, message: e.toString() })
+              );
+            }
+          } else {
+            _cart = [...cart.cart];
+            _cart.push(_thisCart);
+            try {
+              dbo.collection("cart").update(
+                { cartID: ObjectID(_req.cookies.sid) },
+                {
+                  $set: {
+                    cart: _cart
+                  }
+                }
+              );
+              return _res.send(
+                JSON.stringify({
+                  success: true,
+                  message: "Cart updated successfully!"
+                })
+              );
+            } catch (e) {
+              return res.send(
+                JSON.stringify({ success: false, message: e.toString() })
+              );
             }
           }
-        );
-        return _res.send(
-          JSON.stringify({
-            success: true,
-            message: "Cart updated successfully!"
-          })
-        );
-      } catch (e) {
-        return res.send(
-          JSON.stringify({ success: false, message: e.toString() })
-        );
-      }
-    }
-  });
+        });
+      });
+  }
 });
 
 //GET - get cart items

@@ -22,7 +22,7 @@ export default class ArtCard extends Component {
   addtoCart = async () => {
     let data = new FormData();
 
-    data.append("cart", this.props.art);
+    data.append("cart", JSON.stringify(this.props.art));
     let response = await fetch("/update-cart", { method: "POST", body: data });
     let responseBody = await response.text();
     console.log("sasas", responseBody);
