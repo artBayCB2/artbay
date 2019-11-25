@@ -5,6 +5,8 @@ import Description from "./Description.jsx";
 import Review from "./Reviews.jsx";
 import NavBar from "./NavBar.jsx";
 import "./ArtDetails.css";
+import ReviewStars from "./Components/ReviewStars/ReviewStars.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
 
 class UnconnectedArtDetails extends Component {
   constructor() {
@@ -51,10 +53,10 @@ class UnconnectedArtDetails extends Component {
         <NavBar />
         <div className="artdetails-container">
           <div className="artdetails-top-container">
-            <div className="artdetails-top-right-container">
+            <div className="artdetails-top-left-container">
               <img src={this.state.art.artImageURL}></img>
             </div>
-            <div className="artdetails-top-left-container">
+            <div className="artdetails-top-right-container">
               <p className="artdetails-title">{this.state.art.title}</p>
               <p className="artdetails-artist">
                 Drawing by{" "}
@@ -62,6 +64,10 @@ class UnconnectedArtDetails extends Component {
                   {this.state.art.artist}
                 </Link>
               </p>
+              <div className="artdetails-review-row">
+                <ReviewStars reviewstars={0} />
+                <div style={{ marginLeft: "10px" }}>No reviews</div>
+              </div>
               <p className="artdetails-price">${this.state.art.price}</p>
             </div>
           </div>
@@ -76,6 +82,7 @@ class UnconnectedArtDetails extends Component {
             <Review userID={this.state.art._id}></Review>
           )}
         </div>
+        <Footer />
       </React.Fragment>
     );
   }

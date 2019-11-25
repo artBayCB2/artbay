@@ -1,52 +1,75 @@
 .artdetails-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   align-content: center;
   width: 100%;
   height: 100%;
-  margin: 50px 0 0 0;
+  margin: 150px 0 0 0;
   box-sizing: border-box;
-  background-color: red;
 }
 
 .artdetails-top-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  align-content: center;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
 }
 
-.artdetails-top-right-container {
-  margin: 100px 50px;
+.artdetails-top-left-container {
+  /* display: flex;
+  height: 300px;
+  width: 300px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  align-content: center; */
 }
 
-.artdetails-top-right-container img {
-  width: 300px;
+.artdetails-top-left-container img {
   height: 300px;
   border-radius: 10px;
 }
 
-.artdetails-top-left-container {
-  margin: 100px 50px;
+.artdetails-top-right-container {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  width: 300px;
+  box-sizing: border-box;
+  padding: 50px;
 }
 
-.artdetails-top-left-container .artdetails-title {
+.artdetails-top-right-container .artdetails-title {
   color: #90999f;
   font-size: 18px;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
 }
 
-.artdetails-top-left-container .artdetails-artist {
+.artdetails-top-right-container .artdetails-artist {
   color: #90999f;
   font-size: 12px;
+  margin: 0;
+  padding: 0;
 }
 
-.artdetails-top-left-container .artdetails-price {
+.artdetails-top-right-container .artdetails-price {
   color: #3e5aa0;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
+  margin: 50px 0 0 0;
+  padding: 0;
+}
+
+.artdetails-review-row {
+  display: flex;
+  font-size: 10px;
+  color: #90999f;
+  margin-top: 20px;
+  align-items: center;
+  align-content: center;
 }
