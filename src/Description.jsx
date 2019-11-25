@@ -1,11 +1,8 @@
 import React, { Component } from "react";
+import "./Description.css";
 
 export default class Description extends Component {
   render() {
-    return (
-      <>
-        <p>{this.props.description}</p>
-      </>
-    );
+    return <p className="description-p">{this.props.description}</p>;
   }
 }
