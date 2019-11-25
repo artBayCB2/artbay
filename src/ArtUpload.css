@@ -1,50 +1,126 @@
-.container {
+.artupload-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* justify-content: center; */
   align-items: center;
   align-content: center;
   width: 100%;
   height: 100vh;
   min-height: 100%;
-  margin: 0;
+  margin: 100px 0 0 0;
+  padding: 0 100px;
 }
 
-.leftChildContainer {
-  width: 300px;
-  margin-right: 100px;
-  color: #354f8b;
+.artupload-container h3 {
+  color: #ff007a;
+  /* width: 100%; */
 }
-.rightChildContainer {
+
+.artupload-form {
+  display: flex;
+  justify-content: center;
+  /* align-items: center;
+  align-content: center; */
   text-align: left;
-  width: 300px;
   padding: 50px;
   background: #ffffff;
   border: 1px solid #e1e6eb;
   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
 }
-.originalPieceCheckBox {
+
+.artupload-leftChildContainer {
+  width: 350px;
+  color: #354f8b;
+  padding-right: 50px;
+}
+
+.artupload-inputText {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 25px;
+  padding: 10px;
+  color: #90999f;
+  border: 1px solid #e1e6eb;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.artupload-row {
   display: flex;
+  justify-content: space-between;
+}
+
+.artupload-row div {
+  width: 48%;
+}
+
+.artupload-checkbox-row {
+  display: flex;
+  width: 100% !important;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.artupload-row .artupload-quantity {
+  width: 30% !important;
+}
+
+.artupload-row .artupload-price {
+  width: 65% !important;
+}
+
+.artupload-rightChildContainer {
+  width: 350px;
+  color: #354f8b;
+}
+
+.artupload-upload {
+  border: 1px solid #e1e6eb;
+  padding: 10px;
+}
+
+.artupload-upload-button {
+  width: 100%;
+  /* height: 30px; */
+  margin-bottom: 25px;
+  padding: 10px;
+  color: #90999f;
+  border: 1px solid #e1e6eb;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.artupload-leftChildContainer h6,
+.artupload-rightChildContainer h6 {
+  color: #90999f;
+  margin: 0 0 3px 0;
+  padding: 0;
+}
+
+.artupload-preview {
+  width: 100%;
+  margin-top: 10px;
+  box-sizing: border-box;
+  object-fit: cover;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   align-content: center;
 }
 
-.inputText {
-  width: 100%;
-  height: 25px;
-  margin-bottom: 25px;
-  padding: 10px;
-  color: #90999f;
-  border: 1px solid #e1e6eb;
-  box-sizing: border-box;
-  border-radius: 3px;
+.artupload-preview img {
+  width: 100px;
 }
 
-.inputTextDesc {
+.artupload-description-inputText {
   width: 100%;
   height: 100px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   padding: 10px;
   color: #90999f;
   border: 1px solid #e1e6eb;
@@ -52,13 +128,7 @@
   border-radius: 3px;
 }
 
-.inputSelect {
-  width: 100%;
-  height: 25px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-.submitButton {
+.artupload-submitButton {
   width: 100%;
   height: 50px;
   box-sizing: border-box;
@@ -69,13 +139,23 @@
   font-weight: bold;
 }
 
-.uploadPreview {
-  height: 100%;
+/* .inputTextDesc {
   width: 100%;
-  padding-top: 50px;
+  height: 100px;
+  margin-bottom: 25px;
+  padding: 10px;
+  color: #90999f;
+  border: 1px solid #e1e6eb;
   box-sizing: border-box;
-  object-fit: cover;
-}
+  border-radius: 3px;
+} */
+
+/* .inputSelect {
+  width: 100%;
+  height: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+} */
 
 .loginHere {
   font-size: 12px;
@@ -84,13 +164,9 @@
   color: #ff007a;
 }
 
-h3 {
+.leftChildContainer h3 {
   padding: 10px;
   margin: 10px;
-}
-
-h6 {
-  color: #90999f;
 }
 
 h5 {
