@@ -43,7 +43,7 @@ class UnconnectedArtDetails extends Component {
   addtoCart = async () => {
     let data = new FormData();
 
-    data.append("cart", this.state.art);
+    data.append("cart", JSON.stringify(this.state.art));
     let response = await fetch("/update-cart", { method: "POST", body: data });
     let responseBody = await response.text();
     console.log("sasas", responseBody);

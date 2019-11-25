@@ -9,6 +9,7 @@ import ArtistCollection from "./ArtistCollection.jsx";
 import ArtDetails from "./ArtDetails.jsx";
 import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import SellerProfile from "./SellerProfile.jsx";
+import CartDropDown from "./CartDropDown.jsx";
 import { connect } from "react-redux";
 
 let renderArtDetail = rd => {
@@ -57,6 +58,7 @@ class UnconnectedApp extends Component {
           <Route exact={true} path="/signup" component={SignUp} />
           <Route exact={true} path="/login" component={Login} />
           <Route exact={true} path="/artupload" component={ArtUpload} />
+          <Route exact={true} path="/cart" component={CartDropDown} />
           <Route
             exact={true}
             path="/artistCollection/:artistName"

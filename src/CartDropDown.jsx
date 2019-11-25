@@ -1,16 +1,28 @@
 import React, { Component } from "react";
 
-//fetching cart items (artId)
-let cartItem = () => {
-  let cart = [];
-  return cart;
-};
-
-let getArtObj = artId => {
-  // fetching art obj
-};
-
 export default class CartDropDown extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: []
+    };
+  }
+
+  componentDidMount() {
+    this.cartItem();
+  }
+
+  cartItem = async () => {
+    let response = await fetch("/get-cart-items");
+    let responseBody = await response.text();
+    console.log("CART!!!!", responseBody);
+    let body = JSON.parse(responseBody.message);
+
+    this.setState({
+      cart: body
+    });
+  };
+
   render() {
     return (
       <div className="CartDropDown-container">
@@ -18,9 +30,9 @@ export default class CartDropDown extends Component {
           <h3>Your Cart</h3>
         </div>
         <div className="CartDropDown-itemContainer">
-          {cartItem().map(artId => {
+          {this.state.cart.map(art => {
             <div className="CartDropDown-CartCard">
-              <CartItemDropdown artID={getArtObj(artId)}></CartItemDropdown>;
+              <CartItemDropdown artItem={art}></CartItemDropdown>;
             </div>;
           })}
         </div>
