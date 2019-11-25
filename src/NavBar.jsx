@@ -5,7 +5,12 @@ import "./NavBar.css";
 import CartBag from "./Components/CartBag/CartBag.jsx";
 
 class UnconnectedNavBar extends Component {
-  searchHandler = evt => {};
+  searchHandler = evt => {
+    this.props.dispatch({
+      type: "change-NavBar-SearchValue",
+      value: evt.target.value
+    });
+  };
 
   selectHandler = evt => {
     this.props.dispatch({

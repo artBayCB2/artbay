@@ -1,0 +1,15 @@
+.ArtistCollection-container {
+  margin-top: 100px;
+}
+.artistCollection-rows {
+  columns: 400px;
+  column-gap: 10px;
+
+  padding: 4em;
+  box-sizing: border-box;
+}
+
+.artistCollection-rows div {
+  break-inside: avoid-column;
+  margin-bottom: 1rem;
+}

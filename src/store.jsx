@@ -16,6 +16,13 @@ let reducer = (state, action) => {
     return { ...state, searchValue: action.value };
   }
 
+  if (action.type === "change-NavBar-SearchValue") {
+    return { ...state, searchInput: action.value };
+  }
+  if (action.type === "change-ArtItems") {
+    return { ...state, artItems: action.value };
+  }
+
   return state;
 };
 
@@ -27,7 +34,10 @@ const store = createStore(
     artupload: false,
     submitSellerDetails: false,
     dashboardOverview: [],
-    searchValue: "All"
+    artItems: [],
+    searchValue: "All",
+    searchInput: "",
+    loading: true
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

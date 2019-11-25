@@ -8,13 +8,17 @@ import "./ArtDetails.css";
 import ReviewStars from "./Components/ReviewStars/ReviewStars.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 
+import LoadingOverlay from "react-loading-overlay";
+import "./ArtDetails.css";
+
 class UnconnectedArtDetails extends Component {
   constructor() {
     super();
     this.state = {
       art: [],
       buttonValue: "description",
-      quantity: 1
+      quantity: 1,
+      loading: true
     };
   }
   componentDidMount = () => {
@@ -27,15 +31,19 @@ class UnconnectedArtDetails extends Component {
     let body = JSON.parse(responseBody);
 
     let artObj = body.message.filter(art => {
-      console.log(this.props.artID, "dsad", art._id);
       return art._id === this.props.artID;
     });
 
-    console.log("DSAD", artObj);
     this.setState({
-      art: artObj[0]
+      art: artObj[0],
+      loading: false
     });
   };
+
+  addtoCart = async () => {
+    let response = await fetch("");
+  };
+
   renderDescription = () => {
     this.setState({
       buttonValue: "description"
@@ -59,62 +67,140 @@ class UnconnectedArtDetails extends Component {
   };
 
   increaseQuantity = () => {
-    let _quantity = this.state.quantity + 1;
-    this.setState({
-      quantity: _quantity
-    });
+    if (this.state.art.originalPiece) {
+      let _quantity = this.state.quantity;
+      this.setState({
+        quantity: _quantity
+      });
+    }
+
+    if (!this.state.art.originalPiece) {
+      let _quantity = this.state.quantity + 1;
+
+      if (_quantity <= this.state.art.quantity) {
+        this.setState({
+          quantity: _quantity
+        });
+      }
+    }
   };
 
   render() {
     return (
-      <React.Fragment>
-        <NavBar />
-        <div className="artdetails-container">
-          <div className="artdetails-top-container">
-            <div className="artdetails-top-left-container">
-              <img src={this.state.art.artImageURL}></img>
-            </div>
-            <div className="artdetails-top-right-container">
-              <p className="artdetails-title">{this.state.art.title}</p>
-              <p className="artdetails-artist">
-                {this.state.art.category} by{" "}
-                <Link to={"/artistCollection/" + this.state.art.artist}>
-                  {this.state.art.artist}
-                </Link>
-              </p>
-              <div className="artdetails-review-row">
-                <ReviewStars reviewstars={0} />
-                <div style={{ marginLeft: "10px" }}>No reviews</div>
-              </div>
-              <p className="artdetails-price">${this.state.art.price}</p>
-              <div className="artdetails-submit-cart-row">
-                <div className="artdetails-submit-cart-row-left">
-                  <button onClick={this.reduceQuantity}>-</button>
-                  {this.state.quantity}
-                  <button onClick={this.increaseQuantity}>+</button>
+      <>
+        {this.state.loading ? (
+          <LoadingOverlay
+            active={this.state.loading}
+            spinner
+            text="Loading your content..."
+            styles={{
+              wrapper: {
+                width: "400px",
+                height: "400px",
+                overflow: this.state.loading ? "hidden" : "scroll"
+              }
+            }}
+          >
+            <React.Fragment>
+              <NavBar />
+              <div className="artdetails-container">
+                <div className="artdetails-top-container">
+                  <div className="artdetails-top-left-container">
+                    <img src={this.state.art.artImageURL}></img>
+                  </div>
+                  <div className="artdetails-top-right-container">
+                    <p className="artdetails-title">{this.state.art.title}</p>
+                    <p className="artdetails-artist">
+                      {this.state.art.category} by{" "}
+                      <Link to={"/artistCollection/" + this.state.art.artist}>
+                        {this.state.art.artist}
+                      </Link>
+                    </p>
+                    <div className="artdetails-review-row">
+                      <ReviewStars reviewstars={0} />
+                      <div style={{ marginLeft: "10px" }}>No reviews</div>
+                    </div>
+                    <p className="artdetails-price">${this.state.art.price}</p>
+                    <div className="artdetails-submit-cart-row">
+                      <div className="artdetails-submit-cart-row-left">
+                        <button onClick={this.reduceQuantity}>-</button>
+                        {this.state.quantity}
+                        <button onClick={this.increaseQuantity}>+</button>
+                      </div>
+                      <div className="artdetails-submit-cart-row-right">
+                        <button onClick={this.addtoCart}>Add to Basket</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="artdetails-submit-cart-row-right">
-                  <button>Add to Basket</button>
+                <div className="artdetails-middle-container">
+                  <button onClick={this.renderDescription}>Description</button>
+                  <button onClick={this.renderReviews}>Reviews</button>
+                </div>
+                <div className="artdetails-middle-content-container">
+                  {this.state.buttonValue === "description" ? (
+                    <Description
+                      description={this.state.art.description}
+                    ></Description>
+                  ) : (
+                    <Review userID={this.state.art._id}></Review>
+                  )}
                 </div>
               </div>
+              <Footer />
+            </React.Fragment>
+          </LoadingOverlay>
+        ) : (
+          <React.Fragment>
+            <NavBar />
+            <div className="artdetails-container">
+              <div className="artdetails-top-container">
+                <div className="artdetails-top-left-container">
+                  <img src={this.state.art.artImageURL}></img>
+                </div>
+                <div className="artdetails-top-right-container">
+                  <p className="artdetails-title">{this.state.art.title}</p>
+                  <p className="artdetails-artist">
+                    {this.state.art.category} by{" "}
+                    <Link to={"/artistCollection/" + this.state.art.artist}>
+                      {this.state.art.artist}
+                    </Link>
+                  </p>
+                  <div className="artdetails-review-row">
+                    <ReviewStars reviewstars={0} />
+                    <div style={{ marginLeft: "10px" }}>No reviews</div>
+                  </div>
+                  <p className="artdetails-price">${this.state.art.price}</p>
+                  <div className="artdetails-submit-cart-row">
+                    <div className="artdetails-submit-cart-row-left">
+                      <button onClick={this.reduceQuantity}>-</button>
+                      {this.state.quantity}
+                      <button onClick={this.increaseQuantity}>+</button>
+                    </div>
+                    <div className="artdetails-submit-cart-row-right">
+                      <button>Add to Basket</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="artdetails-middle-container">
+                <button onClick={this.renderDescription}>Description</button>
+                <button onClick={this.renderReviews}>Reviews</button>
+              </div>
+              <div className="artdetails-middle-content-container">
+                {this.state.buttonValue === "description" ? (
+                  <Description
+                    description={this.state.art.description}
+                  ></Description>
+                ) : (
+                  <Review userID={this.state.art._id}></Review>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="artdetails-middle-container">
-            <button onClick={this.renderDescription}>Description</button>
-            <button onClick={this.renderReviews}>Reviews</button>
-          </div>
-          <div className="artdetails-middle-content-container">
-            {this.state.buttonValue === "description" ? (
-              <Description
-                description={this.state.art.description}
-              ></Description>
-            ) : (
-              <Review userID={this.state.art._id}></Review>
-            )}
-          </div>
-        </div>
-        <Footer />
-      </React.Fragment>
+            <Footer />
+          </React.Fragment>
+        )}
+      </>
     );
   }
 }

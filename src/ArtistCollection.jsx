@@ -2,44 +2,100 @@ import React, { Component } from "react";
 import ArtCard from "./ArtCard.jsx";
 
 import { connect } from "react-redux";
-//fetch data from endpoint
-// server side or frontend ?????
-let getArtCollection = async artistName => {
-  let response = await fetch("/search-artItems?artist=" + artistName);
-  let reponsebody = await reponsebody.text();
+import "./ArtistCollection.css";
 
-  body = JSON.parse(reponsebody);
-  return body.message;
-};
-
-let artistCollection = artistName => {
-  let allArtCollection = getArtCollection(artistName);
-
-  let artistCollect = artCollection.filter(art => {
-    return art.artistName === artistName;
-  });
-
-  return artistCollect;
-};
+import LoadingOverlay from "react-loading-overlay";
 
 class UnconnectedArtistCollection extends Component {
+  constructor() {
+    super();
+    this.state = {
+      collection: [],
+      loading: true
+    };
+  }
+
+  componentDidMount = () => {
+    this.setArtCollection();
+  };
+
+  setArtCollection = async () => {
+    let response = await fetch("/search-artItems?artist=" + this.props.artist);
+    let reponsebody = await response.text();
+
+    let body = JSON.parse(reponsebody);
+
+    console.log("test", body);
+
+    let artistCollect = body.message.filter(art => {
+      return art.artist === this.props.artist;
+    });
+
+    console.log("test", artistCollect);
+    this.setState({
+      collection: artistCollect,
+      loading: false
+    });
+  };
+
+  artistCollection = () => {};
+
   render() {
     return (
-      <div>
-        <div>
-          <div>Artist: {this.props.artist}</div>
-        </div>
-        <div>
-          <h2>Collection</h2>
-          <div>
-            {artistCollection(this.props.artist).map(artElm => {
+      <>
+        {this.state.loading ? (
+          <LoadingOverlay
+            active={true}
+            spinner
+            text="Loading your content..."
+            styles={{
+              wrapper: {
+                width: "400px",
+                height: "400px",
+                overflow: this.state.loading ? "hidden" : "scroll"
+              }
+            }}
+          >
+            <div className="ArtistCollection-container">
               <div>
-                <ArtCard art={artElm}></ArtCard>;
-              </div>;
-            })}
+                <div>Artist: {this.props.artist}</div>
+              </div>
+              <div>
+                <h2>Collection</h2>
+                <div className="artistCollection-rows">
+                  {console.log(this.state.collection)}
+                  {this.state.collection.map(artElm => {
+                    return (
+                      <div>
+                        <ArtCard art={artElm}></ArtCard>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </LoadingOverlay>
+        ) : (
+          <div className="ArtistCollection-container">
+            <div>
+              <div>Artist: {this.props.artist}</div>
+            </div>
+            <div>
+              <h2>Collection</h2>
+              <div className="artistCollection-rows">
+                {console.log(this.state.collection)}
+                {this.state.collection.map(artElm => {
+                  return (
+                    <div>
+                      <ArtCard art={artElm}></ArtCard>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </>
     );
   }
 }
