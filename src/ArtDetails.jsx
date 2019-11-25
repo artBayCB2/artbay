@@ -13,7 +13,8 @@ class UnconnectedArtDetails extends Component {
     super();
     this.state = {
       art: [],
-      buttonValue: "description"
+      buttonValue: "description",
+      quantity: 1
     };
   }
   componentDidMount = () => {
@@ -47,6 +48,23 @@ class UnconnectedArtDetails extends Component {
     });
   };
 
+  reduceQuantity = () => {
+    let _quantity = this.state.quantity - 1;
+    if (_quantity < 1) {
+      _quantity = 1;
+    }
+    this.setState({
+      quantity: _quantity
+    });
+  };
+
+  increaseQuantity = () => {
+    let _quantity = this.state.quantity + 1;
+    this.setState({
+      quantity: _quantity
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -59,7 +77,7 @@ class UnconnectedArtDetails extends Component {
             <div className="artdetails-top-right-container">
               <p className="artdetails-title">{this.state.art.title}</p>
               <p className="artdetails-artist">
-                Drawing by{" "}
+                {this.state.art.category} by{" "}
                 <Link to={"/artistCollection/" + this.state.art.artist}>
                   {this.state.art.artist}
                 </Link>
@@ -69,18 +87,31 @@ class UnconnectedArtDetails extends Component {
                 <div style={{ marginLeft: "10px" }}>No reviews</div>
               </div>
               <p className="artdetails-price">${this.state.art.price}</p>
+              <div className="artdetails-submit-cart-row">
+                <div className="artdetails-submit-cart-row-left">
+                  <button onClick={this.reduceQuantity}>-</button>
+                  {this.state.quantity}
+                  <button onClick={this.increaseQuantity}>+</button>
+                </div>
+                <div className="artdetails-submit-cart-row-right">
+                  <button>Add to Basket</button>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="middleContainer">
+          <div className="artdetails-middle-container">
             <button onClick={this.renderDescription}>Description</button>
             <button onClick={this.renderReviews}>Reviews</button>
           </div>
-          <div className="contentContainer"></div>
-          {this.state.buttonValue === "description" ? (
-            <Description description={this.state.art.description}></Description>
-          ) : (
-            <Review userID={this.state.art._id}></Review>
-          )}
+          <div className="artdetails-middle-content-container">
+            {this.state.buttonValue === "description" ? (
+              <Description
+                description={this.state.art.description}
+              ></Description>
+            ) : (
+              <Review userID={this.state.art._id}></Review>
+            )}
+          </div>
         </div>
         <Footer />
       </React.Fragment>
