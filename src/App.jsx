@@ -14,11 +14,7 @@ import { connect } from "react-redux";
 let renderArtDetail = rd => {
   let artId = rd.match.params.artID;
 
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <ArtDetails artID={artId}></ArtDetails>;
-    </Suspense>
-  );
+  return <ArtDetails artID={artId}></ArtDetails>;
 };
 
 let renderArtistCollection = rd => {

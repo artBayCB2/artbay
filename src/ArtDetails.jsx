@@ -41,7 +41,12 @@ class UnconnectedArtDetails extends Component {
   };
 
   addtoCart = async () => {
-    let response = await fetch("");
+    let data = new FormData();
+
+    data.append("cart", this.state.art);
+    let response = await fetch("/update-cart", { method: "POST", body: data });
+    let responseBody = await response.text();
+    console.log("sasas", responseBody);
   };
 
   renderDescription = () => {
@@ -178,7 +183,7 @@ class UnconnectedArtDetails extends Component {
                       <button onClick={this.increaseQuantity}>+</button>
                     </div>
                     <div className="artdetails-submit-cart-row-right">
-                      <button>Add to Basket</button>
+                      <button onClick={this.addtoCart}>Add to Basket</button>
                     </div>
                   </div>
                 </div>

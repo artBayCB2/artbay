@@ -19,6 +19,15 @@ export default class ArtCard extends Component {
     });
   };
 
+  addtoCart = async () => {
+    let data = new FormData();
+
+    data.append("cart", this.props.art);
+    let response = await fetch("/update-cart", { method: "POST", body: data });
+    let responseBody = await response.text();
+    console.log("sasas", responseBody);
+  };
+
   render() {
     return (
       <div className="artcard-card">
@@ -43,7 +52,8 @@ export default class ArtCard extends Component {
                   src="../assets/FavIconFalse.png"
                 />
               )}
-              <img src="../assets/CartIcon.png" />
+
+              <img onClick={this.addtoCart} src="../assets/CartIcon.png" />
             </div>
           </div>
         </div>

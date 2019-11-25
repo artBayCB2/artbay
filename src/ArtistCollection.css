@@ -1,4 +1,4 @@
-.ArtistCollection-container {
+.artistCollection-container {
   margin-top: 100px;
 }
 .artistCollection-rows {
@@ -12,4 +12,13 @@
 .artistCollection-rows div {
   break-inside: avoid-column;
   margin-bottom: 1rem;
+}
+
+.artistCollection-title {
+  text-align: center;
+  color: #90999f;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
 }

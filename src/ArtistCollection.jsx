@@ -58,10 +58,9 @@ class UnconnectedArtistCollection extends Component {
           >
             <div className="ArtistCollection-container">
               <div>
-                <div>Artist: {this.props.artist}</div>
+                <div>{this.props.artist}</div>
               </div>
               <div>
-                <h2>Collection</h2>
                 <div className="artistCollection-rows">
                   {console.log(this.state.collection)}
                   {this.state.collection.map(artElm => {
@@ -76,12 +75,11 @@ class UnconnectedArtistCollection extends Component {
             </div>
           </LoadingOverlay>
         ) : (
-          <div className="ArtistCollection-container">
+          <div className="artistCollection-container">
             <div>
-              <div>Artist: {this.props.artist}</div>
+              <div className="artistCollection-title">{this.props.artist}</div>
             </div>
             <div>
-              <h2>Collection</h2>
               <div className="artistCollection-rows">
                 {console.log(this.state.collection)}
                 {this.state.collection.map(artElm => {

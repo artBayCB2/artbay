@@ -76,6 +76,11 @@
   align-content: center;
 }
 
+.artcard-details-icons button {
+  background: transparent;
+  border: none;
+}
+
 .artcard-details-icons img {
   width: 20px;
   height: 20px;
