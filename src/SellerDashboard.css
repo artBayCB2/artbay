@@ -16,13 +16,27 @@
   align-content: center;
   width: 100%;
 }
+
 .myListContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  width: 100%;
-  padding: 10px;
-  margin: 10px;
-  font-size: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.div1 {
+  grid-area: 3 / 2 / 4 / 3;
+}
+.div2 {
+  grid-area: 3 / 3 / 4 / 4;
+}
+.div3 {
+  grid-area: 3 / 4 / 4 / 5;
+}
+.div4 {
+  grid-area: 3 / 1 / 4 / 2;
+}
+.div5 {
+  grid-area: 3 / 5 / 4 / 6;
 }

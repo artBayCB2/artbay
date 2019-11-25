@@ -15,14 +15,13 @@ class SellerDashboard extends Component {
   };
 
   handleSellerItems = async () => {
-    let response = await fetch("/all-art");
+    let response = await fetch("/this-seller-art");
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     console.log("body", body);
-    let sellerArtObject = body.message;
-    console.log("message", sellerArtObject);
-    console.log(body.message._sessionID);
-    return this.setState({ artworks: sellerArtObject });
+    let sellerArtworks = body.message;
+    this.setState({ artworks: sellerArtworks });
+    console.log("message", sellerArtworks);
   };
 
   render() {
@@ -37,15 +36,19 @@ class SellerDashboard extends Component {
               <h1>My Items</h1>
             </div>
             <div className="myListContainer">
-              <div>
-                <img src={this.state.artworks.artImageURL} width="5%" />
-              </div>
-              <div>{this.state.artworks.dateArtUploaded}</div>
-              <div>{this.state.artworks.name}</div>
-              <div>{this.state.artworks.artist}</div>
-              <div>{this.state.artworks.category}</div>
-              <div>{this.state.artworks.quantity}</div>
-              <div>{this.state.artworks.price}</div>
+              {this.state.artworks.map(art => {
+                return (
+                  <div>
+                    <div className="div1">
+                      <img src={art.artImageURL} width="10%" />
+                    </div>
+                    <div className="div2">{art.name}</div>
+                    <div className="div3">{art.artist}</div>
+                    <div className="div4">{art.category}</div>
+                    <div className="div5">{art.quantity}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div>
