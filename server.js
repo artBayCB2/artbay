@@ -390,6 +390,7 @@ app.get("/all-art", (req, res) => {
     });
 });
 
+// GET - get seller art items
 app.get("/this-seller-art", (req, res) => {
   if (req.cookies === undefined) {
     return res.send(
@@ -401,7 +402,7 @@ app.get("/this-seller-art", (req, res) => {
   }
 
   let _sessionID = req.cookies.sid;
-  console.log(_sessionID);
+
   dbo
     .collection("users")
     .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
@@ -445,7 +446,7 @@ app.get("/this-seller-art", (req, res) => {
 });
 
 //GET - Search Art items
-app.get("/search-artItems", (req, res) => {
+app.get("/seller-data", (req, res) => {
   let _category = req.query.category;
   let _price = req.query.price;
   let _artist = req.query.artist;
