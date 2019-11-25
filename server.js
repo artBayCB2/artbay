@@ -10,6 +10,8 @@ let authData = require("./AuthData");
 let artDataUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
 
+let noProfileURL = "/art-images/3cc9855205bf04b5c340dbbadf97ecf9";
+
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
   dbo = db.db(authData.dataBase);
@@ -25,6 +27,40 @@ app.use(
   "/profile-images",
   express.static(__dirname + "/images/profile-images")
 );
+
+app.get("/check-status", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+  if (_req.cookies === undefined) {
+    return _res.send(
+      JSON.stringify({
+        loggedIn: false
+      })
+    );
+  } else {
+    _sessionID = req.cookies.sid;
+    dbo
+      .collection("users")
+      .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
+        if (err || user === null) {
+          console.log("response", false);
+          return _res.send(
+            JSON.stringify({
+              loggedIn: false
+            })
+          );
+        }
+
+        console.log("response", true);
+        return _res.send(
+          JSON.stringify({
+            loggedIn: true,
+            profileImageURL: user.profileImageURL
+          })
+        );
+      });
+  }
+});
 
 // POST - signup endpoint
 app.post("/signup", upload.none(), (req, res) => {
@@ -50,7 +86,8 @@ app.post("/signup", upload.none(), (req, res) => {
           password: _password,
           dateJoined: Date(Date.now()).toString(),
           dateOfLastLogin: Date(Date.now()).toString(),
-          isSeller: false
+          isSeller: false,
+          profileImageURL: noProfileURL
         },
         (err, user) => {
           if (_req.cookies !== undefined) {
@@ -270,9 +307,9 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
   let _medium = _artDetailsData.medium ? _artDetailsData.medium : "";
   let _originalPiece = _artDetailsData.originalPiece
     ? _artDetailsData.originalPiece
-    : "";
-  let _quantity = _artDetailsData.quantity ? _artDetailsData.quantity : "";
-  let _price = _artDetailsData.price ? _artDetailsData.price : "";
+    : false;
+  let _quantity = _artDetailsData.quantity ? _artDetailsData.quantity : 1;
+  let _price = _artDetailsData.price ? _artDetailsData.price : 0.0;
   let _style = _artDetailsData.style ? _artDetailsData.style : "";
   let _subject = _artDetailsData.subject ? _artDetailsData.subject : "";
   let _material = _artDetailsData.material ? _artDetailsData.material : "";
@@ -435,7 +472,7 @@ app.get("/search-artItems", (req, res) => {
     });
 });
 
-// POST - cart endpoint
+// POST - update cart endpoint
 app.post("/update-cart", upload.none(), (req, res) => {
   let _res = res;
   if (req.body === undefined || req.body.cart === []) {
@@ -447,7 +484,8 @@ app.post("/update-cart", upload.none(), (req, res) => {
     );
   }
   let _cartID = "";
-  let _cart = req.body.cart;
+  let _thisCart = req.body.cart;
+  let _cart = [];
   if (req.cookies === undefined) {
     _cartID = "" + Math.floor(Math.random() * 1000000);
   } else {
@@ -460,29 +498,60 @@ app.post("/update-cart", upload.none(), (req, res) => {
     });
   }
 
-  try {
-    dbo.collection("cart").insertOne(
-      {
-        cartID: _cartID,
-        cart: _cart
-      },
-      (err, user) => {
-        _res.cookie("sid", _cartID);
-        _res.send(
+  dbo.collection("cart").findOne({ cartID: req.cookies.sid }, (err, cart) => {
+    if (err || cart === null) {
+      _cart.push(_thisCart);
+      try {
+        dbo.collection("cart").insertOne(
+          {
+            cartID: _cartID,
+            cart: _cart
+          },
+          (err, user) => {
+            _res.cookie("sid", _cartID);
+            _res.send(
+              JSON.stringify({
+                success: true,
+                message: "Cart updated successfully!"
+              })
+            );
+            return;
+          }
+        );
+      } catch (e) {
+        return res.send(
+          JSON.stringify({ success: false, message: e.toString() })
+        );
+      }
+    } else {
+      _cart = [...cart.cart];
+      _cart.push(_thisCart);
+      try {
+        dbo.collection("cart").update(
+          { cartID: _req.cookies },
+          {
+            $set: {
+              cart: _cart
+            }
+          }
+        );
+        return _res.send(
           JSON.stringify({
             success: true,
             message: "Cart updated successfully!"
           })
         );
+      } catch (e) {
+        return res.send(
+          JSON.stringify({ success: false, message: e.toString() })
+        );
       }
-    );
-  } catch (e) {
-    return res.send(JSON.stringify({ success: false, message: e.toString() }));
-  }
+    }
+  });
 });
 
 //GET - get cart items
-app.get("/cart-items", (req, res) => {
+app.get("/get-cart-items", (req, res) => {
   if (req.cookies === undefined) {
     return res.send(
       JSON.stringify({
