@@ -29,14 +29,14 @@ class SellerDashboard extends Component {
     return (
       <React.Fragment>
         <NavBar />
+        <SellerDashboardOverview />
         <div className="sellerDashboardContainer">
-          <div>Dashboard</div>
           <div>
             <h1>My Items</h1>
             <div>
               <Link to={"/artupload"}>Upload Art</Link>
             </div>
-            <div className="myListHeader">
+            <div className="myListItemHeader">
               <div>Art Preview</div>
               <div>Title</div>
               <div>Artist Name</div>
@@ -44,17 +44,19 @@ class SellerDashboard extends Component {
               <div>Quantity</div>
             </div>
             <div className="myListItemContainer">
-              {this.state.artworks.map(art => {
-                return (
-                  <div className="myListItems">
-                    <img src={art.artImageURL} width="10%" />
-                    <div>{art.title}</div>
-                    <div>{art.artist}</div>
-                    <div>{art.category}</div>
-                    <div>{art.quantity}</div>
-                  </div>
-                );
-              })}
+              <div>
+                {this.state.artworks.map(art => {
+                  return (
+                    <div className="myListItemBody">
+                      <img src={art.artImageURL} width="50%" />
+                      <div>{art.title}</div>
+                      <div>{art.artist}</div>
+                      <div>{art.category}</div>
+                      <div>{art.quantity}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

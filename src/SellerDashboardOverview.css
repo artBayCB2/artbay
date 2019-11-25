@@ -1,42 +1,36 @@
-.sellerDashboardContainer {
+.overviewContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-content: center;
   width: 100%;
-  height: 100vh;
-  min-height: 100%;
-  padding: 50px;
-  margin: 0;
+  padding-top: 100px;
+  margin: 10px, 0px, 10px, 0px;
   box-sizing: border-box;
 }
-.myListItemContainer {
-  overflow: scroll;
+.overviewHeader {
   display: grid;
-  grid-template-rows: auto auto;
-  height: 350px;
-  box-sizing: border-box;
-}
-.myListItemHeader {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   align-items: center;
   align-content: center;
   justify-items: center;
   width: 100%;
-  padding-bottom: 10px;
+  padding: 10px;
   box-sizing: border-box;
 }
-.myListItemBody {
+
+.overviewBody {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   align-items: center;
   align-content: center;
   justify-items: center;
   width: 100%;
   height: 100%;
-  margin: 10px, 0px, 10px, 0px;
   padding: 10px;
+  border-width: 1px;
+  border-color: red;
+  border-style: dashed;
   box-sizing: border-box;
 }
