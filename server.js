@@ -43,7 +43,6 @@ app.get("/check-status", upload.none(), (req, res) => {
       .collection("users")
       .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {
         if (err || user === null) {
-          console.log("response", false);
           return _res.send(
             JSON.stringify({
               loggedIn: false
@@ -51,11 +50,25 @@ app.get("/check-status", upload.none(), (req, res) => {
           );
         }
 
-        console.log("response", true);
+        let _cartItems = [];
+
+        dbo
+          .collection("cart")
+          .find({ cartID: _sessionID })
+          .toArray((err, cartItems) => {
+            if (err) {
+              _cartItems = [];
+            } else {
+            }
+
+            _cartItems = cartItems;
+          });
+
         return _res.send(
           JSON.stringify({
             loggedIn: true,
-            profileImageURL: user.profileImageURL
+            profileImageURL: user.profileImageURL,
+            cartItems: _cartItems
           })
         );
       });

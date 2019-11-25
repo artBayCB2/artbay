@@ -22,7 +22,7 @@ let renderArtistCollection = rd => {
   return <ArtistCollection artist={artistName}></ArtistCollection>;
 };
 class UnconnectedApp extends Component {
-  searchType = async () => {
+  checkStatus = async () => {
     let response = await fetch("/check-status");
     let body = await response.text();
 
@@ -34,11 +34,21 @@ class UnconnectedApp extends Component {
       this.props.dispatch({
         type: "login-success"
       });
+
+      this.props.dispatch({
+        type: "update-profile-img",
+        value: body.profileImageURL
+      });
+
+      this.props.dispatch({
+        type: "update-cart",
+        value: body.cartItems
+      });
     }
   };
 
   render = () => {
-    this.searchType();
+    this.checkStatus();
     return (
       <BrowserRouter>
         <NavBar></NavBar>

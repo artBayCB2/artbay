@@ -22,6 +22,12 @@ let reducer = (state, action) => {
   if (action.type === "change-ArtItems") {
     return { ...state, artItems: action.value };
   }
+  if (action.type === "update-profile-img") {
+    return { ...state, profileImageURL: action.value };
+  }
+  if (action.type === "update-cart") {
+    return { ...state, cartItems: action.value };
+  }
 
   return state;
 };
@@ -37,7 +43,9 @@ const store = createStore(
     artItems: [],
     searchValue: "All",
     searchInput: "",
-    loading: true
+    loading: true,
+    profileImageURL: "/art-images/3cc9855205bf04b5c340dbbadf97ecf9",
+    cartItems: []
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

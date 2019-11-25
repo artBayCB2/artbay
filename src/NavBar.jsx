@@ -90,13 +90,20 @@ class UnconnectedNavBar extends Component {
               <CartBag />
             </Link>
           </div>
+          {this.props.loggedIn && (
+            <img height="50px" src={this.props.profileImageURL} />
+          )}
         </div>
       </div>
     );
   }
 }
 let mapStateToProps = state => {
-  return { loggedIn: state.loggedIn, value: state.searchValue };
+  return {
+    loggedIn: state.loggedIn,
+    value: state.searchValue,
+    profileImageURL: state.profileImageURL
+  };
 };
 let NavBar = connect(mapStateToProps)(UnconnectedNavBar);
 
