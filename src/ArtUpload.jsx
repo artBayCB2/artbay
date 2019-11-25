@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./ArtUpload.css";
+import { withRouter } from "react-router-dom";
 
 class UnconnectedArtUpload extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class UnconnectedArtUpload extends Component {
     this.state = {
       file: "",
       preview: "",
-      name: "",
+      title: "",
       artist: "",
       description: "",
       category: "",
@@ -33,7 +34,7 @@ class UnconnectedArtUpload extends Component {
   };
   handleTitle = event => {
     event.preventDefault();
-    this.setState({ name: event.target.value });
+    this.setState({ title: event.target.value });
   };
   handleArtistName = event => {
     event.preventDefault();
@@ -84,7 +85,7 @@ class UnconnectedArtUpload extends Component {
     event.preventDefault();
     let data = new FormData();
     data.append("file", this.state.file);
-    data.append("name", this.state.name);
+    data.append("title", this.state.title);
     data.append("artist", this.state.artist);
     data.append("description", this.state.description);
     data.append("category", this.state.category);
@@ -110,12 +111,13 @@ class UnconnectedArtUpload extends Component {
       return;
     }
     if (body.success) {
-      alert(body.message);
+      // alert(body.message);
+      this.props.history.push("/seller-dashboard");
+      this.props.dispatch({
+        type: "artupload-success"
+      });
       return;
     }
-    this.props.dispatch({
-      type: "artupload-success"
-    });
   };
 
   render() {
@@ -237,11 +239,10 @@ class UnconnectedArtUpload extends Component {
                 className="inputTextDesc"
                 onChange={this.handleDescription}
               />
-              <Link to={"/seller-dashboard"}>
-                <button className="submitButton" type="submit">
-                  Submit
-                </button>
-              </Link>
+
+              <button className="submitButton" type="submit">
+                Submit
+              </button>
             </div>
           </div>
         </form>

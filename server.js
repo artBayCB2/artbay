@@ -373,7 +373,7 @@ app.get("/this-seller-art", (req, res) => {
       }
       dbo
         .collection("artItems")
-        .find({ userID: ObjectID(_sessionID) })
+        .find({ sellerUserID: ObjectID(_sessionID) })
         .toArray((err, artItems) => {
           if (err) {
             res.send(
