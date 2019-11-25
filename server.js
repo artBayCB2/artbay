@@ -580,7 +580,7 @@ app.get("/get-cart-items", (req, res) => {
   }
   dbo
     .collection("cart")
-    .find({ cartID: req.cookies })
+    .find({ cartID: ObjectID(req.cookies.sid) })
     .toArray((err, cartItems) => {
       if (err) {
         res.send(
