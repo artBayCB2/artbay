@@ -8,7 +8,6 @@ import SellerDashboard from "./SellerDashboard.jsx";
 import ArtistCollection from "./ArtistCollection.jsx";
 import ArtDetails from "./ArtDetails.jsx";
 import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
-import ArtistCollection from "./ArtistCollection.jsx";
 import SellerProfile from "./SellerProfile.jsx";
 import { connect } from "react-redux";
 
