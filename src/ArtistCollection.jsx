@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ArtCard from "./ArtCard.jsx";
-import { connect } from "react-redux";
 
+import { connect } from "react-redux";
 //fetch data from endpoint
 // server side or frontend ?????
 let getArtCollection = async artistName => {

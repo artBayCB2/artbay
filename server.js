@@ -351,7 +351,7 @@ app.get("/this-seller-art", (req, res) => {
   }
 
   let _sessionID = req.cookies.sid;
-
+  console.log(_sessionID);
   dbo
     .collection("users")
     .findOne({ _id: ObjectID(_sessionID) }, (err, user) => {

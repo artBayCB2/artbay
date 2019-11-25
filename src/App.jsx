@@ -4,7 +4,10 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import ArtUpload from "./ArtUpload.jsx";
 import NavBar from "./NavBar.jsx";
-import LandingPage from "./LandingPageFilter.jsx";
+import submitSellerDetails from "./submitSellerDetails.jsx";
+import SellerPaymentDetails from "./SellerPaymentDetails.jsx";
+import SellerProfileDetails from "./SellerProfileDetails.jsx";
+import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
 import HeroImage from "./HeroImage.jsx";
 import SellerDashboard from "./SellerDashboard.jsx";
 import ItemsList from "./ItemsList.jsx";
@@ -49,7 +52,7 @@ class App extends Component {
           />
           <Route
             exact={true}
-            path="/seller-dashboard"
+            path="/seller-dashboard/"
             component={SellerDashboard}
           />
         </div>

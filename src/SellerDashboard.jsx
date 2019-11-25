@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SellerDashboardOverview from "./SellerDashboardOverview.jsx";
 import "./SellerDashboard.css";
+import { Link } from "react-router-dom";
 
 class SellerDashboard extends Component {
   constructor(props) {
@@ -12,14 +13,16 @@ class SellerDashboard extends Component {
   componentDidMount = () => {
     this.handleSellerItems();
   };
+
   handleSellerItems = async () => {
-    let response = await fetch("/this-seller-art");
+    let response = await fetch("/all-art");
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     console.log("body", body);
     let sellerArtObject = body.message;
     console.log("message", sellerArtObject);
-    this.setState({ artworks: sellerArtObject[0] });
+    console.log(body.message._sessionID);
+    return this.setState({ artworks: sellerArtObject });
   };
 
   render() {
@@ -44,6 +47,9 @@ class SellerDashboard extends Component {
               <div>{this.state.artworks.quantity}</div>
               <div>{this.state.artworks.price}</div>
             </div>
+          </div>
+          <div>
+            <Link to={"/artupload"}>Upload Art</Link>
           </div>
         </div>
       </React.Fragment>
