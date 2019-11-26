@@ -7,7 +7,8 @@ export default class ArtCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      favArt: false
+      favArt: false,
+      count: 0
     };
   }
 
@@ -20,11 +21,20 @@ export default class ArtCard extends Component {
   };
 
   addtoCart = async () => {
-    let data = new FormData();
-    data.append("cart", JSON.stringify(this.props.art));
-    let response = await fetch("/update-cart", { method: "POST", body: data });
-    let responseBody = await response.text();
-    console.log("sasas", responseBody);
+    console.log("count", this.state.count);
+    if (this.state.count <= this.props.art.quantity) {
+      let data = new FormData();
+      data.append("cart", JSON.stringify(this.props.art));
+      let response = await fetch("/update-cart", {
+        method: "POST",
+        body: data
+      });
+      let responseBody = await response.text();
+      console.log("AddtoCart MSG", responseBody);
+      this.setState({
+        count: this.state.count + 1
+      });
+    }
   };
 
   render() {

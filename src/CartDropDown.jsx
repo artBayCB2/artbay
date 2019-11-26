@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CartItemDropdown from "./CartItemDropdown.jsx";
 
 export default class CartDropDown extends Component {
   constructor() {
@@ -16,11 +17,21 @@ export default class CartDropDown extends Component {
     let response = await fetch("/get-cart-items");
     let responseBody = await response.text();
     console.log("CART!!!!", responseBody);
-    let body = JSON.parse(responseBody.message);
-
+    let body = JSON.parse(responseBody);
+    console.log("CART", body.message[0].cart);
     this.setState({
-      cart: body
+      cart: body.message[0].cart
     });
+  };
+
+  subTotal = () => {
+    let total = 0;
+
+    this.state.cart.forEach(art => {
+      total = total + art.price;
+    });
+
+    return total;
   };
 
   render() {
@@ -31,13 +42,13 @@ export default class CartDropDown extends Component {
         </div>
         <div className="CartDropDown-itemContainer">
           {this.state.cart.map(art => {
-            <div className="CartDropDown-CartCard">
-              <CartItemDropdown artItem={art}></CartItemDropdown>;
-            </div>;
+            return <CartItemDropdown artElem={art}></CartItemDropdown>;
           })}
         </div>
         <div className="CartDropDown-Subtotal">
-          <div className="CartDropDown-Subtotal-left">Subtotal: </div>
+          <div className="CartDropDown-Subtotal-left">
+            Subtotal: ${this.subTotal().toFixed(2)}
+          </div>
           <div className="CartDropDown-Subtotal-right">
             {/* get subtotal  */}
           </div>

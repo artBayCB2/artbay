@@ -25,13 +25,10 @@ class UnconnectedArtistCollection extends Component {
 
     let body = JSON.parse(reponsebody);
 
-    console.log("test", body);
-
     let artistCollect = body.message.filter(art => {
       return art.artist === this.props.artist;
     });
 
-    console.log("test", artistCollect);
     this.setState({
       collection: artistCollect,
       loading: false
@@ -62,7 +59,6 @@ class UnconnectedArtistCollection extends Component {
               </div>
               <div>
                 <div className="artistCollection-rows">
-                  {console.log(this.state.collection)}
                   {this.state.collection.map(artElm => {
                     return (
                       <div>

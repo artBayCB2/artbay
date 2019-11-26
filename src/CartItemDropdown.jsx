@@ -7,15 +7,14 @@ export default class CartItemDropdown extends Component {
         <div className="CartItemDropdown-imgLeft">
           <img
             className="CartItemDropdown-itemImg"
-            src={this.props.art.originalPiece}
-            width="300px"
+            src={this.props.artElem.artImageURL}
+            width="50px"
           ></img>
         </div>
         <div className="CartItemDropdown-imgRight">
-          <p>{this.props.art.description.subString(0, 10)}</p>
-          <p>by: {this.props.art.artist}</p>
-          <p>${this.props.art.price}</p>
-          <p>{this.props.art.medium}</p>
+          <p>by: {this.props.artElem.artist}</p>
+          <p>${this.props.artElem.price}</p>
+          <p>{this.props.artElem.medium}</p>
         </div>
       </div>
     );
