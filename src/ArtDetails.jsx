@@ -91,6 +91,35 @@ class UnconnectedArtDetails extends Component {
   };
 
   render() {
+    this.props.dispatch({
+      type: "set-nav-DashB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-SellB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-shopB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-uploadB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-searchB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-cartB",
+      value: true
+    });
     return (
       <>
         {this.state.loading ? (

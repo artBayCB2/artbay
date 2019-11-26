@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./SellerDashboardOverview.css";
+import DashBoardOverviewCard from "./Components/DashBoardOverviewCard/DashBoardOverviewCard.jsx";
 
 class SellerDashboardOverview extends Component {
   constructor(props) {
@@ -35,19 +36,19 @@ class SellerDashboardOverview extends Component {
     return (
       <React.Fragment>
         <div className="overviewContainer">
-          <h1>Dashboard</h1>
+          {/* <h1>Dashboard</h1> */}
           <div className="overviewHeader">
-            <div>Revenue</div>
-            <div>Number of Customers</div>
-            <div>Number of Items Sold</div>
-            <div>Number of Items in Stock</div>
+            <DashBoardOverviewCard title="Revenue" value="0" />
+            <DashBoardOverviewCard title="Customers" value="0" />
+            <DashBoardOverviewCard title="Sold" value="0" />
+            <DashBoardOverviewCard title="In Stock" value="0" />
           </div>
-          <div className="overviewBody">
+          {/* <div className="overviewBody">
             <div>{this.sellerRev()}</div>
             <div>Customers</div>
             <div>Items Sold</div>
             <div>{this.state.overview.length}</div>
-          </div>
+          </div> */}
         </div>
       </React.Fragment>
     );

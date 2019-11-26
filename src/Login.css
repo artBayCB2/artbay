@@ -1,5 +1,6 @@
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   align-content: center;
@@ -71,4 +72,11 @@
 .login-header-row {
   display: flex;
   justify-content: space-between;
+}
+
+.login-error {
+  color: #ff007a;
+  font-size: 14px;
+  text-align: center;
+  margin: -20px 0 25px 0;
 }

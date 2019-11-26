@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class UnconnectedSignUp extends Component {
   constructor(props) {
@@ -9,20 +10,21 @@ class UnconnectedSignUp extends Component {
     this.state = {
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      error: ""
     };
   }
   handleSignUpEmail = event => {
     console.log("handleSignUpEmail", event.target.value);
-    this.setState({ email: event.target.value });
+    this.setState({ email: event.target.value, error: "" });
   };
   handleSignUpPassword = event => {
     console.log("handleSignUpPassword", event.target.value);
-    this.setState({ password: event.target.value });
+    this.setState({ password: event.target.value, error: "" });
   };
   handleSignUpConfirmPassword = event => {
     console.log("handleSignUpConfirmPassword", event.target.value);
-    this.setState({ confirmPassword: event.target.value });
+    this.setState({ confirmPassword: event.target.value, error: "" });
   };
   handleSignUpSubmit = async () => {
     event.preventDefault();
@@ -31,13 +33,17 @@ class UnconnectedSignUp extends Component {
       !this.state.email.includes(".com") ||
       this.state.email.length < 3
     ) {
-      return alert("Invalid Email");
+      this.setState({ error: "Email is invalid" });
+      return;
     }
-    if (
-      this.state.password < 5 ||
-      this.state.password !== this.state.confirmPassword
-    ) {
-      return alert("Invalid Password or Password Match in Valid");
+    if (this.state.password.length < 6) {
+      this.setState({ error: "Password must be more than 5 characters" });
+      return;
+    }
+
+    if (this.state.password !== this.state.confirmPassword) {
+      this.setState({ error: "Passwords do not match" });
+      return;
     }
 
     console.log("handleSignUpSubmit");
@@ -51,16 +57,16 @@ class UnconnectedSignUp extends Component {
     let body = JSON.parse(responseBody);
     console.log(body.success);
     if (!body.success) {
-      alert(body.message);
+      this.setState({ error: body.message });
       return;
     }
     if (body.success) {
-      alert(body.message);
+      this.props.dispatch({
+        type: "login-success"
+      });
+      this.props.history.push("/");
       return;
     }
-    this.props.dispatch({
-      type: "signup-success"
-    });
   };
 
   render = () => {
@@ -118,6 +124,7 @@ class UnconnectedSignUp extends Component {
                 placeholder="confirm password"
               />
             </div>
+            <p className="signup-error">{this.state.error}</p>
             <div>
               <button className="signUpButton" type="submit">
                 Create Account
@@ -134,4 +141,4 @@ class UnconnectedSignUp extends Component {
 }
 
 let SignUp = connect()(UnconnectedSignUp);
-export default SignUp;
+export default withRouter(SignUp);

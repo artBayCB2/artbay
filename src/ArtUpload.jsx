@@ -22,8 +22,8 @@ class UnconnectedArtUpload extends Component {
       material: "",
       size: "",
       originalPiece: false,
-      quantity: "",
-      price: ""
+      quantity: 1,
+      price: 0.0
     };
   }
   handleFile = event => {
@@ -44,6 +44,7 @@ class UnconnectedArtUpload extends Component {
   };
   handleDescription = event => {
     event.preventDefault();
+    console.log(event.target.value);
     this.setState({ description: event.target.value });
   };
   handleCategory = event => {
@@ -75,7 +76,7 @@ class UnconnectedArtUpload extends Component {
     if (event.target.checked) {
       _val = true;
     }
-    this.setState({ originalPiece: _val });
+    this.setState({ originalPiece: _val, quantity: 1 });
   };
   handleOriginalPieceNo = event => {
     let _val = this.state.originalPiece;
@@ -105,9 +106,9 @@ class UnconnectedArtUpload extends Component {
     data.append("subject", this.state.subject);
     data.append("medium", this.state.medium);
     data.append("size", this.state.size);
-    data.append("originalPiece", this.state.originalPiece);
-    data.append("quantity", this.state.quantity);
-    data.append("price", this.state.price);
+    data.append("originalPiece", JSON.stringify(this.state.originalPiece));
+    data.append("quantity", JSON.stringify(this.state.quantity));
+    data.append("price", JSON.stringify(this.state.price));
     let response = await fetch("/art-data-upload", {
       method: "POST",
       body: data
@@ -133,6 +134,36 @@ class UnconnectedArtUpload extends Component {
   };
 
   render() {
+    this.props.dispatch({
+      type: "set-nav-DashB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-SellB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-shopB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-uploadB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-searchB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-cartB",
+      value: false
+    });
+
     return (
       <React.Fragment>
         <NavBar />
@@ -285,7 +316,8 @@ class UnconnectedArtUpload extends Component {
                   <input
                     className=" artupload-inputText "
                     type="number"
-                    placeholder="0"
+                    value={this.state.quantity}
+                    disabled={this.state.originalPiece}
                     onChange={this.handleQuantity}
                   />
                 </div>
@@ -294,7 +326,7 @@ class UnconnectedArtUpload extends Component {
                   <input
                     className=" artupload-inputText "
                     type="number"
-                    placeholder="0.00"
+                    value={this.state.price}
                     onChange={this.handlePrice}
                   />
                 </div>
@@ -321,7 +353,7 @@ class UnconnectedArtUpload extends Component {
               </div>
               <div style={{ marginTop: "20px" }}>
                 <h6>Description</h6>
-                <input
+                <textarea
                   type="text"
                   className="artupload-description-inputText"
                   onChange={this.handleDescription}

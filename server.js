@@ -10,7 +10,7 @@ let authData = require("./AuthData");
 let artDataUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
 
-let noProfileURL = "/art-images/3cc9855205bf04b5c340dbbadf97ecf9";
+let noProfileURL = "/art-images/a70ca64023691b0195c8dc93cbbbe187";
 
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
@@ -200,6 +200,17 @@ app.post("/login", upload.none(), (req, res) => {
   });
 });
 
+//GET - logout user
+app.get("/logout", (req, res) => {
+  res.cookie("sid", "logout", { expires: new Date(0) });
+  res.send(
+    JSON.stringify({
+      success: true,
+      message: "Logout successful!"
+    })
+  );
+});
+
 // POST - seller profile endpoint
 app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
   let _res = res;
@@ -319,14 +330,19 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
   let _category = _artDetailsData.category ? _artDetailsData.category : "";
   let _medium = _artDetailsData.medium ? _artDetailsData.medium : "";
   let _originalPiece = _artDetailsData.originalPiece
-    ? _artDetailsData.originalPiece
+    ? JSON.parse(_artDetailsData.originalPiece)
     : false;
-  let _quantity = _artDetailsData.quantity ? _artDetailsData.quantity : 1;
-  let _price = _artDetailsData.price ? _artDetailsData.price : 0.0;
+  let _quantity = _artDetailsData.quantity
+    ? JSON.parse(_artDetailsData.quantity)
+    : 1;
+  let _price = _artDetailsData.price ? JSON.parse(_artDetailsData.price) : 0.0;
   let _style = _artDetailsData.style ? _artDetailsData.style : "";
   let _subject = _artDetailsData.subject ? _artDetailsData.subject : "";
   let _material = _artDetailsData.material ? _artDetailsData.material : "";
   let _size = _artDetailsData.size ? _artDetailsData.size : "";
+  let _description = _artDetailsData.description
+    ? _artDetailsData.description
+    : "";
 
   dbo
     .collection("users")
@@ -347,7 +363,11 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
           subject: _subject,
           material: _material,
           size: _size,
-          dateArtUploaded: Date(Date.now()).toString()
+          dateArtUploaded: Date(Date.now()).toString(),
+          description: _description,
+          sold: 0,
+          buyerUserID: null,
+          dateSold: []
         });
         return _res.send(
           JSON.stringify({
@@ -392,6 +412,8 @@ app.get("/all-art", (req, res) => {
 
 // GET - get seller art items
 app.get("/this-seller-art", (req, res) => {
+  let _req = req;
+  let _res = res;
   if (req.cookies === undefined) {
     return res.send(
       JSON.stringify({
@@ -599,6 +621,73 @@ app.get("/get-cart-items", (req, res) => {
           message: cartItems
         })
       );
+    });
+});
+
+//GET - delete cart item
+app.post("/delete-cart-item", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+  if (req.body === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no cart selected"
+      })
+    );
+  }
+
+  let _thisItems = [];
+  let _thisItemID = req.body.itemID;
+
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no active session, unable to delete cart item"
+      })
+    );
+  }
+  dbo
+    .collection("cart")
+    .find({ cartID: ObjectID(req.cookies.sid) })
+    .toArray((err, cartItems) => {
+      if (err) {
+        return res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch cart to delete item"
+          })
+        );
+      } else {
+        let _allItems = cartItems[0]["cart"];
+        _thisItems = _allItems.filter(cartItem => {
+          return cartItem._id.toString() !== _thisItemID.toString();
+        });
+
+        // console.log("filtered", _thisItems);
+
+        try {
+          dbo.collection("cart").update(
+            { cartID: ObjectID(_req.cookies.sid) },
+            {
+              $set: {
+                cart: _thisItems
+              }
+            }
+          );
+          return _res.send(
+            JSON.stringify({
+              success: true,
+              message: "Item deleted successfully!"
+            })
+          );
+        } catch (e) {
+          return res.send(
+            JSON.stringify({ success: false, message: e.toString() })
+          );
+        }
+      }
     });
 });
 

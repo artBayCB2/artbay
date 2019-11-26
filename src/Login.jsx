@@ -9,16 +9,17 @@ class UnconnectedLogin extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      error: ""
     };
   }
   handleLoginEmail = event => {
     console.log("handleLoginUsername", event.target.value);
-    this.setState({ email: event.target.value });
+    this.setState({ email: event.target.value, error: "" });
   };
   handleLoginPassword = event => {
     console.log("handleLoginPassword", event.target.value);
-    this.setState({ password: event.target.value });
+    this.setState({ password: event.target.value, error: "" });
   };
   handleLoginSubmit = async event => {
     event.preventDefault();
@@ -34,11 +35,10 @@ class UnconnectedLogin extends Component {
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
     if (!body.success) {
-      alert(body.message);
+      this.setState({ error: body.message });
       return;
     }
     if (body.success) {
-      // alert(body.message);
       this.props.dispatch({
         type: "login-success"
       });
@@ -87,6 +87,7 @@ class UnconnectedLogin extends Component {
                 onChange={this.handleLoginPassword}
               />
             </div>
+            <p class="login-error">{this.state.error}</p>
             <div>
               <button className="login-button" type="submit">
                 Login

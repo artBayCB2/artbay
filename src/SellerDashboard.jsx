@@ -3,8 +3,10 @@ import NavBar from "./NavBar.jsx";
 import SellerDashboardOverview from "./SellerDashboardOverview.jsx";
 import "./SellerDashboard.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import Footer from "./Components/Footer/Footer.jsx";
 
-class SellerDashboard extends Component {
+class UnconnectedSellerSellerDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +30,36 @@ class SellerDashboard extends Component {
   handleDeleteItem = async () => {};
 
   render() {
+    this.props.dispatch({
+      type: "set-nav-DashB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-SellB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-shopB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-uploadB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-searchB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-cartB",
+      value: false
+    });
+
     return (
       <React.Fragment>
         <NavBar />
@@ -64,9 +96,12 @@ class SellerDashboard extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </React.Fragment>
     );
   }
 }
+
+let SellerDashboard = connect()(UnconnectedSellerSellerDashboard);
 
 export default SellerDashboard;

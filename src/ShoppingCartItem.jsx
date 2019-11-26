@@ -19,7 +19,18 @@ export default class ShoppingCartItem extends Component {
     });
   };
 
-  removeArt = async () => {};
+  removeArt = async () => {
+    let data = new FormData();
+    data.append("itemID", this.props.artElem._id);
+    let response = await fetch("/delete-cart-item", {
+      method: "POST",
+      body: data
+    });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    alert(body.success);
+    console.log(body);
+  };
 
   increaseQuantity = () => {
     if (this.props.artElem.originalPiece) {

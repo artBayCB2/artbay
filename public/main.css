@@ -24,4 +24,5 @@ a:link {
 
 button {
   outline: none;
+  cursor: pointer;
 }

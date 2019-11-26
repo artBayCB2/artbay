@@ -77,6 +77,13 @@
   align-content: center;
 }
 
+.signup-error {
+  color: #ff007a;
+  font-size: 14px;
+  text-align: center;
+  margin: -20px 0 25px 0;
+}
+
 /* Mobile/tablet */
 @media only screen and (max-width: 800px) {
   .leftChildContainer {

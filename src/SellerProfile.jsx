@@ -5,8 +5,9 @@ import SubmitSellerDetails from "./submitSellerDetails.jsx";
 import NavBar from "./NavBar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
+import { connect } from "react-redux";
 
-export class SellerProfile extends Component {
+export class UnconnectedSellerProfile extends Component {
   constructor() {
     super();
     this.state = {
@@ -92,7 +93,11 @@ export class SellerProfile extends Component {
   handleSubmitPaymentDetails = event => {
     event.preventDefault();
     console.log("handleSubmitPaymentDetails", event.target.value);
-    this.setState({ paymentDetails: false, submitDetails: true, tabNumber: 3 });
+    this.setState({
+      paymentDetails: false,
+      submitDetails: true,
+      tabNumber: 3
+    });
   };
 
   handleProfileImageFile = event => {
@@ -166,49 +171,92 @@ export class SellerProfile extends Component {
   };
 
   render = () => {
-    console.log(this.state.profileDetails);
+    this.props.dispatch({
+      type: "set-nav-DashB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-SellB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-shopB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-uploadB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-searchB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-cartB",
+      value: false
+    });
+
     return (
       <React.Fragment>
         <NavBar />
-        {this.state.profileDetails && (
-          <SellerProfileDetails
-            handleFirstName={this.handleFirstName}
-            handleLastName={this.handleLastName}
-            handlePhoneNumber={this.handlePhoneNumber}
-            handleAddress1={this.handleAddress1}
-            handleAddress2={this.handleAddress2}
-            handleState={this.handleState}
-            handleProvince={this.handleProvince}
-            handleZip={this.handleZip}
-            handleCountry={this.handleCountry}
-            handleSubmitPersonalDetails={this.handleSubmitPersonalDetails}
-            tabNumber={this.state.tabNumber}
-          />
-        )}
-        {this.state.paymentDetails && (
-          <SellerPaymentDetails
-            handleBankName={this.handleBankName}
-            handleRoutingNumber={this.handleRoutingNumber}
-            handleAccountNumber={this.handleAccountNumber}
-            handleSubmitPaymentDetails={this.handleSubmitPaymentDetails}
-            previous={this.handleGoToProfileDetails}
-            tabNumber={this.state.tabNumber}
-          />
-        )}
-        {this.state.submitDetails && (
-          <SubmitSellerDetails
-            handleProfileImageFile={e => this.handleProfileImageFile(e)}
-            handleTermsAndConditions={this.handleTermsAndConditions}
-            handleSubmitSellerProfile={this.handleSubmitSellerProfile}
-            previous={this.handleGoToPaymentDetails}
-            tabNumber={this.state.tabNumber}
-          />
-        )}
+        <div className="sellerProfile-details-row">
+          <div className="sellerProfile-message">
+            {this.state.profileDetails &&
+              "3 Easy Steps tp start selling on Artbay. Provide your personal details for identification and tracking."}
+
+            {this.state.paymentDetails &&
+              "Your account details is required for reconciliation and  settlement of your sales."}
+
+            {this.state.submitDetails &&
+              "A seller profile with an image attracts more buyers."}
+          </div>
+          {this.state.profileDetails && (
+            <SellerProfileDetails
+              handleFirstName={this.handleFirstName}
+              handleLastName={this.handleLastName}
+              handlePhoneNumber={this.handlePhoneNumber}
+              handleAddress1={this.handleAddress1}
+              handleAddress2={this.handleAddress2}
+              handleState={this.handleState}
+              handleProvince={this.handleProvince}
+              handleZip={this.handleZip}
+              handleCountry={this.handleCountry}
+              handleSubmitPersonalDetails={this.handleSubmitPersonalDetails}
+              tabNumber={this.state.tabNumber}
+            />
+          )}
+          {this.state.paymentDetails && (
+            <SellerPaymentDetails
+              handleBankName={this.handleBankName}
+              handleRoutingNumber={this.handleRoutingNumber}
+              handleAccountNumber={this.handleAccountNumber}
+              handleSubmitPaymentDetails={this.handleSubmitPaymentDetails}
+              previous={this.handleGoToProfileDetails}
+              tabNumber={this.state.tabNumber}
+            />
+          )}
+          {this.state.submitDetails && (
+            <SubmitSellerDetails
+              handleProfileImageFile={e => this.handleProfileImageFile(e)}
+              handleTermsAndConditions={this.handleTermsAndConditions}
+              handleSubmitSellerProfile={this.handleSubmitSellerProfile}
+              previous={this.handleGoToPaymentDetails}
+              tabNumber={this.state.tabNumber}
+            />
+          )}
+        </div>
 
         <Footer />
       </React.Fragment>
     );
   };
 }
+
+let SellerProfile = connect()(UnconnectedSellerProfile);
 
 export default SellerProfile;
