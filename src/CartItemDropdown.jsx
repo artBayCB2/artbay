@@ -11,7 +11,7 @@ export default class CartItemDropdown extends Component {
             width="50px"
           ></img>
         </div>
-        <div className="CartItemDropdown-imgRight">
+        <div className="CartItemDropdown-Right">
           <p>by: {this.props.artElem.artist}</p>
           <p>${this.props.artElem.price}</p>
           <p>{this.props.artElem.medium}</p>
