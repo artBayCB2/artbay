@@ -3,6 +3,8 @@ import ArtCard from "./ArtCard.jsx";
 
 import { connect } from "react-redux";
 import "./ArtistCollection.css";
+import NavBar from "./NavBar.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
 
 import LoadingOverlay from "react-loading-overlay";
 
@@ -100,23 +102,29 @@ class UnconnectedArtistCollection extends Component {
             </div>
           </LoadingOverlay>
         ) : (
-          <div className="artistCollection-container">
-            <div>
-              <div className="artistCollection-title">{this.props.artist}</div>
-            </div>
-            <div>
-              <div className="artistCollection-rows">
-                {console.log(this.state.collection)}
-                {this.state.collection.map(artElm => {
-                  return (
-                    <div>
-                      <ArtCard art={artElm}></ArtCard>
-                    </div>
-                  );
-                })}
+          <>
+            <NavBar></NavBar>
+            <div className="artistCollection-container">
+              <div>
+                <div className="artistCollection-title">
+                  {this.props.artist}
+                </div>
+              </div>
+              <div>
+                <div className="artistCollection-rows">
+                  {console.log(this.state.collection)}
+                  {this.state.collection.map(artElm => {
+                    return (
+                      <div>
+                        <ArtCard art={artElm}></ArtCard>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+            <Footer></Footer>
+          </>
         )}
       </>
     );

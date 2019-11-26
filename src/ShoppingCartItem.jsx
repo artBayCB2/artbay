@@ -28,7 +28,6 @@ export default class ShoppingCartItem extends Component {
     });
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-    alert(body.success);
     console.log(body);
   };
 
@@ -75,7 +74,9 @@ export default class ShoppingCartItem extends Component {
           <p>${this.props.artElem.price}</p>
         </div>
         <div className="ShoppingCartItem-remove-btn">
-          <button onClick={this.removeArt}>X</button>
+          <Link to="/cart">
+            <button onClick={this.removeArt}>X</button>
+          </Link>
         </div>
       </div>
     );

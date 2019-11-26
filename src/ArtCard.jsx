@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./ArtCard.css";
 import "../public/main.css";
+import { type } from "os";
 
-export default class ArtCard extends Component {
+class UnconnectedArtCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +32,15 @@ export default class ArtCard extends Component {
         body: data
       });
       let responseBody = await response.text();
-      console.log("AddtoCart MSG", responseBody);
+      let body = JSON.parse(responseBody);
+      console.log("AddtoCart MSG", body);
+
+      if (body.success) {
+        this.props.dispatch({
+          type: "update-cart",
+          value: body.message
+        });
+      }
       this.setState({
         count: this.state.count + 1
       });
@@ -70,3 +80,7 @@ export default class ArtCard extends Component {
     );
   }
 }
+
+let ArtCard = connect()(UnconnectedArtCard);
+
+export default ArtCard;

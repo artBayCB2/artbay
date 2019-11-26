@@ -28,7 +28,7 @@ class UnconnectedApp extends Component {
   constructor() {
     super();
     this.state = {
-      loading: true
+      loading: false
     };
   }
   checkStatus = async () => {
@@ -53,10 +53,11 @@ class UnconnectedApp extends Component {
       });
     }
 
-    this.setState({ loading: false });
+    // this.setState({ loading: false });
   };
 
   render = () => {
+    console.log("dasddssadsdasd");
     this.checkStatus();
     return this.state.loading ? (
       <LoadingOverlay
@@ -104,6 +105,12 @@ class UnconnectedApp extends Component {
   };
 }
 
-let App = connect()(UnconnectedApp);
+let mapStateToProps = state => {
+  return {
+    cartItems: state.cartItems
+  };
+};
+
+let App = connect(mapStateToProps)(UnconnectedApp);
 
 export default App;

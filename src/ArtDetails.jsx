@@ -91,6 +91,7 @@ class UnconnectedArtDetails extends Component {
   };
 
   render() {
+    console.log("renderrenderrenderrenderrenderrender");
     this.props.dispatch({
       type: "set-nav-DashB",
       value: false

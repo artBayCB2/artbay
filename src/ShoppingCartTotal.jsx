@@ -1,6 +1,17 @@
 import React, { Component } from "react";
+import StripeCheckout from "react-stripe-checkout";
 
 export default class ShoppingCartTotal extends Component {
+  onToken = token => {
+    fetch("/save-stripe-token", {
+      method: "POST",
+      body: JSON.stringify(token)
+    }).then(response => {
+      response.json().then(data => {
+        alert(`We are in business, ${data.email}`);
+      });
+    });
+  };
   render() {
     return (
       <>
@@ -44,7 +55,12 @@ export default class ShoppingCartTotal extends Component {
             />
           </div>
           <div className="ShoppingCartTotal-purchase-btn">
-            <button>PROCEED TO CHECKOUT</button>
+            <button onClick={this.removeCart}>
+              <StripeCheckout
+                token={this.onToken}
+                stripeKey="pk_test_YnDf06NULFsYuFk99DwENrqm00kzWHkOoK"
+              />
+            </button>
           </div>
         </div>
       </>
