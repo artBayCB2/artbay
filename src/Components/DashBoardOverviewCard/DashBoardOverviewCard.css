@@ -2,6 +2,29 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
   align-content: center;
+  height: 150px;
+  width: 80%;
+  background: #ffffff;
+  box-shadow: 0px 0px 20px rgba(215, 222, 227, 0.39422);
+  border-radius: 8px;
+  margin: 0 25px;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+.dashBoardOverviewCard-title {
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 30px;
+  color: #2e3039;
+}
+
+.dashBoardOverviewCard-value {
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 72px;
+  color: #354f8b;
+  text-align: center;
 }

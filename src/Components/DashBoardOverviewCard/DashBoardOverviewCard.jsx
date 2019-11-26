@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./DashBoardOverviewCard.css";
 
 export class DashBoardOverviewCard extends Component {
   render() {

@@ -36,7 +36,7 @@ class SellerDashboardOverview extends Component {
     return (
       <React.Fragment>
         <div className="overviewContainer">
-          {/* <h1>Dashboard</h1> */}
+          <h1>Overview</h1>
           <div className="overviewHeader">
             <DashBoardOverviewCard title="Revenue" value="0" />
             <DashBoardOverviewCard title="Customers" value="0" />

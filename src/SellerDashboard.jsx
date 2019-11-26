@@ -64,37 +64,36 @@ class UnconnectedSellerSellerDashboard extends Component {
       <React.Fragment>
         <NavBar />
         <SellerDashboardOverview />
-        <div className="sellerDashboardContainer">
-          <div>
-            <h1>My Items</h1>
-            <div>
-              <Link to={"/artupload"}>Upload Art</Link>
-            </div>
-            <div className="myListItemHeader">
-              <div>Art Preview</div>
-              <div>Title</div>
-              <div>Artist Name</div>
-              <div>Category</div>
-              <div>Quantity</div>
-              <div>Delete</div>
-            </div>
-            <div className="myListItemContainer">
-              <div>
-                {this.state.artworks.map(art => {
-                  return (
-                    <div className="myListItemBody">
-                      <img src={art.artImageURL} width="50%" />
-                      <div>{art.title}</div>
-                      <div>{art.artist}</div>
-                      <div>{art.category}</div>
-                      <div>{art.quantity}</div>
-                      <button>Delete</button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+        <div className="sellerDashboard-items-row">
+          <h1>My Items</h1>
+          <div className="sellerDashboard-horizontal-line"></div>
+        </div>
+        <div className="sellerDashboard-items-container">
+          <div className="sellerDashboard-items-header">
+            <div style={{ width: "10%" }}>Art Preview</div>
+            <div style={{ width: "20%" }}>Title</div>
+            <div style={{ width: "20%" }}>Artist Name</div>
+            <div style={{ width: "10%" }}>Category</div>
+            <div style={{ width: "5%" }}>Qty</div>
+            <div style={{ width: "5%" }}>Sold</div>
+            <div style={{ width: "10%" }}>Delete</div>
           </div>
+
+          {this.state.artworks.map(art => {
+            return (
+              <div className="sellerDashboard-items-body">
+                <div style={{ width: "10%" }}>
+                  <img height="100%" width="100%" src={art.artImageURL} />
+                </div>
+                <div style={{ width: "20%" }}>{art.title}</div>
+                <div style={{ width: "20%" }}>{art.artist}</div>
+                <div style={{ width: "10%" }}>{art.category}</div>
+                <div style={{ width: "5%" }}>{art.quantity}</div>
+                <div style={{ width: "5%" }}>{art.sold}</div>
+                <button>Delete</button>
+              </div>
+            );
+          })}
         </div>
         <Footer />
       </React.Fragment>

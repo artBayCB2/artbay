@@ -574,12 +574,24 @@ app.post("/update-cart", upload.none(), (req, res) => {
                   }
                 }
               );
-              return _res.send(
-                JSON.stringify({
-                  success: true,
-                  message: "Cart updated successfully!"
-                })
-              );
+              // .then(res => {
+              //   console.log(res[0]);
+              // });
+
+              dbo
+                .collection("cart")
+                .findOne(
+                  { cartID: ObjectID(_req.cookies.sid) },
+                  (err, cart) => {
+                    console.log(cart);
+                    return _res.send(
+                      JSON.stringify({
+                        success: true,
+                        message: cart
+                      })
+                    );
+                  }
+                );
             } catch (e) {
               return res.send(
                 JSON.stringify({ success: false, message: e.toString() })
