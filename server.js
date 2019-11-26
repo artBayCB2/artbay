@@ -446,7 +446,7 @@ app.get("/this-seller-art", (req, res) => {
 });
 
 //GET - Search Art items
-app.get("/seller-data", (req, res) => {
+app.get("/search-artItems", (req, res) => {
   let _category = req.query.category;
   let _price = req.query.price;
   let _artist = req.query.artist;
@@ -501,7 +501,7 @@ app.post("/update-cart", upload.none(), (req, res) => {
   }
 
   let _cartID = "";
-  let _thisCart = _req.body.cart;
+  let _thisCart = JSON.parse(_req.body.cart);
   let _cart = [];
   if (_req.cookies === undefined) {
     _cartID = _rNum;
@@ -542,6 +542,7 @@ app.post("/update-cart", upload.none(), (req, res) => {
           } else {
             _cart = [...cart.cart];
             _cart.push(_thisCart);
+
             try {
               dbo.collection("cart").update(
                 { cartID: ObjectID(_req.cookies.sid) },
@@ -591,6 +592,7 @@ app.get("/get-cart-items", (req, res) => {
         );
       } else {
       }
+
       res.send(
         JSON.stringify({
           success: true,
