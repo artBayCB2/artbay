@@ -25,6 +25,8 @@ class SellerDashboard extends Component {
     console.log("message", sellerArtworks);
   };
 
+  handleDeleteItem = async () => {};
+
   render() {
     return (
       <React.Fragment>
@@ -42,6 +44,7 @@ class SellerDashboard extends Component {
               <div>Artist Name</div>
               <div>Category</div>
               <div>Quantity</div>
+              <div>Delete</div>
             </div>
             <div className="myListItemContainer">
               <div>
@@ -53,6 +56,7 @@ class SellerDashboard extends Component {
                       <div>{art.artist}</div>
                       <div>{art.category}</div>
                       <div>{art.quantity}</div>
+                      <button>Delete</button>
                     </div>
                   );
                 })}
