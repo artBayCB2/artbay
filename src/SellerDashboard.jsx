@@ -33,10 +33,12 @@ class UnconnectedSellerSellerDashboard extends Component {
     let data = new FormData();
     data.append("artID", _id);
     let response = await fetch("/delete-seller-art", {
-      method: "POST"
+      method: "POST",
+      body: data
     });
     let responseBody = await response.text();
     let body = await JSON.parse(responseBody);
+    console.log(body.success);
     if (body.success) {
       this.handleSellerItems();
     }
@@ -130,7 +132,7 @@ class UnconnectedSellerSellerDashboard extends Component {
                   </div>
                   <button
                     style={{ width: "50px" }}
-                    onChange={() => this.handleDeleteItem(art._id)}
+                    onClick={() => this.handleDeleteItem(art._id)}
                   >
                     x
                   </button>
