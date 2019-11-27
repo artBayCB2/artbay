@@ -37,7 +37,6 @@ class UnconnectedApp extends Component {
   };
 
   checkStatus = async () => {
-    console.log("466466444");
     let response = await fetch("/check-status");
     let body = await response.text();
 
@@ -65,7 +64,7 @@ class UnconnectedApp extends Component {
   };
 
   render = () => {
-    console.log("dasddssadsdasd");
+    // this.checkStatus();
     return this.state.loading ? (
       <LoadingOverlay
         active={this.state.loading}
@@ -111,6 +110,12 @@ class UnconnectedApp extends Component {
     );
   };
 }
+
+// let mapStateToProps = state => {
+//   return {
+//     cartItems: state.cartItems
+//   };
+// };
 
 let App = connect()(UnconnectedApp);
 

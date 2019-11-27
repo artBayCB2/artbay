@@ -31,12 +31,14 @@ class UnconnectedShoppingCartItem extends Component {
     });
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-
+    console.log("shoppingcartitem body obj", body);
     if (body.success) {
       this.props.dispatch({
         type: "update-cart",
         value: body.message
       });
+    } else {
+      alert("Something went wrong");
     }
   };
 
