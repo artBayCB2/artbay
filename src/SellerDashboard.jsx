@@ -31,7 +31,7 @@ class UnconnectedSellerSellerDashboard extends Component {
   handleDeleteItem = async _id => {
     console.log("deleteArtwork has been toggled");
     let data = new FormData();
-    data.append("_id", _id);
+    data.append("artID", _id);
     let response = await fetch("/delete-seller-art", {
       method: "POST"
     });
