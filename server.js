@@ -820,7 +820,6 @@ app.post("/submit-payment", upload.none(), (req, res) => {
           })
         );
       } else {
-        console.log(cartItems[0].cart);
         cartItems[0].cart.forEach(item => {
           dbo.collection("artItems").updateOne(
             { _id: ObjectID(item._id) },
@@ -847,6 +846,111 @@ app.post("/submit-payment", upload.none(), (req, res) => {
         }
       }
     });
+});
+
+//POST - add item review
+app.post("/add-item-review", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+  if (req.body === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no review sent"
+      })
+    );
+  }
+
+  if (req.body.itemID === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no item selected for review"
+      })
+    );
+  }
+
+  if (req.body.review === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no review string"
+      })
+    );
+  }
+
+  let _reviewerID = "Anonymous";
+  let _reviewerName = "Anonymous";
+
+  if (req.cookies !== undefined) {
+    dbo
+      .collection("artItems")
+      .findOne({ _id: ObjectID(_req.body.itemID) }, (err, items) => {
+        if (items.sellerUserID.toString() === req.cookies.sid.toString()) {
+          return res.send(
+            JSON.stringify({
+              success: false,
+              message: "you should not review your own item..."
+            })
+          );
+        }
+
+        dbo
+          .collection("users")
+          .findOne({ _id: ObjectID(req.cookies.sid) }, (err, user) => {
+            if (err) {
+              _reviewerID = "Anonymous";
+              _reviewerName = "Anonymous";
+            }
+            if (user !== null) {
+              _reviewerID = user._id;
+              _reviewerName = user.email;
+            }
+            if (user === null) {
+              _reviewerID = "Anonymous";
+              _reviewerName = "Anonymous";
+            }
+          });
+
+        try {
+          dbo.collection("reviews").insertOne(
+            {
+              itemID: _req.body.itemID,
+              review: _req.body.review,
+              reviewerID: _reviewerID,
+              reviewerName: _reviewerName,
+              reviewDate: Date(Date.now()).toString()
+            },
+            (err, review) => {
+              dbo
+                .collection("reviews")
+                .find({})
+                .toArray((err, reviews) => {
+                  if (err) {
+                    return res.send(
+                      JSON.stringify({
+                        success: false,
+                        message: "unable to fetch reviews"
+                      })
+                    );
+                  } else {
+                    return res.send(
+                      JSON.stringify({
+                        success: true,
+                        message: reviews
+                      })
+                    );
+                  }
+                });
+            }
+          );
+        } catch (e) {
+          return res.send(
+            JSON.stringify({ success: false, message: e.toString() })
+          );
+        }
+      });
+  }
 });
 
 app.all("/*", (req, res, next) => {
