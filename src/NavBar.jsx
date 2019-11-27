@@ -143,7 +143,6 @@ class UnconnectedNavBar extends Component {
                 </Link>
               </div>
             )}
-
             {this.props.loggedIn && this.props.navUploadButton && (
               <div>
                 <Link to="/artupload">
@@ -154,7 +153,6 @@ class UnconnectedNavBar extends Component {
                 </Link>
               </div>
             )}
-
             {this.props.loggedIn && this.props.navDashBoardButton && (
               <div>
                 <Link to="/seller-dashboard">

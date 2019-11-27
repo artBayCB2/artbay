@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NavBar from "./NavBar.jsx";
 import SellerDashboardOverview from "./SellerDashboardOverview.jsx";
 import "./SellerDashboard.css";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "./Components/Footer/Footer.jsx";
 
@@ -29,7 +28,20 @@ class UnconnectedSellerSellerDashboard extends Component {
     console.log("message", sellerArtworks);
   };
 
-  handleDeleteItem = async () => {};
+  handleDeleteItem = async _id => {
+    console.log("deleteArtwork has been toggled");
+    let data = new FormData();
+    data.append("_id", _id);
+    let response = await fetch("/delete-seller-art", {
+      method: "POST"
+    });
+    let responseBody = await response.text();
+    let body = await JSON.parse(responseBody);
+    if (body.success) {
+      this.handleSellerItems();
+    }
+    return;
+  };
 
   _setSellerDashBoardNavBar = () => {
     this.props.dispatch({
@@ -116,7 +128,12 @@ class UnconnectedSellerSellerDashboard extends Component {
                   <div style={{ width: "50px", textAlign: "center" }}>
                     {art.sold}
                   </div>
-                  <button style={{ width: "50px" }}>x</button>
+                  <button
+                    style={{ width: "50px" }}
+                    onChange={() => this.handleDeleteItem(art._id)}
+                  >
+                    x
+                  </button>
                 </div>
               );
             })}
