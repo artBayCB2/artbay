@@ -1,18 +1,35 @@
 import React, { Component } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import "./ShoppingCartTotal.css";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class ShoppingCartTotal extends Component {
-  onToken = token => {
-    fetch("/save-stripe-token", {
+class UnconnectedShoppingCartTotal extends Component {
+  onToken = async token => {
+    let data = new FormData();
+    data.append("token", token);
+    let response = await fetch("/submit-payment", {
       method: "POST",
-      body: JSON.stringify(token)
-    }).then(response => {
-      response.json().then(data => {
-        alert(`We are in business, ${data.email}`);
-      });
+      body: data
     });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
+    console.log("body.success", body.success);
+    if (!body.success) {
+      alert(body.message);
+      return;
+    }
+
+    if (body.success) {
+      this.props.dispatch({
+        type: "update-cart",
+        value: []
+      });
+      this.props.history.push("/");
+      return;
+    }
   };
+
   render() {
     return (
       <>
@@ -69,3 +86,6 @@ export default class ShoppingCartTotal extends Component {
     );
   }
 }
+
+let ShoppingCartTotal = connect()(UnconnectedShoppingCartTotal);
+export default withRouter(ShoppingCartTotal);

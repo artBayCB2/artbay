@@ -832,7 +832,9 @@ app.post("/submit-payment", upload.none(), (req, res) => {
         });
 
         try {
-          dbo.collection("cart").deleteOne({ _id: ObjectID(req.cookies.sid) });
+          dbo
+            .collection("cart")
+            .deleteOne({ cartID: ObjectID(req.cookies.sid) });
           return _res.send(
             JSON.stringify({
               success: true,

@@ -46,11 +46,12 @@ class UnconnectedShoppingCart extends Component {
 
   subTotal = () => {
     let total = 0;
-    this.props.cartItems.cart.forEach(art => {
-      console.log(this.state.artQuantity);
-      total = (total + art.price) * this.state.artQuantity;
-    });
-
+    if (this.props.cartItems.cart !== undefined) {
+      this.props.cartItems.cart.forEach(art => {
+        console.log(this.state.artQuantity);
+        total = (total + art.price) * this.state.artQuantity;
+      });
+    }
     return total;
   };
 
@@ -105,16 +106,20 @@ class UnconnectedShoppingCart extends Component {
                   CONTINUE SHOPPING
                 </button>
               </Link>
-              {this.props.cartItems.cart.map(art => {
-                return (
-                  <div className="shoppingCart-item-container">
-                    <ShoppingCartItem
-                      artElem={art}
-                      artQuantity={this.artQuantity}
-                    />
-                  </div>
-                );
-              })}
+              {this.props.cartItems.cart === undefined ? (
+                <div>Cart Is Empty</div>
+              ) : (
+                this.props.cartItems.cart.map(art => {
+                  return (
+                    <div className="shoppingCart-item-container">
+                      <ShoppingCartItem
+                        artElem={art}
+                        artQuantity={this.artQuantity}
+                      />
+                    </div>
+                  );
+                })
+              )}
             </div>
 
             <div className="shoppingCart-right-container">
