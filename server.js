@@ -731,6 +731,117 @@ app.get("/empty-cart", upload.none(), (req, res) => {
   }
 });
 
+//POST - delete seller art
+app.post("/delete-seller-art", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no active session, unable to delete art"
+      })
+    );
+  }
+
+  if (req.body === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no art selected"
+      })
+    );
+  }
+
+  try {
+    dbo.collection("artItems").delete({ _id: ObjectID(req.body.artID) });
+    return _res.send(
+      JSON.stringify({
+        success: true,
+        message: "Art deleted successfully"
+      })
+    );
+  } catch (e) {
+    return res.send(JSON.stringify({ success: false, message: e.toString() }));
+  }
+});
+
+// app.get("/test-update", upload.none(), (req, res) => {
+//   dbo.collection("artItems").updateMany(
+//     {},
+//     {
+//       $set: {
+//         sold: 0
+//       }
+//     }
+//   );
+// });
+
+//POST - submit payment
+app.get("/submit-payment", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no active session, unable to make payment"
+      })
+    );
+  }
+
+  if (req.body === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no payment details"
+      })
+    );
+  }
+
+  dbo
+    .collection("cart")
+    .find({ cartID: ObjectID(req.cookies.sid) })
+    .toArray((err, cartItems) => {
+      if (err) {
+        return res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch cart items"
+          })
+        );
+      } else {
+        console.log(cartItems[0].cart);
+        cartItems[0].cart.forEach(item => {
+          dbo.collection("artItems").update(
+            { _id: ObjectID(item._id) },
+            {
+              $set: {
+                sold: item.sold + 1
+              }
+            }
+          );
+        });
+
+        try {
+          dbo.collection("cart").delete({ _id: ObjectID(req.cookies.sid) });
+          return _res.send(
+            JSON.stringify({
+              success: true,
+              message: "Payment successful"
+            })
+          );
+        } catch (e) {
+          return res.send(
+            JSON.stringify({ success: false, message: e.toString() })
+          );
+        }
+      }
+    });
+});
+
 app.all("/*", (req, res, next) => {
   // needed for react router
   res.sendFile(__dirname + "/build/index.html");

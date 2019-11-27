@@ -3,7 +3,7 @@ import StripeCheckout from "react-stripe-checkout";
 
 class StripePayment extends Component {
   onToken = token => {
-    fetch("/save-stripe-token", {
+    fetch("/submit-payment", {
       method: "POST",
       body: JSON.stringify(token)
     }).then(response => {
