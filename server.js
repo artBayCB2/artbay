@@ -692,7 +692,7 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
               return _res.send(
                 JSON.stringify({
                   success: true,
-                  message: cart[0]
+                  message: cart
                 })
               );
             });
