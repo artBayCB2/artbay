@@ -20,6 +20,7 @@ class UnconnectedShoppingCartItem extends Component {
     this.setState({
       quantity: _quantity
     });
+    this.props.artQuantity(_quantity);
   };
 
   removeArt = async () => {
@@ -43,11 +44,12 @@ class UnconnectedShoppingCartItem extends Component {
   };
 
   increaseQuantity = () => {
+    let _quantity = this.state.quantity;
     if (this.props.artElem.originalPiece) {
-      let _quantity = this.state.quantity;
       this.setState({
         quantity: _quantity
       });
+      this.props.artQuantity(_quantity);
     }
 
     if (!this.props.artElem.originalPiece) {
@@ -57,6 +59,7 @@ class UnconnectedShoppingCartItem extends Component {
         this.setState({
           quantity: _quantity
         });
+        this.props.artQuantity(_quantity);
       }
     }
   };

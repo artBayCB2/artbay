@@ -6,13 +6,15 @@ import "./shoppingCart.css";
 import NavBar from "./NavBar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import { connect } from "react-redux";
+import { throws } from "assert";
 
 class UnconnectedShoppingCart extends Component {
   constructor() {
     super();
     this.state = {
       cart: [],
-      length: 0
+      length: 0,
+      artQuantity: 1
     };
   }
   componentDidMount() {
@@ -38,11 +40,15 @@ class UnconnectedShoppingCart extends Component {
   //   }
   // };
 
+  artQuantity = artQuantity => {
+    this.setState({ artQuantity: artQuantity });
+  };
+
   subTotal = () => {
     let total = 0;
-
     this.props.cartItems.cart.forEach(art => {
-      total = total + art.price;
+      console.log(this.state.artQuantity);
+      total = (total + art.price) * this.state.artQuantity;
     });
 
     return total;
@@ -102,7 +108,10 @@ class UnconnectedShoppingCart extends Component {
               {this.props.cartItems.cart.map(art => {
                 return (
                   <div className="shoppingCart-item-container">
-                    <ShoppingCartItem artElem={art} />
+                    <ShoppingCartItem
+                      artElem={art}
+                      artQuantity={this.artQuantity}
+                    />
                   </div>
                 );
               })}
