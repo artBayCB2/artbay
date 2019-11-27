@@ -103,7 +103,7 @@ class UnconnectedShoppingCartItem extends Component {
         </div>
 
         <div style={{ width: "200px" }}>
-          <p>${this.props.artElem.price}</p>
+          <p>${this.props.artElem.price * this.state.quantity}</p>
         </div>
         <div style={{ width: "50px" }}>
           <button
