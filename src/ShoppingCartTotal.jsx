@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import StripeCheckout from "react-stripe-checkout";
+import "./ShoppingCartTotal.css";
 
 export default class ShoppingCartTotal extends Component {
   onToken = token => {
@@ -15,31 +16,40 @@ export default class ShoppingCartTotal extends Component {
   render() {
     return (
       <>
-        <div className="shoppingCart-total-title">
+        <div className="shoppingCart-total-container">
           <h2>Cart Total</h2>
+
           <div className="shoppingCart-total-row">
-            <div className="shoppingCart-total-left">Subtotal</div>
-            <div className="shoppingCart-total-right">
-              {this.props.subTotal}
-            </div>
+            <div>Subtotal</div>
+            <div>${this.props.subTotal.toFixed(2)}</div>
           </div>
+
           <div className="shoppingCart-total-row">
-            <div className="shoppingCart-total-left">tax</div>
-            <div className="shoppingCart-total-right">
-              {this.props.subTotalTax}
-            </div>
+            <div>tax</div>
+            <div>${this.props.subTotalTax.toFixed(2)}</div>
           </div>
+
           <div className="shoppingCart-total-row">
-            <div className="shoppingCart-total-left">Shipping</div>
-            <div className="shoppingCart-total-right">*Free Shipping*</div>
+            <div>Shipping</div>
+            <div>Free</div>
           </div>
-          <div className="shoppingCart-total-row">
-            <div className="shoppingCart-total-left">Total</div>
-            <div className="shoppingCart-total-right">
-              ${this.props.subTotalTax + this.props.subTotal}
-            </div>
+
+          <div className="shoppingCart-grand-total-row">
+            <div>Total</div>
+            <div>${this.props.subTotalTax + this.props.subTotal}</div>
           </div>
-          <div className="footer-FlexRow">
+
+          <div className="ShoppingCartTotal-purchase-button">
+            <StripeCheckout
+              style={{
+                width: "100%"
+              }}
+              token={this.onToken}
+              stripeKey="pk_test_YnDf06NULFsYuFk99DwENrqm00kzWHkOoK"
+            />
+          </div>
+
+          <div className="ShoppingCartTotal-cards">
             <img height="12px" width="25px" src="../assets/VisaImage.png" />
             <img
               height="12px"
@@ -53,14 +63,6 @@ export default class ShoppingCartTotal extends Component {
               width="25px"
               src="../assets/AmericanExpressImage.png"
             />
-          </div>
-          <div className="ShoppingCartTotal-purchase-btn">
-            <button onClick={this.removeCart}>
-              <StripeCheckout
-                token={this.onToken}
-                stripeKey="pk_test_YnDf06NULFsYuFk99DwENrqm00kzWHkOoK"
-              />
-            </button>
           </div>
         </div>
       </>

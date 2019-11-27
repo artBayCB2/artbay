@@ -19,6 +19,7 @@ class UnconnectedArtistCollection extends Component {
 
   componentDidMount = () => {
     this.setArtCollection();
+    this._setArtistCollectionNavBar();
   };
 
   setArtCollection = async () => {
@@ -39,7 +40,7 @@ class UnconnectedArtistCollection extends Component {
 
   artistCollection = () => {};
 
-  render() {
+  _setArtistCollectionNavBar = () => {
     this.props.dispatch({
       type: "set-nav-DashB",
       value: false
@@ -69,6 +70,9 @@ class UnconnectedArtistCollection extends Component {
       type: "set-nav-cartB",
       value: true
     });
+  };
+
+  render() {
     return (
       <>
         {this.state.loading ? (
@@ -85,9 +89,11 @@ class UnconnectedArtistCollection extends Component {
             }}
           >
             <div className="ArtistCollection-container">
-              <div>
-                <div>{this.props.artist}</div>
+              <div className="ArtistCollection-artist">
+                {" "}
+                Art by {this.props.artist}
               </div>
+
               <div>
                 <div className="artistCollection-rows">
                   {this.state.collection.map(artElm => {

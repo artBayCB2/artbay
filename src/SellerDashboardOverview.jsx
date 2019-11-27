@@ -5,31 +5,50 @@ import DashBoardOverviewCard from "./Components/DashBoardOverviewCard/DashBoardO
 class SellerDashboardOverview extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      overview: []
-    };
+    this.state = {};
   }
+
   componentDidMount = () => {
-    this.handleSellerOverview();
+    this.getOverviewData();
   };
 
-  handleSellerOverview = async () => {
-    let response = await fetch("/this-seller-art");
-    let responseBody = await response.text();
-    let body = JSON.parse(responseBody);
-    console.log("body", body);
-    let sellerOverview = body.message;
-    this.setState({ overview: sellerOverview });
-    console.log("message", sellerOverview);
-  };
-
-  sellerRev = () => {
+  getOverviewData = v => {
+    console.log("here", this.props.artworks);
     let sellerRev = 0;
-    this.state.overview.forEach(item => {
-      sellerRev = sellerRev + item.price;
+    let totalCustomers = 0;
+    let totalSold = 0;
+    let inStock = 0;
+    this.props.artworks.forEach(item => {
+      sellerRev = sellerRev + (!isNaN(item.price) ? item.price : 0);
+      totalSold = totalSold + (!isNaN(item.sold) ? item.sold : 0);
+      inStock =
+        inStock +
+        (!isNaN(item.quantity)
+          ? item.quantity
+          : 0 - !isNaN(item.sold)
+          ? item.sold
+          : 0);
+
+      if (item.sold > 0) {
+        totalCustomers = totalCustomers + 1;
+      }
     });
-    console.log("sellerRev", sellerRev);
-    return sellerRev;
+
+    if (v === "SR") {
+      return sellerRev;
+    }
+
+    if (v === "TC") {
+      return totalCustomers;
+    }
+
+    if (v === "TS") {
+      return totalSold;
+    }
+
+    if (v === "IS") {
+      return inStock;
+    }
   };
 
   render() {
@@ -38,17 +57,23 @@ class SellerDashboardOverview extends Component {
         <div className="overviewContainer">
           <h1>Overview</h1>
           <div className="overviewHeader">
-            <DashBoardOverviewCard title="Revenue" value="0" />
-            <DashBoardOverviewCard title="Customers" value="0" />
-            <DashBoardOverviewCard title="Sold" value="0" />
-            <DashBoardOverviewCard title="In Stock" value="0" />
+            <DashBoardOverviewCard
+              title="Revenue"
+              value={this.getOverviewData("SR")}
+            />
+            <DashBoardOverviewCard
+              title="Customers"
+              value={this.getOverviewData("TC")}
+            />
+            <DashBoardOverviewCard
+              title="Sold"
+              value={this.getOverviewData("TS")}
+            />
+            <DashBoardOverviewCard
+              title="In Stock"
+              value={this.getOverviewData("IS")}
+            />
           </div>
-          {/* <div className="overviewBody">
-            <div>{this.sellerRev()}</div>
-            <div>Customers</div>
-            <div>Items Sold</div>
-            <div>{this.state.overview.length}</div>
-          </div> */}
         </div>
       </React.Fragment>
     );

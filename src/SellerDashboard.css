@@ -5,6 +5,7 @@
   align-content: center;
   width: 100%;
   box-sizing: border-box;
+  padding: 50px 50px 20px 50px;
 }
 
 .sellerDashboard-items-row h1 {
@@ -12,7 +13,7 @@
   font-size: 24px;
   line-height: 36px;
   text-align: left;
-  margin: 20px 100px;
+  margin-right: 50px;
   padding: 0;
   color: #90999f;
   box-sizing: border-box;
@@ -36,12 +37,11 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  background: red;
 }
 
 .sellerDashboard-items-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   align-content: center;
   width: 100%;
@@ -51,22 +51,23 @@
 }
 
 .sellerDashboard-items-header div {
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 14px;
   align-items: left;
   color: #4c4e58;
+
+  display: flex;
+  margin: 10px;
 }
 
 .sellerDashboard-items-body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: left;
   align-content: center;
   width: 100%;
   padding: 0;
   margin: 10px;
   box-sizing: border-box;
-
   background: #ffffff;
   box-shadow: 0px 8px 40px rgba(243, 246, 249, 0.8);
 }
@@ -74,4 +75,33 @@
 .sellerDashboard-items-body div {
   height: 50px;
   text-align: left;
+  font-weight: 600;
+  font-size: 18px;
+  align-items: center;
+  color: #354f8b;
+  display: flex;
+  align-content: center;
+
+  margin: 10px;
+}
+
+.sellerDashboard-items-body button {
+  height: 50px;
+  margin: 10px;
+}
+
+.sellerDashboard-items-body button {
+  margin: 10px;
+  height: 50px;
+  box-sizing: border-box;
+  background: transparent;
+  color: #ff007a;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  padding-left: 0;
+}
+
+.sellerDashboard-items-body button:hover {
+  color: #e1e6eb;
 }

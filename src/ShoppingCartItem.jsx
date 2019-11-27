@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class ShoppingCartItem extends Component {
+import "./ShoppingCartItem.css";
+import { connect } from "react-redux";
+
+class UnconnectedShoppingCartItem extends Component {
   constructor() {
     super();
     this.state = {
@@ -28,7 +31,13 @@ export default class ShoppingCartItem extends Component {
     });
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-    console.log(body);
+
+    if (body.success) {
+      this.props.dispatch({
+        type: "update-cart",
+        value: body.message
+      });
+    }
   };
 
   increaseQuantity = () => {
@@ -53,32 +62,60 @@ export default class ShoppingCartItem extends Component {
   render() {
     return (
       <div className="ShoppingCartItem-container">
-        <div className="ShoppingCartItem-imgLeft">
-          <img
-            className="ShoppingCartItem-itemImg"
-            src={this.props.artElem.artImageURL}
-            width="50px"
-          ></img>
+        <div
+          style={{
+            width: "50px",
+            height: "50px",
+            backgroundImage: "url(" + this.props.artElem.artImageURL + ")",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            marginRight: "20px",
+            borderRadius: "5px"
+          }}
+        >
+          {/* <img src={this.props.artElem.artImageURL} width="50px"></img> */}
+        </div>
+        <div style={{ width: "180px" }}>
           <Link to={"/artistCollection/" + this.props.artElem.artist}>
             <div>{this.props.artElem.artist}</div>
           </Link>
         </div>
 
-        <div className="ShoppingCartItem-btn">
-          <button onClick={this.reduceQuantity}>-</button>
+        <div className="ShoppingCartItem-incdec-button-row">
+          <button
+            className="ShoppingCartItem-incdec-button"
+            onClick={this.reduceQuantity}
+          >
+            -
+          </button>
 
           {this.state.quantity}
-          <button onClick={this.increaseQuantity}>+</button>
+
+          <button
+            className="ShoppingCartItem-incdec-button"
+            onClick={this.increaseQuantity}
+          >
+            +
+          </button>
         </div>
-        <div className="ShoppingCartItem-Right">
+
+        <div style={{ width: "200px" }}>
           <p>${this.props.artElem.price}</p>
         </div>
-        <div className="ShoppingCartItem-remove-btn">
-          <Link to="/cart">
-            <button onClick={this.removeArt}>X</button>
-          </Link>
+        <div style={{ width: "50px" }}>
+          <button
+            className="ShoppingCartItem-remove-button"
+            onClick={this.removeArt}
+          >
+            x
+          </button>
         </div>
       </div>
     );
   }
 }
+
+let ShoppingCartItem = connect()(UnconnectedShoppingCartItem);
+
+export default ShoppingCartItem;

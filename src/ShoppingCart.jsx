@@ -4,8 +4,10 @@ import ShoppingCartTotal from "./ShoppingCartTotal.jsx";
 import { Link } from "react-router-dom";
 import "./shoppingCart.css";
 import NavBar from "./NavBar.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
+import { connect } from "react-redux";
 
-export default class ShoppingCart extends Component {
+class UnconnectedShoppingCart extends Component {
   constructor() {
     super();
     this.state = {
@@ -14,30 +16,32 @@ export default class ShoppingCart extends Component {
     };
   }
   componentDidMount() {
-    this.cartItem();
+    // this.cartItem();
+    this._setShoppingCartNavBar();
   }
 
-  componentDidUpdate() {
-    this.cartItem();
-  }
+  // componentDidUpdate() {
+  //   this.cartItem();
+  // }
 
-  cartItem = async () => {
-    let response = await fetch("/get-cart-items");
-    let responseBody = await response.text();
+  // cartItem = async () => {
+  //   let response = await fetch("/get-cart-items");
+  //   let responseBody = await response.text();
 
-    let body = JSON.parse(responseBody);
+  //   let body = JSON.parse(responseBody);
 
-    if (this.state.length !== body.message[0].cart.length) {
-      this.setState({
-        cart: body.message[0].cart,
-        length: body.message[0].cart.length
-      });
-    }
-  };
+  //   if (this.state.length !== body.message[0].cart.length) {
+  //     this.setState({
+  //       cart: body.message[0].cart,
+  //       length: body.message[0].cart.length
+  //     });
+  //   }
+  // };
+
   subTotal = () => {
     let total = 0;
 
-    this.state.cart.forEach(art => {
+    this.props.cartItems.cart.forEach(art => {
       total = total + art.price;
     });
 
@@ -50,32 +54,77 @@ export default class ShoppingCart extends Component {
     return total * 0.14;
   };
 
+  _setShoppingCartNavBar = () => {
+    this.props.dispatch({
+      type: "set-nav-DashB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-SellB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-shopB",
+      value: true
+    });
+
+    this.props.dispatch({
+      type: "set-nav-uploadB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-searchB",
+      value: false
+    });
+
+    this.props.dispatch({
+      type: "set-nav-cartB",
+      value: true
+    });
+  };
+
   render() {
     return (
       <>
         <NavBar></NavBar>
         <div className="shoppingCart-container">
           <h2>Shopping Cart</h2>
-        </div>
-        <div className="shoppingCart-container">
-          <div className="shoppingCart-item-container">
-            {this.state.cart.map(art => {
-              return <ShoppingCartItem artElem={art}></ShoppingCartItem>;
-            })}
+          <div className="shoppingCart-container-row">
+            <div className="shoppingCart-left-container">
+              <Link to={"/"}>
+                <button className="shoppingCart-button-c">
+                  CONTINUE SHOPPING
+                </button>
+              </Link>
+              {this.props.cartItems.cart.map(art => {
+                return (
+                  <div className="shoppingCart-item-container">
+                    <ShoppingCartItem artElem={art} />
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="shoppingCart-right-container">
+              <ShoppingCartTotal
+                subTotalTax={this.subTotalTax()}
+                subTotal={this.subTotal()}
+              ></ShoppingCartTotal>
+            </div>
           </div>
         </div>
-        <div className="shoppingCart-shopping-btn">
-          <Link to={"/"}>
-            <button>CONTINUE SHOPPING</button>
-          </Link>
-        </div>
-        <div className="shoppingCart-total-container">
-          <ShoppingCartTotal
-            subTotalTax={this.subTotalTax()}
-            subTotal={this.subTotal()}
-          ></ShoppingCartTotal>
-        </div>
+        <Footer />
       </>
     );
   }
 }
+
+let mapStateToProps = state => {
+  return { cartItems: state.cartItems };
+};
+
+let ShoppingCart = connect(mapStateToProps)(UnconnectedShoppingCart);
+export default ShoppingCart;

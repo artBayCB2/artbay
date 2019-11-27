@@ -15,7 +15,6 @@ class UnconnectedArtCard extends Component {
   }
 
   selectFavArt = () => {
-    console.log(this.state.favArt);
     let _favState = this.state.favArt;
     this.setState({
       favArt: !_favState
@@ -23,28 +22,26 @@ class UnconnectedArtCard extends Component {
   };
 
   addtoCart = async () => {
-    console.log("count", this.state.count);
-    if (this.state.count <= this.props.art.quantity) {
-      let data = new FormData();
-      data.append("cart", JSON.stringify(this.props.art));
-      let response = await fetch("/update-cart", {
-        method: "POST",
-        body: data
-      });
-      let responseBody = await response.text();
-      let body = JSON.parse(responseBody);
-      console.log("AddtoCart MSG", body);
+    // if (this.state.count <= this.props.art.quantity) {
+    let data = new FormData();
+    data.append("cart", JSON.stringify(this.props.art));
+    let response = await fetch("/update-cart", {
+      method: "POST",
+      body: data
+    });
+    let responseBody = await response.text();
+    let body = JSON.parse(responseBody);
 
-      if (body.success) {
-        this.props.dispatch({
-          type: "update-cart",
-          value: body.message
-        });
-      }
-      this.setState({
-        count: this.state.count + 1
+    if (body.success) {
+      this.props.dispatch({
+        type: "update-cart",
+        value: body.message
       });
     }
+    // this.setState({
+    //   count: this.state.count + 1
+    // });
+    // }
   };
 
   render() {
@@ -71,7 +68,6 @@ class UnconnectedArtCard extends Component {
                   src="../assets/FavIconFalse.png"
                 />
               )}
-
               <img onClick={this.addtoCart} src="../assets/CartIcon.png" />
             </div>
           </div>

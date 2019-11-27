@@ -28,14 +28,22 @@ class UnconnectedApp extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false
+      loading: true
     };
   }
+
+  componentDidMount = () => {
+    this.checkStatus();
+  };
+
   checkStatus = async () => {
+    console.log("466466444");
     let response = await fetch("/check-status");
     let body = await response.text();
 
     body = JSON.parse(body);
+
+    console.log(body.cart);
 
     if (body.loggedIn) {
       this.props.dispatch({
@@ -49,16 +57,15 @@ class UnconnectedApp extends Component {
 
       this.props.dispatch({
         type: "update-cart",
-        value: body.cartItems
+        value: body.cart
       });
     }
 
-    // this.setState({ loading: false });
+    this.setState({ loading: false });
   };
 
   render = () => {
     console.log("dasddssadsdasd");
-    this.checkStatus();
     return this.state.loading ? (
       <LoadingOverlay
         active={this.state.loading}
@@ -105,12 +112,6 @@ class UnconnectedApp extends Component {
   };
 }
 
-let mapStateToProps = state => {
-  return {
-    cartItems: state.cartItems
-  };
-};
-
-let App = connect(mapStateToProps)(UnconnectedApp);
+let App = connect()(UnconnectedApp);
 
 export default App;

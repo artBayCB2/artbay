@@ -26,6 +26,9 @@ class UnconnectedArtUpload extends Component {
       price: 0.0
     };
   }
+  componentDidMount = () => {
+    this._setArtUploadNavBar();
+  };
   handleFile = event => {
     event.preventDefault();
     console.log(event.target.files);
@@ -133,7 +136,7 @@ class UnconnectedArtUpload extends Component {
     }
   };
 
-  render() {
+  _setArtUploadNavBar = () => {
     this.props.dispatch({
       type: "set-nav-DashB",
       value: true
@@ -163,12 +166,14 @@ class UnconnectedArtUpload extends Component {
       type: "set-nav-cartB",
       value: false
     });
+  };
 
+  render() {
     return (
       <React.Fragment>
         <NavBar />
         <div className="artupload-container">
-          <h3>Art Details</h3>
+          <h3>List your Art</h3>
 
           <form className="artupload-form" onSubmit={this.handleSubmitArt}>
             <div className="artupload-leftChildContainer">

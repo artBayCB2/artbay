@@ -13,8 +13,10 @@ class UnconnectedSellerSellerDashboard extends Component {
       artworks: []
     };
   }
+
   componentDidMount = () => {
     this.handleSellerItems();
+    this._setSellerDashBoardNavBar();
   };
 
   handleSellerItems = async () => {
@@ -29,7 +31,7 @@ class UnconnectedSellerSellerDashboard extends Component {
 
   handleDeleteItem = async () => {};
 
-  render() {
+  _setSellerDashBoardNavBar = () => {
     this.props.dispatch({
       type: "set-nav-DashB",
       value: false
@@ -59,41 +61,66 @@ class UnconnectedSellerSellerDashboard extends Component {
       type: "set-nav-cartB",
       value: false
     });
+  };
 
+  render() {
     return (
       <React.Fragment>
         <NavBar />
-        <SellerDashboardOverview />
-        <div className="sellerDashboard-items-row">
-          <h1>My Items</h1>
-          <div className="sellerDashboard-horizontal-line"></div>
-        </div>
-        <div className="sellerDashboard-items-container">
-          <div className="sellerDashboard-items-header">
-            <div style={{ width: "10%" }}>Art Preview</div>
-            <div style={{ width: "20%" }}>Title</div>
-            <div style={{ width: "20%" }}>Artist Name</div>
-            <div style={{ width: "10%" }}>Category</div>
-            <div style={{ width: "5%" }}>Qty</div>
-            <div style={{ width: "5%" }}>Sold</div>
-            <div style={{ width: "10%" }}>Delete</div>
-          </div>
+        <div
+          style={{
+            margin: "130px 50px 50px 50px"
+          }}
+        >
+          <h3 style={{ color: "#ff007a" }}>Your Dashboard</h3>
+          <SellerDashboardOverview artworks={this.state.artworks} />
 
-          {this.state.artworks.map(art => {
-            return (
-              <div className="sellerDashboard-items-body">
-                <div style={{ width: "10%" }}>
-                  <img height="100%" width="100%" src={art.artImageURL} />
+          <div className="sellerDashboard-items-row">
+            <h1>My Items</h1>
+            <div className="sellerDashboard-horizontal-line"></div>
+          </div>
+          <div className="sellerDashboard-items-container">
+            <div className="sellerDashboard-items-header">
+              <div style={{ width: "50px" }}></div>
+              <div style={{ width: "160px" }}>Title</div>
+              <div style={{ width: "160px" }}>Artist Name</div>
+              <div style={{ width: "160px" }}>Category</div>
+              <div style={{ width: "50px", textAlign: "center" }}>Qty</div>
+              <div style={{ width: "150px" }}>Price</div>
+              <div style={{ width: "50px", textAlign: "center" }}>Sold</div>
+              <div style={{ width: "50px" }}></div>
+            </div>
+
+            {this.state.artworks.map(art => {
+              return (
+                <div className="sellerDashboard-items-body">
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundImage: "url(" + art.artImageURL + ")",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover"
+                    }}
+                  >
+                    {/* <img height="100%" src={art.artImageURL} /> */}
+                  </div>
+                  <div style={{ width: "160px" }}>{art.title}</div>
+                  <div style={{ width: "160px" }}>{art.artist}</div>
+                  <div style={{ width: "160px" }}>{art.category}</div>
+                  <div style={{ width: "50px", textAlign: "center" }}>
+                    {art.quantity}
+                  </div>
+                  <div style={{ width: "150px" }}>{art.price}</div>
+                  <div style={{ width: "50px", textAlign: "center" }}>
+                    {art.sold}
+                  </div>
+                  <button style={{ width: "50px" }}>x</button>
                 </div>
-                <div style={{ width: "20%" }}>{art.title}</div>
-                <div style={{ width: "20%" }}>{art.artist}</div>
-                <div style={{ width: "10%" }}>{art.category}</div>
-                <div style={{ width: "5%" }}>{art.quantity}</div>
-                <div style={{ width: "5%" }}>{art.sold}</div>
-                <button>Delete</button>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
         <Footer />
       </React.Fragment>

@@ -33,6 +33,10 @@ export class UnconnectedSellerProfile extends Component {
     };
   }
 
+  componentDidMount = () => {
+    this._setSellerProfileNavBar();
+  };
+
   handleFirstName = event => {
     console.log("handleFirstName", event.target.value);
     this.setState({ firstName: event.target.value });
@@ -170,7 +174,7 @@ export class UnconnectedSellerProfile extends Component {
     });
   };
 
-  render = () => {
+  _setSellerProfileNavBar = () => {
     this.props.dispatch({
       type: "set-nav-DashB",
       value: false
@@ -200,7 +204,9 @@ export class UnconnectedSellerProfile extends Component {
       type: "set-nav-cartB",
       value: false
     });
+  };
 
+  render = () => {
     return (
       <React.Fragment>
         <NavBar />

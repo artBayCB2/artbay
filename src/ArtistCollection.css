@@ -1,5 +1,11 @@
 .artistCollection-container {
-  margin-top: 100px;
+  margin-top: 130px;
+}
+
+.ArtistCollection-artist {
+  width: 100%;
+  color: red;
+  height: 50px;
 }
 .artistCollection-rows {
   columns: 400px;

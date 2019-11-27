@@ -50,27 +50,26 @@ app.get("/check-status", upload.none(), (req, res) => {
           );
         }
 
-        let _cartItems = [];
+        let _cart = [];
 
         dbo
           .collection("cart")
-          .find({ cartID: _sessionID })
-          .toArray((err, cartItems) => {
+          .find({ cartID: ObjectID(_sessionID) })
+          .toArray((err, cart) => {
             if (err) {
-              _cartItems = [];
+              _cart = [];
             } else {
+              _cart = cart[0];
             }
 
-            _cartItems = cartItems;
+            return _res.send(
+              JSON.stringify({
+                loggedIn: true,
+                profileImageURL: user.profileImageURL,
+                cart: _cart
+              })
+            );
           });
-
-        return _res.send(
-          JSON.stringify({
-            loggedIn: true,
-            profileImageURL: user.profileImageURL,
-            cartItems: _cartItems
-          })
-        );
       });
   }
 });
@@ -202,7 +201,9 @@ app.post("/login", upload.none(), (req, res) => {
 
 //GET - logout user
 app.get("/logout", (req, res) => {
-  res.cookie("sid", "logout", { expires: new Date(0) });
+  dbo.collection("cart").remove({ cartID: ObjectID(req.cookies.sid) });
+
+  res.clearCookie("sid");
   res.send(
     JSON.stringify({
       success: true,
@@ -574,16 +575,12 @@ app.post("/update-cart", upload.none(), (req, res) => {
                   }
                 }
               );
-              // .then(res => {
-              //   console.log(res[0]);
-              // });
 
               dbo
                 .collection("cart")
                 .findOne(
                   { cartID: ObjectID(_req.cookies.sid) },
                   (err, cart) => {
-                    console.log(cart);
                     return _res.send(
                       JSON.stringify({
                         success: true,
@@ -636,7 +633,7 @@ app.get("/get-cart-items", (req, res) => {
     });
 });
 
-//GET - delete cart item
+//POST - delete cart item
 app.post("/delete-cart-item", upload.none(), (req, res) => {
   let _req = req;
   let _res = res;
@@ -677,8 +674,6 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
           return cartItem._id.toString() !== _thisItemID.toString();
         });
 
-        // console.log("filtered", _thisItems);
-
         try {
           dbo.collection("cart").update(
             { cartID: ObjectID(_req.cookies.sid) },
@@ -688,12 +683,17 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
               }
             }
           );
-          return _res.send(
-            JSON.stringify({
-              success: true,
-              message: "Item deleted successfully!"
-            })
-          );
+
+          dbo
+            .collection("cart")
+            .findOne({ cartID: ObjectID(_req.cookies.sid) }, (err, cart) => {
+              return _res.send(
+                JSON.stringify({
+                  success: true,
+                  message: cart
+                })
+              );
+            });
         } catch (e) {
           return res.send(
             JSON.stringify({ success: false, message: e.toString() })
@@ -701,6 +701,32 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
         }
       }
     });
+});
+
+//GET - delete cart item
+app.get("/empty-cart", upload.none(), (req, res) => {
+  let _req = req;
+  let _res = res;
+
+  if (req.cookies === undefined) {
+    return res.send(
+      JSON.stringify({
+        success: false,
+        message: "no active session, unable to empty cart"
+      })
+    );
+  }
+  try {
+    dbo.collection("cart").delete({ cartID: ObjectID(req.cookies.sid) });
+    return _res.send(
+      JSON.stringify({
+        success: true,
+        message: "cart was emptied successfully"
+      })
+    );
+  } catch (e) {
+    return res.send(JSON.stringify({ success: false, message: e.toString() }));
+  }
 });
 
 app.all("/*", (req, res, next) => {

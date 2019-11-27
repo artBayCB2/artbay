@@ -43,7 +43,6 @@ export class UnconnectedCartBag extends Component {
   render() {
     let cartLength = 0;
     if (this.props.cartItems.cart !== undefined) {
-      console.log("dasdsa", this.props.cartItems);
       cartLength = this.props.cartItems.cart.length;
     }
     return (

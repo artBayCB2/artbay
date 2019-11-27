@@ -10,6 +10,7 @@ import Footer from "./Components/Footer/Footer.jsx";
 
 import LoadingOverlay from "react-loading-overlay";
 import "./ArtDetails.css";
+import { withRouter } from "react-router-dom";
 
 class UnconnectedArtDetails extends Component {
   constructor() {
@@ -23,6 +24,7 @@ class UnconnectedArtDetails extends Component {
   }
   componentDidMount = () => {
     this.getArtObj();
+    this._setArtDetailsNavBar();
   };
 
   getArtObj = async () => {
@@ -46,7 +48,16 @@ class UnconnectedArtDetails extends Component {
     data.append("cart", JSON.stringify(this.state.art));
     let response = await fetch("/update-cart", { method: "POST", body: data });
     let responseBody = await response.text();
-    console.log("sasas", responseBody);
+
+    let body = await JSON.parse(responseBody);
+
+    if (body.success) {
+      this.props.dispatch({
+        type: "update-cart",
+        value: body.message
+      });
+      this.props.history.push("/cart");
+    }
   };
 
   renderDescription = () => {
@@ -90,8 +101,7 @@ class UnconnectedArtDetails extends Component {
     }
   };
 
-  render() {
-    console.log("renderrenderrenderrenderrenderrender");
+  _setArtDetailsNavBar = () => {
     this.props.dispatch({
       type: "set-nav-DashB",
       value: false
@@ -121,6 +131,9 @@ class UnconnectedArtDetails extends Component {
       type: "set-nav-cartB",
       value: true
     });
+  };
+
+  render() {
     return (
       <>
         {this.state.loading ? (
@@ -244,4 +257,4 @@ let mapStateToProps = state => {
   return { loggedIn: state.loggedIn };
 };
 let ArtDetails = connect(mapStateToProps)(UnconnectedArtDetails);
-export default ArtDetails;
+export default withRouter(ArtDetails);

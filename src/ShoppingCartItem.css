@@ -1,0 +1,36 @@
+.ShoppingCartItem-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+  background: #ffffff;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+.ShoppingCartItem-container button {
+  box-sizing: border-box;
+  background: transparent;
+  font-weight: bold;
+  border: none;
+}
+
+.ShoppingCartItem-incdec-button-row {
+  background: #f6f6f6;
+  border-radius: 5px;
+  margin: 0 20px;
+}
+
+.ShoppingCartItem-remove-button {
+  font-size: 18px;
+  color: #ff007a;
+}
+
+.ShoppingCartItem-incdec-button {
+  font-size: 18px;
+  color: #bbbbbb;
+  margin: 0 5px;
+}
