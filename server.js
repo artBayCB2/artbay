@@ -59,7 +59,9 @@ app.get("/check-status", upload.none(), (req, res) => {
             if (err) {
               _cart = [];
             } else {
-              _cart = cart[0];
+              if (cart[0] !== undefined) {
+                _cart = cart[0];
+              }
             }
 
             return _res.send(
@@ -690,7 +692,7 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
               return _res.send(
                 JSON.stringify({
                   success: true,
-                  message: cart
+                  message: cart[0]
                 })
               );
             });
@@ -703,7 +705,7 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
     });
 });
 
-//GET - delete cart item
+//GET - delete cart
 app.get("/empty-cart", upload.none(), (req, res) => {
   let _req = req;
   let _res = res;
