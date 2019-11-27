@@ -148,7 +148,7 @@ class UnconnectedNavBar extends Component {
               <div>
                 <Link to="/artupload">
                   <button className="navbar-buttons">
-                    <img src="/assets/AnalyticsVector.png"></img>
+                    <img src="/assets/UploadIcon.png"></img>
                     Upload
                   </button>
                 </Link>

@@ -10,7 +10,7 @@ let reducer = (state, action) => {
     return { ...state, artupload: true };
   }
   if (action.type === "submitSellerDetails-success") {
-    return { ...state, submitSellerDetails: true };
+    return { ...state, submitSellerDetails: true, userIsSeller: action.value };
   }
   if (action.type === "change-NavBar-Value") {
     return { ...state, searchValue: action.value };

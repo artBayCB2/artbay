@@ -6,6 +6,7 @@ import NavBar from "./NavBar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import FormFlowTab from "./Components/FormFlowTab/FormFlowTab.jsx";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 export class UnconnectedSellerProfile extends Component {
   constructor() {
@@ -146,12 +147,14 @@ export class UnconnectedSellerProfile extends Component {
       return;
     }
     if (body.success) {
-      alert(body.message);
+      // alert(body.message);
+      this.props.dispatch({
+        type: "submitSellerDetails-success",
+        value: body.userIsSeller
+      });
+      this.props.history.push("/seller-dashboard");
       return;
     }
-    this.props.dispatch({
-      type: "submitSellerDetails-success"
-    });
   };
 
   handleGoToPaymentDetails = () => {
@@ -265,4 +268,4 @@ export class UnconnectedSellerProfile extends Component {
 
 let SellerProfile = connect()(UnconnectedSellerProfile);
 
-export default SellerProfile;
+export default withRouter(SellerProfile);

@@ -69,11 +69,14 @@ class UnconnectedSubmitSellerDetails extends Component {
               >
                 Back
               </button>
-              <Link style={{ width: "100%" }} to={"/artupload"}>
-                <button className="sellerProfile-button" type="submit">
-                  Submit
-                </button>
-              </Link>
+
+              <button
+                style={{ width: "100%" }}
+                className="sellerProfile-button"
+                type="submit"
+              >
+                Submit
+              </button>
             </div>
           </form>
         </div>

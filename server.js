@@ -209,7 +209,7 @@ app.post("/login", upload.none(), (req, res) => {
 
 //GET - logout user
 app.get("/logout", (req, res) => {
-  dbo.collection("cart").remove({ cartID: ObjectID(req.cookies.sid) });
+  dbo.collection("cart").deleteOne({ cartID: ObjectID(req.cookies.sid) });
 
   res.clearCookie("sid");
   res.send(
@@ -294,7 +294,8 @@ app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
     return _res.send(
       JSON.stringify({
         success: true,
-        message: "Seller profile updated successfully!"
+        message: "Seller profile updated successfully!",
+        userIsSeller: true
       })
     );
   } catch (e) {
@@ -785,7 +786,7 @@ app.post("/delete-seller-art", upload.none(), (req, res) => {
 // });
 
 //POST - submit payment
-app.get("/submit-payment", upload.none(), (req, res) => {
+app.post("/submit-payment", upload.none(), (req, res) => {
   let _req = req;
   let _res = res;
 
