@@ -143,6 +143,10 @@
   border-left: 1px solid rgba(53, 79, 139, 0.5);
 }
 
+.navbar-profile-image-container img {
+  border-radius: 50%;
+}
+
 .navbar-cart {
   margin-right: 50px;
 }

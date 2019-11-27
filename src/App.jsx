@@ -42,11 +42,11 @@ class UnconnectedApp extends Component {
 
     body = JSON.parse(body);
 
-    console.log(body.cart);
-
     if (body.loggedIn) {
+      console.log("isseller", body.userIsSeller);
       this.props.dispatch({
-        type: "login-success"
+        type: "login-success",
+        value: body.userIsSeller
       });
 
       this.props.dispatch({

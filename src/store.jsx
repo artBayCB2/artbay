@@ -1,10 +1,10 @@
 import { createStore } from "redux";
 let reducer = (state, action) => {
   if (action.type === "logout") {
-    return { ...state, loggedIn: false };
+    return { ...state, loggedIn: false, userIsSeller: false };
   }
   if (action.type === "login-success") {
-    return { ...state, loggedIn: true };
+    return { ...state, loggedIn: true, userIsSeller: action.value };
   }
   if (action.type === "artupload-success") {
     return { ...state, artupload: true };
@@ -69,7 +69,8 @@ const store = createStore(
     navDashBoardButton: true,
     navUploadButton: true,
     NavSellButton: true,
-    NavCartBag: true
+    NavCartBag: true,
+    userIsSeller: false
   },
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

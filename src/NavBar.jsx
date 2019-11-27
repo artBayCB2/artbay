@@ -80,6 +80,7 @@ class UnconnectedNavBar extends Component {
   };
 
   render() {
+    console.log(this.props.userIsSeller);
     return (
       <React.Fragment>
         <div className="navbar-row">
@@ -153,26 +154,30 @@ class UnconnectedNavBar extends Component {
                 </Link>
               </div>
             )}
-            {this.props.loggedIn && this.props.navDashBoardButton && (
-              <div>
-                <Link to="/seller-dashboard">
-                  <button className="navbar-buttons">
-                    <img src="/assets/AnalyticsVector.png"></img>
-                    Dashboard
-                  </button>
-                </Link>
-              </div>
-            )}
-            {this.props.loggedIn && this.props.NavSellButton && (
-              <div>
-                <Link to="/seller-profile">
-                  <button className="navbar-buttons">
-                    <img src="/assets/ShopVector.png"></img>
-                    Sell Your Art
-                  </button>
-                </Link>
-              </div>
-            )}
+            {this.props.loggedIn &&
+              this.props.navDashBoardButton &&
+              this.props.userIsSeller && (
+                <div>
+                  <Link to="/seller-dashboard">
+                    <button className="navbar-buttons">
+                      <img src="/assets/AnalyticsVector.png"></img>
+                      Dashboard
+                    </button>
+                  </Link>
+                </div>
+              )}
+            {this.props.loggedIn &&
+              this.props.NavSellButton &&
+              !this.props.userIsSeller && (
+                <div>
+                  <Link to="/seller-profile">
+                    <button className="navbar-buttons">
+                      <img src="/assets/ShopVector.png"></img>
+                      Sell Your Art
+                    </button>
+                  </Link>
+                </div>
+              )}
             {this.props.loggedIn && this.props.navShopButton && (
               <div>
                 <Link to="/">
@@ -221,39 +226,10 @@ let mapStateToProps = state => {
     navDashBoardButton: state.navDashBoardButton,
     navUploadButton: state.navUploadButton,
     NavSellButton: state.NavSellButton,
-    NavCartBag: state.NavCartBag
+    NavCartBag: state.NavCartBag,
+    userIsSeller: state.userIsSeller
   };
 };
 let NavBar = connect(mapStateToProps)(UnconnectedNavBar);
 
 export default withRouter(NavBar);
-
-// this.props.dispatch({
-//   type: "set-nav-DashB",
-//   value: false
-// });
-
-// this.props.dispatch({
-//   type: "set-nav-SellB",
-//   value: false
-// });
-
-// this.props.dispatch({
-//   type: "set-nav-shopB",
-//   value: false
-// });
-
-// this.props.dispatch({
-//   type: "set-nav-uploadB",
-//   value: false
-// });
-
-// this.props.dispatch({
-//   type: "set-nav-searchB",
-//   value: false
-// });
-
-// this.props.dispatch({
-//   type: "set-nav-cartB",
-//   value: false
-// });

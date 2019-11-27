@@ -55,14 +55,15 @@ class UnconnectedSignUp extends Component {
     let response = await fetch("/signup", { method: "POST", body: data });
     let responseBody = await response.text();
     let body = JSON.parse(responseBody);
-    console.log(body.success);
+
     if (!body.success) {
       this.setState({ error: body.message });
       return;
     }
     if (body.success) {
       this.props.dispatch({
-        type: "login-success"
+        type: "login-success",
+        value: body.userIsSeller
       });
       this.props.history.push("/");
       return;

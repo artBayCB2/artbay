@@ -38,9 +38,11 @@ class UnconnectedLogin extends Component {
       this.setState({ error: body.message });
       return;
     }
+
     if (body.success) {
       this.props.dispatch({
-        type: "login-success"
+        type: "login-success",
+        value: body.userIsSeller
       });
       this.props.history.push("/");
       return;

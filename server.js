@@ -68,7 +68,8 @@ app.get("/check-status", upload.none(), (req, res) => {
               JSON.stringify({
                 loggedIn: true,
                 profileImageURL: user.profileImageURL,
-                cart: _cart
+                cart: _cart,
+                userIsSeller: user.isSeller
               })
             );
           });
@@ -109,7 +110,7 @@ app.post("/signup", upload.none(), (req, res) => {
               .collection("cart")
               .findOne({ cartID: _req.cookies }, (err, cart) => {
                 if (cart !== null) {
-                  dbo.collection("cart").update(
+                  dbo.collection("cart").updateOne(
                     { cartID: _req.cookies },
                     {
                       $set: {
@@ -125,7 +126,8 @@ app.post("/signup", upload.none(), (req, res) => {
           _res.send(
             JSON.stringify({
               success: true,
-              message: "Sign up successful!"
+              message: "Sign up successful!",
+              userIsSeller: user["ops"][0].isSeller
             })
           );
         }
@@ -167,7 +169,7 @@ app.post("/login", upload.none(), (req, res) => {
           .collection("cart")
           .findOne({ cartID: _req.cookies }, (err, cart) => {
             if (cart !== null) {
-              dbo.collection("cart").update(
+              dbo.collection("cart").updateOne(
                 { cartID: _req.cookies },
                 {
                   $set: {
@@ -179,7 +181,7 @@ app.post("/login", upload.none(), (req, res) => {
           });
       }
       _res.cookie("sid", user._id);
-      dbo.collection("users").update(
+      dbo.collection("users").updateOne(
         { userID: user._id },
         {
           $set: {
@@ -189,7 +191,11 @@ app.post("/login", upload.none(), (req, res) => {
       );
 
       return _res.send(
-        JSON.stringify({ success: true, message: "Login successful" })
+        JSON.stringify({
+          success: true,
+          message: "Login successful",
+          userIsSeller: user.isSeller
+        })
       );
     }
     _res.send(
@@ -263,7 +269,7 @@ app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
   let _profileImageURL = "/profile-images/" + _profileImage.filename;
 
   try {
-    dbo.collection("users").update(
+    dbo.collection("users").updateOne(
       { _id: ObjectID(_sessionID) },
       {
         $set: {
@@ -569,7 +575,7 @@ app.post("/update-cart", upload.none(), (req, res) => {
             _cart.push(_thisCart);
 
             try {
-              dbo.collection("cart").update(
+              dbo.collection("cart").updateOne(
                 { cartID: ObjectID(_req.cookies.sid) },
                 {
                   $set: {
@@ -677,7 +683,7 @@ app.post("/delete-cart-item", upload.none(), (req, res) => {
         });
 
         try {
-          dbo.collection("cart").update(
+          dbo.collection("cart").updateOne(
             { cartID: ObjectID(_req.cookies.sid) },
             {
               $set: {
@@ -719,7 +725,7 @@ app.get("/empty-cart", upload.none(), (req, res) => {
     );
   }
   try {
-    dbo.collection("cart").delete({ cartID: ObjectID(req.cookies.sid) });
+    dbo.collection("cart").deleteOne({ cartID: ObjectID(req.cookies.sid) });
     return _res.send(
       JSON.stringify({
         success: true,
@@ -755,7 +761,7 @@ app.post("/delete-seller-art", upload.none(), (req, res) => {
   }
 
   try {
-    dbo.collection("artItems").delete({ _id: ObjectID(req.body.artID) });
+    dbo.collection("artItems").deleteOne({ _id: ObjectID(req.body.artID) });
     return _res.send(
       JSON.stringify({
         success: true,
@@ -815,7 +821,7 @@ app.get("/submit-payment", upload.none(), (req, res) => {
       } else {
         console.log(cartItems[0].cart);
         cartItems[0].cart.forEach(item => {
-          dbo.collection("artItems").update(
+          dbo.collection("artItems").updateOne(
             { _id: ObjectID(item._id) },
             {
               $set: {
@@ -826,7 +832,7 @@ app.get("/submit-payment", upload.none(), (req, res) => {
         });
 
         try {
-          dbo.collection("cart").delete({ _id: ObjectID(req.cookies.sid) });
+          dbo.collection("cart").deleteOne({ _id: ObjectID(req.cookies.sid) });
           return _res.send(
             JSON.stringify({
               success: true,

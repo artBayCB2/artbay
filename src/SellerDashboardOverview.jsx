@@ -19,18 +19,18 @@ class SellerDashboardOverview extends Component {
     let totalSold = 0;
     let inStock = 0;
     this.props.artworks.forEach(item => {
-      sellerRev = sellerRev + (!isNaN(item.price) ? item.price : 0);
       totalSold = totalSold + (!isNaN(item.sold) ? item.sold : 0);
       inStock =
         inStock +
-        (!isNaN(item.quantity)
-          ? item.quantity
-          : 0 - !isNaN(item.sold)
-          ? item.sold
-          : 0);
+        (!isNaN(item.quantity) ? item.quantity : 0) -
+        (!isNaN(item.sold) ? item.sold : 0);
 
       if (item.sold > 0) {
         totalCustomers = totalCustomers + 1;
+        sellerRev =
+          sellerRev +
+          (!isNaN(item.price) ? item.price : 0) *
+            (!isNaN(item.sold) ? item.sold : 0);
       }
     });
 

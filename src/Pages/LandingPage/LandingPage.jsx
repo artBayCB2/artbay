@@ -10,7 +10,7 @@ export class UnconnectedLandingPage extends Component {
   render() {
     this.props.dispatch({
       type: "set-nav-DashB",
-      value: false
+      value: true
     });
 
     this.props.dispatch({
