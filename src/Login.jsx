@@ -44,6 +44,10 @@ class UnconnectedLogin extends Component {
         type: "login-success",
         value: body.userIsSeller
       });
+      this.props.dispatch({
+        type: "update-profile-img",
+        value: body.profileImageURL
+      });
       this.props.history.push("/");
       return;
     }

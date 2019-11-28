@@ -194,7 +194,8 @@ app.post("/login", upload.none(), (req, res) => {
         JSON.stringify({
           success: true,
           message: "Login successful",
-          userIsSeller: user.isSeller
+          userIsSeller: user.isSeller,
+          profileImageURL: user.profileImageURL
         })
       );
     }
