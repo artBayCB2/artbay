@@ -46,7 +46,13 @@ export default class Reviews extends Component {
   };
 
   getReviews = async () => {
-    let response = await fetch("/all-item-reviews");
+    let data = new FormData();
+    console.log("REview-this.props.artID", this.props.artID);
+    data.append("itemID", this.props.artID);
+    let response = await fetch("/all-item-reviews", {
+      method: "POST",
+      body: data
+    });
     let responseBody = await response.text();
 
     let body = await JSON.parse(responseBody);
