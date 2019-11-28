@@ -152,6 +152,11 @@ export class UnconnectedSellerProfile extends Component {
         type: "submitSellerDetails-success",
         value: body.userIsSeller
       });
+
+      this.props.dispatch({
+        type: "update-profile-img",
+        value: body.profileImageURL
+      });
       this.props.history.push("/seller-dashboard");
       return;
     }

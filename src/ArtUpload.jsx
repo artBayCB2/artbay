@@ -117,7 +117,7 @@ class UnconnectedArtUpload extends Component {
       body: data
       // file: this.state.file
     });
-    await console.log("handleSubmitArt - after fetch");
+    console.log("handleSubmitArt - after fetch");
     let responseBody = await response.text();
     console.log("responseBody", responseBody);
     let body = JSON.parse(responseBody);

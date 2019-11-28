@@ -295,7 +295,8 @@ app.post("/seller-profile", profileImageUpload.single("file"), (req, res) => {
       JSON.stringify({
         success: true,
         message: "Seller profile updated successfully!",
-        userIsSeller: true
+        userIsSeller: true,
+        profileImageURL: _profileImageURL
       })
     );
   } catch (e) {
