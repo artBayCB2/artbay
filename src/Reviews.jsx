@@ -18,7 +18,7 @@ export default class Reviews extends Component {
   submitReview = async () => {
     let data = new FormData();
     console.log("REview-this.props.artID", this.props.artID);
-    data.append("artID", this.props.artID);
+    data.append("itemID", this.props.artID);
     data.append("review", this.state.reviewString);
 
     let response = await fetch("/add-item-review", {
