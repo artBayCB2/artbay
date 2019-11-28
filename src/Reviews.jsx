@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReviewBody from "./ReviewBody.jsx";
 
 export default class Reviews extends Component {
   constructor() {
@@ -30,9 +31,11 @@ export default class Reviews extends Component {
     let body = await JSON.parse(responseBody);
     console.log("/add-item-review responseBody ", body);
     if (body.success) {
-      this.setstate({
+      this.setState({
         review: body.message
       });
+    } else {
+      alert(body.message);
     }
   };
 
@@ -50,7 +53,7 @@ export default class Reviews extends Component {
     console.log("/all-item-reviews responseBody", body);
     if (this.state.review.length !== body.message.length)
       if (body.success) {
-        this.setstate({
+        this.setState({
           review: body.message
         });
       }
@@ -59,14 +62,13 @@ export default class Reviews extends Component {
   render() {
     return (
       <>
-        {this.state.review.map(review => {
-          <div className="review-body">
-            <div className="review-body-user"></div>
-            <div className="review-body-review">{review}</div>
-          </div>;
-        })}
-        <div className="review-write-btn">
-          <button onClick={this.writeReview}>Write a Review</button>
+        <div>
+          {this.state.review.map(review => {
+            return <ReviewBody reviewBody={review}></ReviewBody>;
+          })}
+          <div className="review-write-btn">
+            <button onClick={this.writeReview}>Write a Review</button>
+          </div>
         </div>
         {this.state.reviewBtn ? (
           <div className="review-write">
