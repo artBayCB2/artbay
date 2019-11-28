@@ -886,10 +886,9 @@ app.post("/add-item-review", upload.none(), (req, res) => {
 
   let _reviewerID = "Anonymous";
   let _reviewerName = "Anonymous";
+  let _reviewerImageURL = noProfileURL;
 
   if (req.cookies !== undefined) {
-    console.log("cook", req.cookies.sid);
-
     if (req.cookies.sid === undefined) {
       try {
         dbo.collection("item-reviews").insertOne(
@@ -898,12 +897,14 @@ app.post("/add-item-review", upload.none(), (req, res) => {
             review: _req.body.review,
             reviewerID: _reviewerID,
             reviewerName: _reviewerName,
+            reviewerImageURL: _reviewerImageURL,
+            reviewerStarRating: JSON.parse(_req.body.rating),
             reviewDate: Date(Date.now()).toString()
           },
           (err, review) => {
             dbo
               .collection("item-reviews")
-              .find({})
+              .find({ itemID: _req.body.itemID })
               .toArray((err, reviews) => {
                 if (err) {
                   return res.send(
@@ -947,12 +948,10 @@ app.post("/add-item-review", upload.none(), (req, res) => {
           dbo
             .collection("users")
             .findOne({ _id: ObjectID(req.cookies.sid) }, (err, user) => {
-              console.log("err", err);
-              console.log("user", user);
-
               if (user !== null) {
                 _reviewerID = user._id;
                 _reviewerName = user.email;
+                _reviewerImageURL = user.profileImageURL;
               }
 
               try {
@@ -962,12 +961,14 @@ app.post("/add-item-review", upload.none(), (req, res) => {
                     review: _req.body.review,
                     reviewerID: _reviewerID,
                     reviewerName: _reviewerName,
+                    reviewerImageURL: _reviewerImageURL,
+                    reviewerStarRating: JSON.parse(_req.body.rating),
                     reviewDate: Date(Date.now()).toString()
                   },
                   (err, review) => {
                     dbo
                       .collection("item-reviews")
-                      .find({})
+                      .find({ itemID: _req.body.itemID })
                       .toArray((err, reviews) => {
                         if (err) {
                           return res.send(
@@ -1006,12 +1007,14 @@ app.post("/add-item-review", upload.none(), (req, res) => {
           review: _req.body.review,
           reviewerID: _reviewerID,
           reviewerName: _reviewerName,
+          reviewerImageURL: _reviewerImageURL,
+          reviewerStarRating: JSON.parse(_req.body.rating),
           reviewDate: Date(Date.now()).toString()
         },
         (err, review) => {
           dbo
             .collection("item-reviews")
-            .find({})
+            .find({ itemID: _req.body.itemID })
             .toArray((err, reviews) => {
               if (err) {
                 return res.send(
@@ -1042,11 +1045,11 @@ app.post("/add-item-review", upload.none(), (req, res) => {
   }
 });
 
-//GET - get all item reviews
-app.get("/all-item-reviews", (req, res) => {
+//POST - get all item reviews
+app.post("/all-item-reviews", upload.none(), (req, res) => {
   dbo
     .collection("item-reviews")
-    .find({})
+    .find({ itemID: req.body.itemID })
     .toArray((err, itemReviews) => {
       if (err) {
         res.send(

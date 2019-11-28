@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import "./ReviewStars.css";
 
 export class ReviewStars extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log(this.props.reviewstars);
     let _star1 = this.props.reviewstars > 0 ? true : false;
     let _star2 = this.props.reviewstars > 1 ? true : false;
     let _star3 = this.props.reviewstars > 2 ? true : false;

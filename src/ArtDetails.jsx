@@ -19,10 +19,12 @@ class UnconnectedArtDetails extends Component {
       art: [],
       buttonValue: "description",
       quantity: 1,
-      loading: true
+      loading: true,
+      reviews: [],
+      averageRating: 0
     };
   }
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.getArtObj();
     this._setArtDetailsNavBar();
   };
@@ -36,7 +38,33 @@ class UnconnectedArtDetails extends Component {
       return art._id === this.props.artID;
     });
 
+    let data = new FormData();
+    data.append("itemID", artObj[0]._id);
+    let reviewResponse = await fetch("/all-item-reviews", {
+      method: "POST",
+      body: data
+    });
+    let reviewResponseBody = await reviewResponse.text();
+
+    let reviewBody = await JSON.parse(reviewResponseBody);
+    console.log("/all-item-reviews responseBody", reviewBody);
+    // if (this.state.reviews.length !== reviewBody.message.length)
+    let _averageRating = 0;
+    if (reviewBody.success) {
+      let _reviewStars = 0;
+
+      if (reviewBody.message.length !== undefined) {
+        reviewBody.message.forEach(review => {
+          _reviewStars = _reviewStars + review.reviewerStarRating;
+        });
+
+        _averageRating = _reviewStars / reviewBody.message.length;
+      }
+    }
+
     this.setState({
+      reviews: reviewBody.message,
+      averageRating: _averageRating,
       art: artObj[0],
       loading: false
     });
@@ -134,6 +162,7 @@ class UnconnectedArtDetails extends Component {
   };
 
   render() {
+    console.log("renderrrr");
     return (
       <>
         {this.state.loading ? (
@@ -149,7 +178,7 @@ class UnconnectedArtDetails extends Component {
               }
             }}
           >
-            <React.Fragment>
+            {/* <React.Fragment>
               <NavBar />
               <div className="artdetails-container">
                 <div className="artdetails-top-container">
@@ -164,9 +193,14 @@ class UnconnectedArtDetails extends Component {
                         {this.state.art.artist}
                       </Link>
                     </p>
+
                     <div className="artdetails-review-row">
-                      <ReviewStars reviewstars={0} />
-                      <div style={{ marginLeft: "10px" }}>No reviews</div>
+                      <ReviewStars reviewstars={this.state.averageRating} />
+                      <div style={{ marginLeft: "10px" }}>
+                        {this.state.reviews.length > 0
+                          ? this.state.reviews.length
+                          : "No reviews"}
+                      </div>
                     </div>
                     <p className="artdetails-price">${this.state.art.price}</p>
                     <div className="artdetails-submit-cart-row">
@@ -196,7 +230,7 @@ class UnconnectedArtDetails extends Component {
                 </div>
               </div>
               <Footer />
-            </React.Fragment>
+            </React.Fragment> */}
           </LoadingOverlay>
         ) : (
           <React.Fragment>
@@ -215,8 +249,14 @@ class UnconnectedArtDetails extends Component {
                     </Link>
                   </p>
                   <div className="artdetails-review-row">
-                    <ReviewStars reviewstars={0} />
-                    <div style={{ marginLeft: "10px" }}>No reviews</div>
+                    <ReviewStars reviewstars={this.state.averageRating} />
+                    <div style={{ marginLeft: "10px" }}>
+                      {this.state.reviews.length == 1
+                        ? "1 review"
+                        : this.state.reviews.length > 1
+                        ? this.state.reviews.length + " reviews"
+                        : "No reviews"}
+                    </div>
                   </div>
                   <p className="artdetails-price">${this.state.art.price}</p>
                   <div className="artdetails-submit-cart-row">
