@@ -58,6 +58,7 @@ class UnconnectedShoppingCartTotal extends Component {
 
           <div className="ShoppingCartTotal-purchase-button">
             <StripeCheckout
+              onClick={console.log("DELTEE caRT")}
               style={{
                 width: "100%"
               }}

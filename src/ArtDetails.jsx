@@ -241,7 +241,7 @@ class UnconnectedArtDetails extends Component {
                     description={this.state.art.description}
                   ></Description>
                 ) : (
-                  <Review userID={this.state.art._id}></Review>
+                  <Review artID={this.state.art._id}></Review>
                 )}
               </div>
             </div>

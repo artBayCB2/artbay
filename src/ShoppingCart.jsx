@@ -18,27 +18,27 @@ class UnconnectedShoppingCart extends Component {
     };
   }
   componentDidMount() {
-    // this.cartItem();
+    this.cartItem();
     this._setShoppingCartNavBar();
   }
 
-  // componentDidUpdate() {
-  //   this.cartItem();
-  // }
+  componentDidUpdate() {
+    this.cartItem();
+  }
 
-  // cartItem = async () => {
-  //   let response = await fetch("/get-cart-items");
-  //   let responseBody = await response.text();
+  cartItem = async () => {
+    let response = await fetch("/get-cart-items");
+    let responseBody = await response.text();
 
-  //   let body = JSON.parse(responseBody);
+    let body = JSON.parse(responseBody);
+    console.log("length", this.props.cartItems.cart.length);
 
-  //   if (this.state.length !== body.message[0].cart.length) {
-  //     this.setState({
-  //       cart: body.message[0].cart,
-  //       length: body.message[0].cart.length
-  //     });
-  //   }
-  // };
+    if (this.props.cartItems.cart.length !== body.message[0].cart.length) {
+      this.setState({
+        cart: body.message[0].cart
+      });
+    }
+  };
 
   artQuantity = artQuantity => {
     this.setState({ artQuantity: artQuantity });
