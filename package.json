@@ -1,5 +1,6 @@
 {
-  "name": "webpack-react-tutorial",
+  "name": "ArtBay CB2 Team Project",
+  "homepage": "http://artbay-cb2-team-project.smartsided.com",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
