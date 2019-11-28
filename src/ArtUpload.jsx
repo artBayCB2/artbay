@@ -110,8 +110,8 @@ class UnconnectedArtUpload extends Component {
     data.append("medium", this.state.medium);
     data.append("size", this.state.size);
     data.append("originalPiece", JSON.stringify(this.state.originalPiece));
-    data.append("quantity", JSON.stringify(this.state.quantity));
-    data.append("price", JSON.stringify(this.state.price));
+    data.append("quantity", JSON.stringify(parseInt(this.state.quantity)));
+    data.append("price", JSON.stringify(parseFloat(this.state.price)));
     let response = await fetch("/art-data-upload", {
       method: "POST",
       body: data
