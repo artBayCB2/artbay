@@ -397,6 +397,7 @@ app.post("/art-data-upload", artDataUpload.single("file"), (req, res) => {
     });
 });
 
+//GET - get all art
 app.get("/all-art", (req, res) => {
   dbo
     .collection("artItems")
@@ -825,7 +826,9 @@ app.post("/submit-payment", upload.none(), (req, res) => {
             { _id: ObjectID(item._id) },
             {
               $set: {
-                sold: item.sold + 1
+                sold: item.sold + 1,
+                buyerUserID: req.cookies.sid,
+                dateSold: [...item.dateSold, Date(Date.now()).toString()]
               }
             }
           );
@@ -915,7 +918,7 @@ app.post("/add-item-review", upload.none(), (req, res) => {
           });
 
         try {
-          dbo.collection("reviews").insertOne(
+          dbo.collection("item-reviews").insertOne(
             {
               itemID: _req.body.itemID,
               review: _req.body.review,
@@ -925,7 +928,7 @@ app.post("/add-item-review", upload.none(), (req, res) => {
             },
             (err, review) => {
               dbo
-                .collection("reviews")
+                .collection("item-reviews")
                 .find({})
                 .toArray((err, reviews) => {
                   if (err) {
@@ -953,6 +956,30 @@ app.post("/add-item-review", upload.none(), (req, res) => {
         }
       });
   }
+});
+
+//GET - get all item reviews
+app.get("/all-item-reviews", (req, res) => {
+  dbo
+    .collection("item-reviews")
+    .find({})
+    .toArray((err, itemReviews) => {
+      if (err) {
+        res.send(
+          JSON.stringify({
+            success: false,
+            message: "unable to fetch Art items"
+          })
+        );
+      } else {
+      }
+      res.send(
+        JSON.stringify({
+          success: true,
+          message: itemReviews
+        })
+      );
+    });
 });
 
 app.all("/*", (req, res, next) => {
