@@ -62,7 +62,7 @@ const store = createStore(
     searchValue: "All",
     searchInput: "",
     loading: true,
-    profileImageURL: "/art-images/a70ca64023691b0195c8dc93cbbbe187",
+    profileImageURL: "/profile-images/a70ca64023691b0195c8dc93cbbbe187",
     cartItems: [],
     navSearchBar: true,
     navShopButton: true,

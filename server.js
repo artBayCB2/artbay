@@ -10,7 +10,7 @@ let authData = require("./AuthData");
 let artDataUpload = multer({ dest: __dirname + "/images/art-images" });
 let profileImageUpload = multer({ dest: __dirname + "/images/profile-images" });
 
-let noProfileURL = "/art-images/a70ca64023691b0195c8dc93cbbbe187";
+let noProfileURL = "/profile-images/a70ca64023691b0195c8dc93cbbbe187";
 
 let dbo = undefined;
 MongoClient.connect(authData.url, { useNewUrlParser: true }, (err, db) => {
