@@ -1,5 +1,9 @@
-To start the server, run `nodemon server.js`
+##Artbay
 
-Modify the `server.js` file to add endpoints
+Artbay is an online market place for art. Sellers can upload their art and also follow the sales, payaments and analytics via a dashboard. The buyers can search, select, buy and review art. 
 
-The frontend code goes in the `/src` directory
+Features are:
+- Authentication and cookies
+- Forms
+- Analytics dashboard
+- Reviews and payment
